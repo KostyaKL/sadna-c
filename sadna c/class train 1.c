@@ -7,7 +7,8 @@
 
 int class_train_1_ex_1();
 int class_train_1_ex_2();
-
+int class_train_1_ex_3();
+int class_train_1_ex_4();
 
 
 
@@ -20,6 +21,8 @@ int class_train_1()
 		"_____________________________\n"
 		"1 - Sum odd index numbers\n"
 		"2 - Election program\n"
+		"3 - No repeat numbers array\n"
+		"4 - ***\n"
 		"\n"
 
 		"Back - Return to main\n"
@@ -37,6 +40,18 @@ int class_train_1()
 	{
 		printf("\n");
 		class_train_1_ex_2();
+	}
+
+	else if (strcmp(drill_num, "3") == 0)
+	{
+		printf("\n");
+		class_train_1_ex_3();
+	}
+
+	else if (strcmp(drill_num, "4") == 0)
+	{
+		printf("\n");
+		class_train_1_ex_4();
 	}
 
 	else if (strcmp(drill_num, "back") == 0)
@@ -85,6 +100,7 @@ int class_train_1_ex_1()
 
 	printf("\n");
 	system("pause");
+	free(arr);
 	return class_train_1();
 }
 
@@ -144,6 +160,66 @@ int class_train_1_ex_2()
 		printf("the winner is candidate %d\n", winner + 1);
 	else
 		printf("its a tie, go vote again!!!\n");
+
+	printf("\n");
+	system("pause");
+	free (moamad);
+	return class_train_1();
+}
+
+//////////////////////////////////////////////////////////////////
+
+int class_train_1_ex_3()
+{
+	int *o_arr, *n_arr, o_size, n_size=1, i=0,j=1;
+
+	printf("Enter the size of your array: ");
+	do {
+		scanf("%d", &o_size);
+		if (o_size < 2)
+			printf("You must enter an array size grater then 1\n");
+	} while (o_size < 2);
+
+	o_arr = (int*)malloc(sizeof(int)*o_size);
+
+	printf("Enter %d numbers in to the array from small to large:\n", o_size);
+	scanf("%d", o_arr + i);
+	for (i = 1;i < o_size;i++)
+	{
+		do {
+			scanf("%d", o_arr + i);
+			if (*(o_arr + i) < *(o_arr + i - 1))
+				printf(" you must enter a number >= of %d\n", *(o_arr + i - 1));
+		} while (*(o_arr + i) < *(o_arr + i - 1));
+		if (*(o_arr + i) != (*(o_arr + i - 1)))
+			n_size++;
+	}
+
+	n_arr = (int*)malloc(sizeof(int)*n_size);
+	*(n_arr) = *(o_arr);
+
+	for (i = 1;i < o_size;i++)
+		if (*(o_arr + i) != (*(o_arr + i - 1)))
+			*(n_arr + j++) = *(o_arr + i);
+		
+		
+	printf("\nThe new array is:\n");
+	for (i = 0;i < n_size;i++)
+		printf("%d\n", *(n_arr + i));
+	
+
+	printf("\n");
+	system("pause");
+	free(o_arr);
+	free(n_arr);
+	return class_train_1();
+}
+
+//////////////////////////////////////////////////////////////////
+
+int class_train_1_ex_4()
+{
+	
 
 	printf("\n");
 	system("pause");
