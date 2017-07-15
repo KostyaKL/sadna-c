@@ -23,7 +23,7 @@ int main()
 		"4 - Ascii\n"
 		"5 - Test\n"
 		"6 - Console commands\n"
-		"7 - Misc\n"
+		
 		"8 - Pause\n\n"
 
 		"Exit - Quit\n");
@@ -33,112 +33,10 @@ int main()
 	printf("\n");
 
 
-	if (strcmp(lab_name, "1.1") == 0)
+	if (strcmp(lab_name, "2.1") == 0)
 	{
 		printf("\n");
-		lab1();
-	}
-
-	else if (strcmp(lab_name, "1.2") == 0)
-	{
-		printf("\n");
-		lab2();
-	}
-
-	else if (strcmp(lab_name, "1.3") == 0)
-	{
-		printf("\n");
-		lab3_4();
-	}
-
-	else if (strcmp(lab_name, "1.5") == 0)
-	{
-		printf("\n");
-		lab5();
-	}
-
-	else if (strcmp(lab_name, "1.6") == 0)
-	{
-		printf("\n");
-		lab6();
-	}
-
-	else if (strcmp(lab_name, "1.7") == 0)
-	{
-		printf("\n");
-		lab7();
-	}
-
-	else if (strcmp(lab_name, "1.8") == 0)
-	{
-		printf("\n");
-		lab8();
-	}
-
-	else if (strcmp(lab_name, "1.9") == 0)
-	{
-		printf("\n");
-		lab9();
-	}
-
-	else if (strcmp(lab_name, "1.10") == 0)
-	{
-		printf("\n");
-		lab10();
-	}
-
-	else if (strcmp(lab_name, "1.11") == 0)
-	{
-		printf("\n");
-		lab11();
-	}
-
-	else if (strcmp(lab_name, "1.12") == 0)
-	{
-		printf("\n");
-		lab12();
-	}
-
-	else if (strcmp(lab_name, "1.13") == 0)
-	{
-		printf("\n");
-		lab13();
-	}
-
-	else if (strcmp(lab_name, "2.1") == 0)
-	{
-		printf("\n");
-		self_train1();
-	}
-
-	else if (strcmp(lab_name, "2.2") == 0)
-	{
-		printf("\n");
-		self_train2();
-	}
-
-	else if (strcmp(lab_name, "2.3") == 0)
-	{
-		printf("\n");
-		self_train3();
-	}
-
-	else if (strcmp(lab_name, "3.1") == 0)
-	{
-		printf("\n");
-		hagasha_1();
-	}
-
-	else if (strcmp(lab_name, "3.2") == 0)
-	{
-		printf("\n");
-		hagasha_2();
-	}
-
-	else if (strcmp(lab_name, "3.3") == 0)
-	{
-		printf("\n");
-		hagasha_3();
+		class_train_1();
 	}
 
 	else if (strcmp(lab_name, "quit") == 0 || strcmp(lab_name, "0") == 0)
@@ -163,12 +61,6 @@ int main()
 		printf("\n");
 		printf("Enter console command: ");
 		cmd();
-	}
-
-	else if (strcmp(lab_name, "7") == 0)
-	{
-		printf("\n");
-		misc();
 	}
 
 	else if (strcmp(lab_name, "8") == 0)
