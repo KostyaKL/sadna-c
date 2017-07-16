@@ -67,6 +67,7 @@ int main()
 	{
 		printf("\n");
 		system("pause");
+		return main();
 	}
 
 	else
