@@ -11,6 +11,7 @@ int class_train_1_ex_3();
 int class_train_1_ex_4();
 
 
+int* input_arr(int*);
 
 
 int class_train_1()
@@ -22,7 +23,7 @@ int class_train_1()
 		"1 - Sum odd index numbers\n"
 		"2 - Election program\n"
 		"3 - No repeat numbers array\n"
-		"4 - ***\n"
+		"4 - odd even sort\n"
 		"\n"
 
 		"Back - Return to main\n"
@@ -219,11 +220,55 @@ int class_train_1_ex_3()
 
 int class_train_1_ex_4()
 {
-	
+	int *a, *odd, *even, size = 0, size_odd = 0, size_even = 0, i;
+	a = input_arr(&size);
 
-	printf("\n");
+	odd = (int*)malloc(sizeof(int)*size);
+	even = (int*)malloc(sizeof(int)*size);
+
+	for (i = 0; i < size; i++)
+		if (*(a + i) % 2 == 0)
+			*(even + size_even++) = *(a + i);
+		else
+			*(odd + size_odd++) = *(a + i);
+
+	odd = (int*)realloc(odd, sizeof(int)*size_odd);
+	even = (int*)realloc(even, sizeof(int)*size_even);
+
+
+
+	printf("\nodd arry: ");
+	for (i = 0; i < size_odd; i++)
+		printf("%d   ", *(odd + i));
+
+	printf("\neven arry: ");
+	for (i = 0; i < size_even; i++)
+		printf("%d   ", *(even + i));
+	printf("\n\n");
 	system("pause");
+
+	free(odd);
+	free(even);
+	free(a);
 	return class_train_1();
 }
 
 //////////////////////////////////////////////////////////////////
+
+int* input_arr(int *size)
+{
+	int *a, i;
+	printf("Enter the size of array a: ");
+	do {
+		scanf("%d", size);
+		if (*size < 2)
+			printf("Enter size larger than 1\n");
+	} while (*size < 2);
+	a = (int*)malloc(sizeof(int)*(*size));
+
+	printf("Enter %d numbers into the array:\n", *size);
+	for (i = 0; i < *size; i++)
+		scanf("%d", a + i);
+
+	return a;
+}
