@@ -62,7 +62,7 @@ int class_train_2()
 	{
 		printf("You have enterd invalid choise\n\n");
 		system("pause");
-		return class_train_1();
+		return class_train_2();
 	}
 	return main();
 
