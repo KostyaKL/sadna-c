@@ -30,5 +30,8 @@
     <ClCompile Include="class train 4.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="class train 5.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

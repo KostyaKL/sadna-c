@@ -5,21 +5,22 @@
 
 
 
-int class_train_4_ex_1();
-int class_train_4_ex_2();
+int class_train_5_ex_1();
+int class_train_5_ex_2();
 
 
 
 
 
-int class_train_4()
+int class_train_5()
 {
 	char drill_num[5];
 	system("cls");
 	printf("Welcome to class train 2 Page!\n"
 		"_____________________________\n"
-		"1 - Lower diagonal\n"
+		"1 - ****\n"
 		"2 - ****\n"
+		"3 - ****\n"
 		"\n"
 
 		"Back - Return to main\n"
@@ -62,38 +63,8 @@ int class_train_4()
 
 //////////////////////////////////////////////////////////////////
 
-int class_train_4_ex_1()
+int class_train_5_ex_1()
 {
-	int **mat;
-	int row, col, i, j;
-
-	printf("Enter number of rows: ");
-	scanf("%d", &row);
-
-	mat = (char**)malloc(sizeof(int*)*row);
-
-	for (i = 0; i < row; i++)
-	{
-		*(mat + i) = (char*)malloc(sizeof(int)*(i + 1));
-		for (j = 0; j <= i; j++)
-		{
-			printf("Enter %d number for row %d: ", j + 1, i + 1);
-			scanf("%d", (*(mat + i) + j));
-		}
-	}
-	printf("\n");
-	for (i = 0; i < row; i++)
-	{
-		for (j = 0; j <= i; j++)
-			printf("%d  ", *(*(mat + i) + j));
-		for (; j < row; j++)
-			printf("0   ");
-		printf("\n");
-	}
-
-	for (i = 0; i < row; i++)
-		free(*(mat + i));
-	free(mat);
 
 	printf("\n");
 	system("pause");
@@ -102,7 +73,7 @@ int class_train_4_ex_1()
 
 //////////////////////////////////////////////////////////////////
 
-int class_train_4_ex_2()
+int class_train_5_ex_2()
 {
 
 	printf("\n");

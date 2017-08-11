@@ -9,7 +9,7 @@ int class_train_3_ex_1();
 int class_train_3_ex_2();
 int class_train_3_ex_3();
 
-void lineSwap(int *head, int line1, int line2);
+void lineSwap(int **head,  int line1, int line2);
 
 
 int class_train_3()
@@ -20,7 +20,7 @@ int class_train_3()
 		"_____________________________\n"
 		"1 - Swap lines in matrix\n"
 		"2 - Swap columns in matrix\n"
-		"3 - ****\n"
+		"3 - dynamic matrix\n"
 		"\n"
 
 		"Back - Return to main\n"
@@ -92,7 +92,64 @@ int class_train_3_ex_2()
 
 int class_train_3_ex_3()
 {
+	int **row;
+	int rowSize, colSize, i, j;
+	int lineS1, lineS2;
 	
+	printf("enter the number of rows you want: ");
+	scanf("%d", &rowSize);
+
+	printf("enter the number of cols you want: ");
+	scanf("%d", &colSize);
+
+	row = (int**)calloc(sizeof(int*), rowSize);
+
+	for (i = 0;i < rowSize;i++)
+		*(row + i) = (int**)calloc(sizeof(int*), colSize);
+
+	for (i = 0;i < rowSize;i++)
+		for (j = 0;j < colSize;j++)
+		{
+			printf("enter number for line %d row %d: ", i, j);
+			scanf("%d", *(row + i) + j);
+		}
+	printf("\n");
+	printf("\n");
+
+	for (i = 0;i < rowSize;i++)
+	{
+		for (j = 0;j < colSize;j++)
+		{
+			printf("%d	", *(*(row + i) + j));
+		}
+		printf("\n");
+	}
+
+	printf("\n");
+	printf("\n");
+
+	printf("Enter the first line you want to swap: ");
+	scanf("%d", &lineS1);
+
+	printf("Enter the second line you want to swap: ");
+	scanf("%d", &lineS2);
+
+	lineS1--;
+	lineS2--;
+
+	lineSwap(&row, lineS1, lineS2);
+
+	printf("\n");
+	printf("\n");
+
+	for (i = 0;i < rowSize;i++)
+	{
+		for (j = 0;j < colSize;j++)
+		{
+			printf("%d	", *(*(row + i) + j));
+		}
+		printf("\n");
+	}
 
 	printf("\n");
 	system("pause");
@@ -101,3 +158,15 @@ int class_train_3_ex_3()
 }
 
 //////////////////////////////////////////////////////////////////
+
+void lineSwap(int **head, int line1, int line2)
+{
+	int *temp;
+	
+	temp = *(head + line1);
+	*(head + line1) = *(head + line2);
+	*(head + line2) = temp;
+}
+
+//////////////////////////////////////////////////////////////////
+

@@ -146,6 +146,7 @@
     <ClCompile Include="class train 2.c" />
     <ClCompile Include="class train 3.c" />
     <ClCompile Include="class train 4.c" />
+    <ClCompile Include="class train 5.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
