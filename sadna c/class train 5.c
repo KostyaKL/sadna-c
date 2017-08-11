@@ -15,8 +15,7 @@ void printList(listT *list);
 void deletList(listT *list);
 
 int class_train_5_ex_1();
-int class_train_5_ex_2();
-
+int class_train_5_ex_2(listT *list, int *sum, int *min, int *max);
 
 
 
@@ -45,7 +44,7 @@ int class_train_5()
 	else if (strcmp(drill_num, "2") == 0)
 	{
 		printf("\n");
-		class_train_5_ex_2();
+		class_train_5_ex_2(NULL,0,0,0);
 	}
 
 	else if (strcmp(drill_num, "back") == 0)
@@ -73,7 +72,7 @@ int class_train_5()
 
 int class_train_5_ex_1()
 {
-	int x = 0, count = 0;
+	int x = 0, count = 0, sum=0,min=0,max=0;
 	listT *listOdd;
 	listT *listEven;
 
@@ -100,9 +99,18 @@ int class_train_5_ex_1()
 	printList(listEven);
 	printf("\n\n");
 
+	class_train_5_ex_2(listOdd, &sum, &min, &max);
+	printf("The sum of odd list is: %d\n"
+		"min number: %d\n"
+		"max number: %d\n\n", sum, min, max);
+
+	class_train_5_ex_2(listEven, &sum, &min, &max);
+	printf("The sum of even list is: %d\n"
+		"min number: %d\n"
+		"max number: %d\n\n", sum, min, max);
+
 	deletList(listOdd);
 	deletList(listEven);
-
 
 	printf("\n");
 	system("pause");
@@ -111,13 +119,27 @@ int class_train_5_ex_1()
 
 //////////////////////////////////////////////////////////////////
 
-int class_train_5_ex_2()
+int class_train_5_ex_2(listT *list, int *sum, int *min, int *max)
 {
+	listT *temp;
+
+	temp = list;
+	*min = *max = temp->data;
+	*sum = 0;
+	while (temp->next)
+	{
+		if (temp->data <= *min)
+			*min = temp->data;
+		else if (temp->data >=*max)
+			*max = temp->data;
+		*sum += temp->data;
+		temp = temp->next;
+	}
 
 	printf("\n");
-	system("pause");
+	//system("pause");
 
-	return class_train_5();
+	//return class_train_5();
 }
 
 //////////////////////////////////////////////////////////////////
@@ -164,7 +186,6 @@ void deletList(listT *list)
 	listT *temp1;
 	listT *temp2;
 	temp1 = list;
-	//free(list);
 	while (temp1->next)
 	{
 		temp2 = temp1;
