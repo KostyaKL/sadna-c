@@ -3,14 +3,19 @@
 #include <string.h>
 #include <math.h>
 
-typedef struct list
+typedef struct node
 {
 	int data;
+	struct node *next;
+} nodeT;
+
+typedef struct list
+{
 	struct list *next;
 } listT;
 
-listT* creatListT(int x);
-listT* addNum(listT *node, int x);
+listT* creatListT();
+void addNum(listT *list, int x);
 void printList(listT *list);
 void deletList(listT *list);
 
@@ -76,8 +81,8 @@ int class_train_5_ex_1()
 	listT *listOdd;
 	listT *listEven;
 
-	listOdd = creatListT(0);
-	listEven = creatListT(0);
+	listOdd = creatListT();
+	listEven = creatListT();
 
 	printf("Enter numbers to your list: ");
 	scanf("%d", &x);
@@ -85,9 +90,9 @@ int class_train_5_ex_1()
 	while (x != -1)
 	{
 		if (x % 2)
-			listOdd = addNum(listOdd, x);
+			addNum(listOdd, x);
 		else
-			listEven = addNum(listEven, x);
+			addNum(listEven, x);
 		count++;
 		printf("Enter numbers to your list: ");
 		scanf("%d", &x);
@@ -121,20 +126,22 @@ int class_train_5_ex_1()
 
 int class_train_5_ex_2(listT *list, int *sum, int *min, int *max)
 {
-	listT *temp;
+	nodeT *temp;
+	if (list->next == NULL)
+		return;
 
-	temp = list;
+	temp = list->next;
 	*min = *max = temp->data;
-	*sum = 0;
-	while (temp->next)
+	*sum = temp->data;
+	do
 	{
+		temp = temp->next;
 		if (temp->data <= *min)
 			*min = temp->data;
 		else if (temp->data >=*max)
 			*max = temp->data;
 		*sum += temp->data;
-		temp = temp->next;
-	}
+	} while (temp->next);
 
 	printf("\n");
 	//system("pause");
@@ -144,48 +151,52 @@ int class_train_5_ex_2(listT *list, int *sum, int *min, int *max)
 
 //////////////////////////////////////////////////////////////////
 
-listT* creatListT(int x)
+listT* creatListT()
 {
 	listT *list;
 	list = (listT*)malloc(sizeof(listT));
-	list->data = x;
 	list->next = NULL;
 	return list;
 }
 
 //////////////////////////////////////////////////////////////////
 
-listT* addNum(listT *node, int x)
+void addNum(listT *list, int x)
 {
-	listT *tempNode;
-	tempNode = (listT *)malloc(sizeof(listT));
+	nodeT *tempNode;
+	tempNode = (nodeT *)malloc(sizeof(nodeT));
 	tempNode->data = x;
-	tempNode->next = node;
-	return tempNode;
+	tempNode->next = list->next;
+	list->next= tempNode;
 }
 
 //////////////////////////////////////////////////////////////////
 
 void printList(listT *list)
 {
-	listT *temp;
-	temp = list;
-
+	nodeT *temp;
+	if (list->next == NULL)
+		return;
+	temp = list->next;
+	printf("%d, ", temp->data);
 	do
 	{
-		printf("%d, ", temp->data);
 		temp = temp->next;
+		printf("%d, ", temp->data);
+		
 	} while (temp->next);
-
+	//printf("%d, ", temp->data);
 }
 
 //////////////////////////////////////////////////////////////////
 
 void deletList(listT *list)
 {
-	listT *temp1;
-	listT *temp2;
-	temp1 = list;
+	nodeT *temp1;
+	nodeT *temp2;
+	if (list->next == NULL)
+		return;
+	temp1 = list->next;
 	while (temp1->next)
 	{
 		temp2 = temp1;
