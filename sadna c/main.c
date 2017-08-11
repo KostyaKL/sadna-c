@@ -18,6 +18,7 @@ int main()
 		"2.2 - Class Train 2\n"
 		"2.3 - Class Train 3\n"
 		"2.4 - Class Train 4\n"
+		"2.5 - Class Train 5\n"
 		"\n"
 
 		"3.1 - NOT YET\n"
@@ -58,6 +59,12 @@ int main()
 	{
 		printf("\n");
 		class_train_4();
+	}
+
+	if (strcmp(lab_name, "2.5") == 0)
+	{
+		printf("\n");
+		class_train_5();
 	}
 
 	else if (strcmp(lab_name, "quit") == 0 || strcmp(lab_name, "0") == 0)

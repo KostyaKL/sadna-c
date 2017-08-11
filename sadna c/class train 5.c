@@ -3,7 +3,16 @@
 #include <string.h>
 #include <math.h>
 
+typedef struct list
+{
+	int data;
+	struct list *next;
+} listT;
 
+listT* creatListT(int x);
+listT* addNum(listT *node, int x);
+void printList(listT *list);
+void deletList(listT *list);
 
 int class_train_5_ex_1();
 int class_train_5_ex_2();
@@ -18,9 +27,8 @@ int class_train_5()
 	system("cls");
 	printf("Welcome to class train 2 Page!\n"
 		"_____________________________\n"
-		"1 - ****\n"
+		"1 - odd even linked list\n"
 		"2 - ****\n"
-		"3 - ****\n"
 		"\n"
 
 		"Back - Return to main\n"
@@ -31,13 +39,13 @@ int class_train_5()
 	if (strcmp(drill_num, "1") == 0)
 	{
 		printf("\n");
-		class_train_4_ex_1();
+		class_train_5_ex_1();
 	}
 
 	else if (strcmp(drill_num, "2") == 0)
 	{
 		printf("\n");
-		class_train_4_ex_2();
+		class_train_5_ex_2();
 	}
 
 	else if (strcmp(drill_num, "back") == 0)
@@ -55,7 +63,7 @@ int class_train_5()
 	{
 		printf("You have enterd invalid choise\n\n");
 		system("pause");
-		return class_train_4();
+		return class_train_5();
 	}
 	return main();
 
@@ -65,10 +73,40 @@ int class_train_5()
 
 int class_train_5_ex_1()
 {
+	int x = 0, count = 0;
+	listT *listOdd;
+	listT *listEven;
+
+	listOdd = creatListT(0);
+	listEven = creatListT(0);
+
+	printf("Enter numbers to your list: ");
+	scanf("%d", &x);
+
+	while (x != -1)
+	{
+		if (x % 2)
+			listOdd = addNum(listOdd, x);
+		else
+			listEven = addNum(listEven, x);
+		count++;
+		printf("Enter numbers to your list: ");
+		scanf("%d", &x);
+	}
+
+	printf("you have entered %d numbers\n\n", count);
+	printList(listOdd);
+	printf("\n\n");
+	printList(listEven);
+	printf("\n\n");
+
+	deletList(listOdd);
+	deletList(listEven);
+
 
 	printf("\n");
 	system("pause");
-	return class_train_4();
+	return class_train_5();
 }
 
 //////////////////////////////////////////////////////////////////
@@ -79,8 +117,60 @@ int class_train_5_ex_2()
 	printf("\n");
 	system("pause");
 
-	return class_train_4();
+	return class_train_5();
 }
 
 //////////////////////////////////////////////////////////////////
 
+listT* creatListT(int x)
+{
+	listT *list;
+	list = (listT*)malloc(sizeof(listT));
+	list->data = x;
+	list->next = NULL;
+	return list;
+}
+
+//////////////////////////////////////////////////////////////////
+
+listT* addNum(listT *node, int x)
+{
+	listT *tempNode;
+	tempNode = (listT *)malloc(sizeof(listT));
+	tempNode->data = x;
+	tempNode->next = node;
+	return tempNode;
+}
+
+//////////////////////////////////////////////////////////////////
+
+void printList(listT *list)
+{
+	listT *temp;
+	temp = list;
+
+	do
+	{
+		printf("%d, ", temp->data);
+		temp = temp->next;
+	} while (temp->next);
+
+}
+
+//////////////////////////////////////////////////////////////////
+
+void deletList(listT *list)
+{
+	listT *temp1;
+	listT *temp2;
+	temp1 = list;
+	//free(list);
+	while (temp1->next)
+	{
+		temp2 = temp1;
+		temp1 = temp1->next;
+		free(temp2);
+	} 
+}
+
+//////////////////////////////////////////////////////////////////
