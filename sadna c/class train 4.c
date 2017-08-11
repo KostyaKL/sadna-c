@@ -70,12 +70,15 @@ int class_train_4_ex_1()
 	printf("Enter number of rows: ");
 	scanf("%d", &row);
 
+	printf("Enter number of cols: ");
+	scanf("%d", &col);
+
 	mat = (char**)malloc(sizeof(int*)*row);
 
 	for (i = 0; i < row; i++)
 	{
 		*(mat + i) = (char*)malloc(sizeof(int)*(i + 1));
-		for (j = 0; j <= i; j++)
+		for (j = 0; j <= i && j < col; j++)
 		{
 			printf("Enter %d number for row %d: ", j + 1, i + 1);
 			scanf("%d", (*(mat + i) + j));
@@ -84,10 +87,10 @@ int class_train_4_ex_1()
 	printf("\n");
 	for (i = 0; i < row; i++)
 	{
-		for (j = 0; j <= i; j++)
-			printf("%d  ", *(*(mat + i) + j));
-		for (; j < row; j++)
-			printf("0   ");
+		for (j = 0; j <= i && j < col; j++)
+			printf("%d\t", *(*(mat + i) + j));
+		for (; j < row && j < col; j++)
+			printf("0\t");
 		printf("\n");
 	}
 
