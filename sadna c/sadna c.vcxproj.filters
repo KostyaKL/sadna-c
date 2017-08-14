@@ -33,5 +33,8 @@
     <ClCompile Include="class train 5.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="hagasha 1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
