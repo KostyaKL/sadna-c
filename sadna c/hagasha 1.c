@@ -10,11 +10,18 @@ Student 2: Kostya Lokshin ID:310765821
 #include <string.h>
 #include <time.h>
 
+#define	MAT_A_ROW 2 //predifined number of rows for matrix A
+#define	MAT_A_COL 3 //predifined number of cols for matrix A
+#define	MAT_B_ROW 3 //predifined number of rows for matrix B
+#define	MAT_B_COL 2 //predifined number of cols for matrix B
+
 //declaration of functions:
 void h1_ex1(); //function for excercise 1
-unsigned int *powerArray(int n);
+unsigned int *powerArray(int n); //function to build an array that each element is 2^(i mod 32), i being the index of the array
 
 void h1_ex2(); //function for excercise 2
+int **matMulti(int matA[MAT_A_ROW][MAT_A_COL], int matB[MAT_B_ROW][MAT_B_COL]); //function to calculate the multiplication of two matrixs
+void **freeMat(int **mat); //function to free the memoery allocated for a dynamic size matrix
 
 void h1_ex3(); //function for excercise 3
 
@@ -83,6 +90,7 @@ void h1_ex1()
 		printf("%d, ", *(p + i));
 
 	printf("\n");
+	free(p);
 	system("pause");
 }
 
@@ -103,8 +111,65 @@ unsigned int *powerArray(int n) //function to build an array that each element i
 
 void h1_ex2()
 {
+	int matA[MAT_A_ROW][MAT_A_COL], matB[MAT_B_ROW][MAT_B_COL]; //predifined size matrix
+	int **matC; //ponter to a new matrix to be returned after calcuclating matA*matB
+	int i, j; //index i and index j to work with matrix
+	printf("Enter number for matrix A %dX%d:\n", MAT_A_ROW, MAT_A_COL);
+	for(i=0;i<MAT_A_ROW;i++) //input values for matrix A
+		for (j = 0;j < MAT_A_COL;j++)
+		{
+			printf("row %d col %d: ", i+1, j+1);
+			scanf("%d", &matA[i][j]);
+		}
 	printf("\n");
+	printf("Enter number for matrix B %dX%d:\n", MAT_B_ROW, MAT_B_COL);
+	for (i = 0;i<MAT_B_ROW;i++) //input values for matrix B
+		for (j = 0;j < MAT_B_COL;j++)
+		{
+			printf("row %d col %d: ", i+1, j+1);
+			scanf("%d", &matB[i][j]);
+		}
+	matC = matMulti(matA, matB); //send the adressess of matrix A and B to calculate their multiplication and return the address of the new matrix
+
+	for (i = 0;i < MAT_A_ROW;i++) //print new matrix C wich shows matA*matB
+	{
+		for (j = 0;j < MAT_B_COL;j++)
+			printf("%d\t", *(*(matC + i) + j));
+		printf("\n");
+	}
+
+	printf("\n");
+	freeMat(matC); //free the memorie that was allocated for matrix C
 	system("pause");
+}
+
+///////////////////////////////////////////////////////////////
+
+int **matMulti(int matA[MAT_A_ROW][MAT_A_COL], int matB[MAT_B_ROW][MAT_B_COL]) //function to calculate the multiplication of two matrixs
+{
+	int **matC; //pointer for matrix C
+	int i, j, m; //index i and j to work with matrix, index m for calculating the multiplication of matA nad matB
+
+	matC = (int**)malloc(sizeof(int*)*MAT_A_ROW);//allocate memory for array of pointers in the size of the rows of matrix A
+	for (i = 0;i < MAT_A_ROW;i++) //for each pointer allocate memory for array of number in the size of the cols of matrix B
+		*(matC + i) = (int*)calloc(sizeof(int*),MAT_B_COL);//each slot in the new matrix will get initial value of zero
+	
+	for (i = 0;i < MAT_A_ROW;i++) //calculate matA*matB by multiplying each row in matA by each col in matB
+		for (j = 0;j < MAT_B_COL;j++)
+			for(m = 0;m < MAT_A_COL;m++)
+			*(*(matC + i) + j) += matA[i][m]*matB[m][j];
+	return matC; //return the address of the result matrix C
+}
+
+///////////////////////////////////////////////////////////////
+
+void **freeMat(int **mat) //function to free the memoery allocated for a dynamic size matrix
+{
+	int i; //index
+
+	for (i = 0;i < MAT_A_ROW;i++) //free the memory of each array of numbers (cols)
+		free(*(mat + i));
+	free(mat); //free the memory of the array of pointers (rows)
 }
 
 ///////////////////////////////////////////////////////////////
