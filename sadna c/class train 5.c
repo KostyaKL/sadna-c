@@ -16,7 +16,7 @@ typedef struct list
 
 listT* creatListT();
 void addNum(listT *list, int x);
-void printList(listT *list);
+void printList5(listT *list);
 void deletList(listT *list);
 
 int class_train_5_ex_1();
@@ -101,7 +101,7 @@ int class_train_5_ex_1()
 	printf("you have entered %d numbers\n\n", count);
 	printList(listOdd);
 	printf("\n\n");
-	printList(listEven);
+	printList5(listEven);
 	printf("\n\n");
 
 	class_train_5_ex_2(listOdd, &sum, &min, &max);
@@ -172,7 +172,7 @@ void addNum(listT *list, int x)
 
 //////////////////////////////////////////////////////////////////
 
-void printList(listT *list)
+void printList5(listT *list)
 {
 	nodeT *temp;
 	if (list->next == NULL)

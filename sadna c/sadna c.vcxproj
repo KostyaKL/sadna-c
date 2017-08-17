@@ -148,7 +148,11 @@
     <ClCompile Include="class train 4.c" />
     <ClCompile Include="class train 5.c" />
     <ClCompile Include="hagasha 1.c" />
+    <ClCompile Include="list.c" />
     <ClCompile Include="main.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="list.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

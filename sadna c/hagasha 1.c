@@ -9,11 +9,12 @@ Student 2: Kostya Lokshin ID:310765821
 #include <math.h>
 #include <string.h>
 #include <time.h>
+#include "list.h"
 
-#define	MAT_A_ROW 2 //predifined number of rows for matrix A
+#define	MAT_A_ROW 3 //predifined number of rows for matrix A
 #define	MAT_A_COL 3 //predifined number of cols for matrix A
 #define	MAT_B_ROW 3 //predifined number of rows for matrix B
-#define	MAT_B_COL 2 //predifined number of cols for matrix B
+#define	MAT_B_COL 3 //predifined number of cols for matrix B
 
 //declaration of functions:
 void h1_ex1(); //function for excercise 1
@@ -21,9 +22,10 @@ unsigned int *powerArray(int n); //function to build an array that each element 
 
 void h1_ex2(); //function for excercise 2
 int **matMulti(int matA[MAT_A_ROW][MAT_A_COL], int matB[MAT_B_ROW][MAT_B_COL]); //function to calculate the multiplication of two matrixs
-void **freeMat(int **mat); //function to free the memoery allocated for a dynamic size matrix
+void freeMat(int **mat, int row); //function to free the memoery allocated for a dynamic size matrix
 
 void h1_ex3(); //function for excercise 3
+int coordSum(int **mat, int row, int col, listT *list);
 
 void h1_ex4(); //function for excercise 4
 
@@ -114,23 +116,48 @@ void h1_ex2()
 	int matA[MAT_A_ROW][MAT_A_COL], matB[MAT_B_ROW][MAT_B_COL]; //predifined size matrix
 	int **matC; //ponter to a new matrix to be returned after calcuclating matA*matB
 	int i, j; //index i and index j to work with matrix
-	printf("Enter number for matrix A %dX%d:\n", MAT_A_ROW, MAT_A_COL);
+	//printf("Enter number for matrix A %dX%d:\n", MAT_A_ROW, MAT_A_COL);
 	for(i=0;i<MAT_A_ROW;i++) //input values for matrix A
 		for (j = 0;j < MAT_A_COL;j++)
 		{
-			printf("row %d col %d: ", i+1, j+1);
-			scanf("%d", &matA[i][j]);
+			//printf("row %d col %d: ", i+1, j+1);
+			matA[i][j] = rand() % 20;
+			//scanf("%d", &matA[i][j]);
 		}
 	printf("\n");
-	printf("Enter number for matrix B %dX%d:\n", MAT_B_ROW, MAT_B_COL);
+	//printf("Enter number for matrix B %dX%d:\n", MAT_B_ROW, MAT_B_COL);
 	for (i = 0;i<MAT_B_ROW;i++) //input values for matrix B
 		for (j = 0;j < MAT_B_COL;j++)
 		{
-			printf("row %d col %d: ", i+1, j+1);
-			scanf("%d", &matB[i][j]);
+			//printf("row %d col %d: ", i+1, j+1);
+			matB[i][j] = rand() % 20;
+			//scanf("%d", &matB[i][j]);
 		}
+
+	printf("\n\nmatrix A:\n");
+
+	for (i = 0;i < MAT_A_ROW;i++)
+	{
+		for (j = 0;j < MAT_A_COL;j++)
+			printf("%d\t", matA[i][j]);
+		printf("\n");
+	}
+
+	printf("\n\nmatrix B:\n");
+
+	for (i = 0;i < MAT_B_ROW;i++)
+	{
+		for (j = 0;j < MAT_B_COL;j++)
+			printf("%d\t", matB[i][j]);
+		printf("\n");
+	}
+
+	printf("\n\n");
+
 	matC = matMulti(matA, matB); //send the adressess of matrix A and B to calculate their multiplication and return the address of the new matrix
 
+	printf("\n");
+	printf("matrixA X matrixB =\n");
 	for (i = 0;i < MAT_A_ROW;i++) //print new matrix C wich shows matA*matB
 	{
 		for (j = 0;j < MAT_B_COL;j++)
@@ -139,7 +166,7 @@ void h1_ex2()
 	}
 
 	printf("\n");
-	freeMat(matC); //free the memorie that was allocated for matrix C
+	freeMat(matC,MAT_A_ROW); //free the memorie that was allocated for matrix C
 	system("pause");
 }
 
@@ -163,11 +190,11 @@ int **matMulti(int matA[MAT_A_ROW][MAT_A_COL], int matB[MAT_B_ROW][MAT_B_COL]) /
 
 ///////////////////////////////////////////////////////////////
 
-void **freeMat(int **mat) //function to free the memoery allocated for a dynamic size matrix
+void freeMat(int **mat, int row) //function to free the memoery allocated for a dynamic size matrix
 {
 	int i; //index
 
-	for (i = 0;i < MAT_A_ROW;i++) //free the memory of each array of numbers (cols)
+	for (i = 0;i < row;i++) //free the memory of each array of numbers (cols)
 		free(*(mat + i));
 	free(mat); //free the memory of the array of pointers (rows)
 }
@@ -176,8 +203,77 @@ void **freeMat(int **mat) //function to free the memoery allocated for a dynamic
 
 void h1_ex3()
 {
+	int **mat;
+	int row, col, i, j, size=0;
+	listT *list;
+
+	list = createList();
+
+	//printf("Enter number of rows: ");
+	//scanf("%d", &row);
+	//printf("Enter number of cols: ");
+	//scanf("%d", &col);
+
+	row = (rand() % 5) + 1;
+	col = (rand() % 5) + 1;
+
+	mat = (int**)malloc(sizeof(int*)*row);
+	for (i = 0;i < row;i++)
+		*(mat + i) = (int*)malloc(sizeof(int)*col);
+	//printf("Enter numbers for matrix %dX%d:\n", row, col);
+	for(i=0;i<row;i++)
+		for (j = 0;j < col;j++)
+		{
+			//printf("row %d col %d: ", i+1, j+1);
+			//scanf("%d", *(mat + i) + j);
+			*(*(mat + i) + j) = rand() % 20;
+		}
+
+	printf("\n\n");
+	printf("matrix %dX%d:\n", row, col);
+	for (i = 0;i < row;i++)
+	{
+		for (j = 0;j < col;j++)
+			printf("%d\t", *(*(mat + i) + j));
+		printf("\n");
+	}
+
 	printf("\n");
+
+	size = coordSum(mat, row, col, list);
+
+	if (size)
+	{
+		printList(list);
+		printf("\n");
+		printf("the size of the list is %d nodes\n", size);
+		printf("\n");
+		freeList(list);
+	}
+	else
+		printf("no i+j numbers found in the matrix");
+
+	printf("\n");
+	freeMat(mat,row);
 	system("pause");
+}
+
+///////////////////////////////////////////////////////////////
+
+int coordSum(int **mat, int row, int col, listT *list)
+{
+	int i, j, size=0;
+
+	
+
+	for(i=0;i<row;i++)
+		for (j = 0;j < col;j++)
+			if (*(*(mat + i) + j) == i + j)
+			{
+				addFirst(list, i + j, i, j);
+				size++;
+			}
+	return size;
 }
 
 ///////////////////////////////////////////////////////////////
