@@ -9,13 +9,11 @@ listT *createList()
 	return list;
 }
 
-void addFirst(listT *list, int sum, int i, int j)
+void addFirst(listT *list, trio data)
 {
 	node3 *node;
 	node = (node3*)malloc(sizeof(node3));
-	node->sum = sum;
-	node->i = i;
-	node->j = j;
+	node->data = data;
 	node->next = list->head;
 	list->head = node;
 }
@@ -42,9 +40,9 @@ void printList(listT *list)
 		node = list->head;
 		while (node->next)
 		{
-			printf("sum: %d\ti: %d\tj: %d\n", node->sum, node->i, node->j);
+			printf("sum: %d\ti: %d\tj: %d\n", node->data.sum, node->data.i, node->data.j);
 			node = node->next;
 		} 
-		printf("sum: %d\ti: %d\tj: %d\n", node->sum, node->i, node->j);
+		printf("sum: %d\ti: %d\tj: %d\n", node->data.sum, node->data.i, node->data.j);
 	}
 }

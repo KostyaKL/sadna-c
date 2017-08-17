@@ -43,7 +43,7 @@ void hagahsa_1()
 	all_ex_in_loop - value to choose if the program will return to main menu at the end of an exersice or it will exit
 	*/
 
-	srand(time(NULL));//initialize random number generator (to be used later in the program)
+	//srand(time(NULL));//initialize random number generator (to be used later in the program)
 	
 	system("cls");
 	printf("Run menu once or cyclically?\n(Once - enter 0, cyclically - enter other number) ");
@@ -121,7 +121,10 @@ void h1_ex2()
 		for (j = 0;j < MAT_A_COL;j++)
 		{
 			//printf("row %d col %d: ", i+1, j+1);
-			matA[i][j] = rand() % 20;
+			if (rand() % 2)
+				matA[i][j] = rand() % 20;
+			else
+				matA[i][j] = (rand() % 20)*(-1);
 			//scanf("%d", &matA[i][j]);
 		}
 	printf("\n");
@@ -130,7 +133,10 @@ void h1_ex2()
 		for (j = 0;j < MAT_B_COL;j++)
 		{
 			//printf("row %d col %d: ", i+1, j+1);
-			matB[i][j] = rand() % 20;
+			if (rand() % 2)
+				matB[i][j] = rand() % 20;
+			else
+				matB[i][j] = (rand() % 20)*(-1);
 			//scanf("%d", &matB[i][j]);
 		}
 
@@ -226,7 +232,10 @@ void h1_ex3()
 		{
 			//printf("row %d col %d: ", i+1, j+1);
 			//scanf("%d", *(mat + i) + j);
-			*(*(mat + i) + j) = rand() % 20;
+			if (rand() % 2)
+				*(*(mat + i) + j) = rand() % 20;
+			else
+				*(*(mat + i) + j) = (rand() % 20)*(-1);
 		}
 
 	printf("\n\n");
@@ -253,7 +262,7 @@ void h1_ex3()
 	else
 		printf("no i+j numbers found in the matrix");
 
-	printf("\n");
+	printf("\n\n");
 	freeMat(mat,row);
 	system("pause");
 }
@@ -263,14 +272,17 @@ void h1_ex3()
 int coordSum(int **mat, int row, int col, listT *list)
 {
 	int i, j, size=0;
-
+	trio data;
 	
 
 	for(i=0;i<row;i++)
 		for (j = 0;j < col;j++)
 			if (*(*(mat + i) + j) == i + j)
 			{
-				addFirst(list, i + j, i, j);
+				data.sum = i + j;
+				data.i = i;
+				data.j = j;
+				addFirst(list, data);
 				size++;
 			}
 	return size;

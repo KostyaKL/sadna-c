@@ -1,5 +1,12 @@
 #pragma once
 
+typedef struct
+{
+	int sum;
+	int i;
+	int j;
+}trio;
+
 typedef struct list
 {
 	struct list *head;
@@ -7,15 +14,15 @@ typedef struct list
 
 typedef struct node
 {
-	int sum;
-	int i;
-	int j;
+	trio data;
 	struct node *next;
 }node3;
 
+
+
 listT *createList();
 
-void addFirst(listT *list, int sum, int i, int j);
+void addFirst(listT *list, trio data);
 
 void freeList(listT *list);
 
