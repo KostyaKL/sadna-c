@@ -28,6 +28,8 @@ void h1_ex3(); //function for excercise 3
 int coordSum(int **mat, int row, int col, listT *list);
 
 void h1_ex4(); //function for excercise 4
+void userList(listT *list);
+listT *oddEven(listT* even);
 
 void h1_ex5(); //function for excercise 5
 
@@ -43,7 +45,7 @@ void hagahsa_1()
 	all_ex_in_loop - value to choose if the program will return to main menu at the end of an exersice or it will exit
 	*/
 
-	//srand(time(NULL));//initialize random number generator (to be used later in the program)
+	srand(time(NULL));//initialize random number generator (to be used later in the program)
 	
 	system("cls");
 	printf("Run menu once or cyclically?\n(Once - enter 0, cyclically - enter other number) ");
@@ -213,7 +215,7 @@ void h1_ex3()
 	int row, col, i, j, size=0;
 	listT *list;
 
-	list = createList();
+	list = newList();
 
 	//printf("Enter number of rows: ");
 	//scanf("%d", &row);
@@ -253,11 +255,11 @@ void h1_ex3()
 
 	if (size)
 	{
-		printList(list);
+		printList3(list);
 		printf("\n");
 		printf("the size of the list is %d nodes\n", size);
 		printf("\n");
-		freeList(list);
+		freeList3(list);
 	}
 	else
 		printf("no i+j numbers found in the matrix");
@@ -274,7 +276,6 @@ int coordSum(int **mat, int row, int col, listT *list)
 	int i, j, size=0;
 	trio data;
 	
-
 	for(i=0;i<row;i++)
 		for (j = 0;j < col;j++)
 			if (*(*(mat + i) + j) == i + j)
@@ -282,7 +283,7 @@ int coordSum(int **mat, int row, int col, listT *list)
 				data.sum = i + j;
 				data.i = i;
 				data.j = j;
-				addFirst(list, data);
+				addFirst3(list, data);
 				size++;
 			}
 	return size;
@@ -292,8 +293,70 @@ int coordSum(int **mat, int row, int col, listT *list)
 
 void h1_ex4()
 {
+	listT *even, *odd;
+
+	even = newList();
+
+	userList(even);
+
 	printf("\n");
+
+
+
+	odd = oddEven(even);
+
+	printList(even);
+	printf("\n\n");
+	printList(odd);
+
+	printf("\n\n");
 	system("pause");
+}
+
+///////////////////////////////////////////////////////////////
+
+void userList(listT *list)
+{
+	int x = 0;
+	printf("enter numbers to list:\n");
+	while (1)
+	{
+		scanf("%d", &x);
+		if (x >= 0)
+			addFirst(list, x);
+		else
+			return;
+	}
+}
+
+///////////////////////////////////////////////////////////////
+
+listT *oddEven(listT* even)
+{
+	listT *odd, tempL;
+	nodeT *node;
+	odd = newList();
+
+
+	node = even->head;
+	tempL.head = node->next;
+	while (tempL.head)
+	{
+
+		if (node->data % 2)
+		{
+			addFirst(odd, node->data);
+			if (node->next)
+				freeSingle(even, node);
+			else
+				freeLast(even, node);
+		}
+		tempL.head = node->next;
+		node = tempL.head;
+	}
+
+
+	return odd;
 }
 
 ///////////////////////////////////////////////////////////////
