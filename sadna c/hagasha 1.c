@@ -298,16 +298,22 @@ void h1_ex4()
 	even = newList();
 
 	userList(even);
-
-	printf("\n");
+	printf("user list:\n");
+	printList(even);
+	printf("\n\n");
 
 
 
 	odd = oddEven(even);
 
+	printf("even list:\n");
 	printList(even);
 	printf("\n\n");
+	printf("odd list:\n");
 	printList(odd);
+
+	freeList(even);
+	freeList(odd);
 
 	printf("\n\n");
 	system("pause");
@@ -321,6 +327,7 @@ void userList(listT *list)
 	printf("enter numbers to list:\n");
 	while (1)
 	{
+		//x = (rand() % 20) - 1;
 		scanf("%d", &x);
 		if (x >= 0)
 			addFirst(list, x);
@@ -337,24 +344,47 @@ listT *oddEven(listT* even)
 	nodeT *node;
 	odd = newList();
 
+	if (even->head == NULL)
+		return odd;
 
 	node = even->head;
 	tempL.head = node->next;
-	while (tempL.head)
-	{
 
-		if (node->data % 2)
+	while (node->data % 2)
+	{
+		addFirst(odd, node->data);
+		
+		if (node->next)
+			freeSingle(even, node);
+		else
 		{
-			addFirst(odd, node->data);
-			if (node->next)
-				freeSingle(even, node);
-			else
-				freeLast(even, node);
+			freeSingle(even, node);
+			return odd;
 		}
-		tempL.head = node->next;
-		node = tempL.head;
 	}
 
+	while (tempL.head)
+	{
+		if (node->next && node->next->data % 2)
+		{
+			addFirst(odd, node->next->data);
+			if (node->next->next)
+			{
+				freeSingle(even, node->next);
+				tempL.head = node;
+			}
+			else
+			{
+				freeLast(node);
+				return odd;
+			}
+		}
+		else
+		{
+			tempL.head = node->next;
+			node = tempL.head;
+		}
+	}
 
 	return odd;
 }

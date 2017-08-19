@@ -42,4 +42,4 @@ void printList(listT *list);
 
 void freeSingle(listT *list, nodeT *node);
 
-void freeLast(listT *list, nodeT *node);
+void freeLast(nodeT *node);

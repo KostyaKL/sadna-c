@@ -99,22 +99,8 @@ void freeSingle(listT *list, nodeT *node)
 	free(temp.next);
 }
 
-void freeLast(listT *list, nodeT *node)
+void freeLast(nodeT *node)
 {
-	listT tempL;
-	nodeT *tempN;
-
-	tempL.head = list->head;
-	tempN = list->head;
-	while (tempL.head)
-	{
-		if (tempL.head == node)
-		{
-			tempN->next = NULL;
-			free(node);
-			return;
-		}
-		tempN = tempL.head;
-		tempL.head = tempN->next;
-	}
+	free(node->next);
+	node->next = NULL;
 }
