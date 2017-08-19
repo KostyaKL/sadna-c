@@ -25,11 +25,11 @@ int **matMulti(int matA[MAT_A_ROW][MAT_A_COL], int matB[MAT_B_ROW][MAT_B_COL]); 
 void freeMat(int **mat, int row); //function to free the memoery allocated for a dynamic size matrix
 
 void h1_ex3(); //function for excercise 3
-int coordSum(int **mat, int row, int col, listT *list);
+int coordSum(int **mat, int row, int col, listT *list); //function to create a list of matrix members that equal to row + col index
 
 void h1_ex4(); //function for excercise 4
-void userList(listT *list);
-listT *oddEven(listT* even);
+void userList(listT *list); //function to get numbers into list from user
+listT *oddEven(listT* even); //function to sort odd/even numbers in the list
 
 void h1_ex5(); //function for excercise 5
 
@@ -211,11 +211,11 @@ void freeMat(int **mat, int row) //function to free the memoery allocated for a 
 
 void h1_ex3()
 {
-	int **mat;
-	int row, col, i, j, size=0;
-	listT *list;
+	int **mat; //dynamic matrix pointer
+	int row, col, i, j, size=0; //row,col - number of row and cols in matrix, i,j - index, size - number of mat members that equal to i+j
+	listT *list; //pointer to list of number of mat members that equal to i+j
 
-	list = newList();
+	list = newList(); //create new linked list
 
 	//printf("Enter number of rows: ");
 	//scanf("%d", &row);
@@ -225,11 +225,11 @@ void h1_ex3()
 	row = (rand() % 5) + 1;
 	col = (rand() % 5) + 1;
 
-	mat = (int**)malloc(sizeof(int*)*row);
+	mat = (int**)malloc(sizeof(int*)*row);  //create dynamic matrix in size rowXcol
 	for (i = 0;i < row;i++)
 		*(mat + i) = (int*)malloc(sizeof(int)*col);
 	//printf("Enter numbers for matrix %dX%d:\n", row, col);
-	for(i=0;i<row;i++)
+	for(i=0;i<row;i++) //get numbers to matrix
 		for (j = 0;j < col;j++)
 		{
 			//printf("row %d col %d: ", i+1, j+1);
@@ -251,34 +251,34 @@ void h1_ex3()
 
 	printf("\n");
 
-	size = coordSum(mat, row, col, list);
+	size = coordSum(mat, row, col, list); //function to create a list of matrix members that equal to row + col index and returns the number of memeber found
 
-	if (size)
+	if (size) //print the answer if memeber=i+j was found
 	{
-		printList3(list);
+		printList3(list);//print the list
 		printf("\n");
 		printf("the size of the list is %d nodes\n", size);
 		printf("\n");
-		freeList3(list);
+		freeList3(list);//free the memorry was allocated for the list
 	}
-	else
+	else //if no members was found (list empty)
 		printf("no i+j numbers found in the matrix");
 
 	printf("\n\n");
-	freeMat(mat,row);
+	freeMat(mat,row); //free the memory was allocated to the dynamic matrix
 	system("pause");
 }
 
 ///////////////////////////////////////////////////////////////
 
-int coordSum(int **mat, int row, int col, listT *list)
+int coordSum(int **mat, int row, int col, listT *list) //function to create a list of matrix members that equal to row + col index and returns the number of memeber found
 {
-	int i, j, size=0;
-	trio data;
+	int i, j, size=0; //i,j - index, size - number of mat members that equal to i+j
+	trio data; //trio struct that contains the index i and j and its sum i+j
 	
-	for(i=0;i<row;i++)
+	for(i=0;i<row;i++) //check if the matrix member equeal to its coordinate i+j
 		for (j = 0;j < col;j++)
-			if (*(*(mat + i) + j) == i + j)
+			if (*(*(mat + i) + j) == i + j) //if so save the data of type trio into the list
 			{
 				data.sum = i + j;
 				data.i = i;
@@ -286,33 +286,33 @@ int coordSum(int **mat, int row, int col, listT *list)
 				addFirst3(list, data);
 				size++;
 			}
-	return size;
+	return size;//return how meny members found
 }
 
 ///////////////////////////////////////////////////////////////
 
 void h1_ex4()
 {
-	listT *even, *odd;
+	listT *even, *odd; //even - general list to be list of even numbers in the end, odd - list of odd numbers
 
-	even = newList();
+	even = newList(); //create new list
 
-	userList(even);
+	userList(even); //get input of numbers into the list
 	printf("user list:\n");
 	printList(even);
 	printf("\n\n");
 
 
 
-	odd = oddEven(even);
+	odd = oddEven(even); //function to sort odd/even numbers in the list, returns the address of the odd numbers list
 
-	printf("even list:\n");
+	printf("even list:\n");//print the two lists odd and even
 	printList(even);
 	printf("\n\n");
 	printf("odd list:\n");
 	printList(odd);
 
-	freeList(even);
+	freeList(even); //free the memory that was allocated for the lists
 	freeList(odd);
 
 	printf("\n\n");
@@ -321,15 +321,15 @@ void h1_ex4()
 
 ///////////////////////////////////////////////////////////////
 
-void userList(listT *list)
+void userList(listT *list) //function to get numbers into list from user
 {
-	int x = 0;
+	int x = 0; //x - integer to input into the list
 	printf("enter numbers to list:\n");
-	while (1)
+	while (1) //loop
 	{
 		//x = (rand() % 20) - 1;
 		scanf("%d", &x);
-		if (x >= 0)
+		if (x >= 0) //add number to the list until there is a flag x = -1, without saving -1 to the list
 			addFirst(list, x);
 		else
 			return;
@@ -338,55 +338,55 @@ void userList(listT *list)
 
 ///////////////////////////////////////////////////////////////
 
-listT *oddEven(listT* even)
+listT *oddEven(listT* even) //function to sort odd/even numbers in the list, returns the address of the odd numbers list
 {
-	listT *odd, tempL;
-	nodeT *node;
-	odd = newList();
+	listT *odd, tempL;//odd - pointer to list of odd numbers, tempL - temp list header to run through the list
+	nodeT *node; //temp node to checl list values
+	odd = newList(); //create new list
 
-	if (even->head == NULL)
+	if (even->head == NULL)//if even list is empty end the function and return empty odd list
 		return odd;
 
-	node = even->head;
-	tempL.head = node->next;
+	node = even->head; //first node of even list
+	tempL.head = node->next; //second node of even list to be temporary head of the list
 
-	while (node->data % 2)
+	while (node->data % 2) //while the first number in the list is odd
 	{
-		addFirst(odd, node->data);
+		addFirst(odd, node->data); //add it to odd list
 		
-		if (node->next)
+		if (node->next) //if there is more than one node in the list then delete the curent node and continue
 			freeSingle(even, node);
-		else
+		else //if this is the last node that delete it and return the odd list
 		{
 			freeSingle(even, node);
 			return odd;
 		}
 	}
 
-	while (tempL.head)
+	while (tempL.head) //while temporary head of the list is not NULL
 	{
-		if (node->next && node->next->data % 2)
+		if (node->next && node->next->data % 2) //check if the next node value is odd as long that there is next node
 		{
-			addFirst(odd, node->next->data);
-			if (node->next->next)
+			addFirst(odd, node->next->data); //ad it to odd list
+			if (node->next->next) //if there is a node after that then remove the next node and point the had at the current node
 			{
 				freeSingle(even, node->next);
 				tempL.head = node;
 			}
-			else
+			else //if there is no node after that, delete the last node and return odd list
 			{
 				freeLast(node);
 				return odd;
 			}
 		}
-		else
+		else //if the next node value is even then move the head pointer to the next node and the temp node to the current node
 		{
 			tempL.head = node->next;
 			node = tempL.head;
 		}
 	}
 
-	return odd;
+	return odd; //return odd list address
 }
 
 ///////////////////////////////////////////////////////////////
