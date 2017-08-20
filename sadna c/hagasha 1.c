@@ -438,7 +438,7 @@ void h1_ex5()
 
 	freeList(even); //free the memory that was allocated for the lists
 	freeList(odd);
-	printf("\n");
+	printf("\n\n");
 	system("pause");
 }
 
