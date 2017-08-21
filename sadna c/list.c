@@ -45,6 +45,8 @@ void printList3(listT *list)
 		} 
 		printf("sum: %d\ti: %d\tj: %d\n", node->data.sum, node->data.i, node->data.j);
 	}
+	else
+		printf("the list is empty");
 }
 
 void addFirst(listT *list, int x)
