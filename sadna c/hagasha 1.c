@@ -17,13 +17,16 @@ Student 2: Kostya Lokshin ID:310765821
 //declaration of functions:
 void h1_ex1(); //function for excercise 1
 unsigned int *powerArray(int n); //function to build an array that each element is 2^(i mod 32), i being the index of the array
+void printArry(int *arr, int size);
 
 void h1_ex2(); //function for excercise 2
 int **matMulti(int matA[MAT_A_ROW][MAT_A_COL], int matB[MAT_B_ROW][MAT_B_COL]); //function to calculate the multiplication of two matrixs
 void freeMat(int **mat, int row); //function to free the memoery allocated for a dynamic size matrix
+void printMat(int **mat, int row, int col);
 
 void h1_ex3(); //function for excercise 3
 int coordSum(int **mat, int row, int col, listT *list, trio *arr); //function to create a list of matrix members that equal to row + col index
+int **inputMat(int row, int col);
 
 void h1_ex4(); //function for excercise 4
 void userList(listT *list); //function to get numbers into list from user
@@ -92,10 +95,9 @@ void h1_ex1()
 
 	p = powerArray(n); //build the array using the function powerArray()
 
-	for (i = 0; i < n; i++) //loop to print the array
-		printf("%d, ", *(p + i));
+	printArry(p, n);
 
-	printf("\n");
+	printf("\n\n");
 	free(p);
 	system("pause");
 }
@@ -116,12 +118,22 @@ unsigned int *powerArray(int n) //function to build an array that each element i
 
 ///////////////////////////////////////////////////////////////
 
+void printArry(int *arr, int size)
+{
+	int i;
+	for (i = 0; i < size; i++) //loop to print the array
+		printf("%d, ", *(arr + i));
+}
+
+///////////////////////////////////////////////////////////////
+
 void h1_ex2()
 {
 	int matA[MAT_A_ROW][MAT_A_COL], matB[MAT_B_ROW][MAT_B_COL]; //predifined size matrix
 	int **matC; //ponter to a new matrix to be returned after calcuclating matA*matB
 	int i, j; //index i and index j to work with matrix
 			  //printf("Enter number for matrix A %dX%d:\n", MAT_A_ROW, MAT_A_COL);
+
 	for (i = 0; i<MAT_A_ROW; i++) //input values for matrix A
 		for (j = 0; j < MAT_A_COL; j++)
 		{
@@ -132,6 +144,7 @@ void h1_ex2()
 				matA[i][j] = (rand() % 20)*(-1);
 			//scanf("%d", &matA[i][j]);
 		}
+
 	printf("\n");
 	//printf("Enter number for matrix B %dX%d:\n", MAT_B_ROW, MAT_B_COL);
 	for (i = 0; i<MAT_B_ROW; i++) //input values for matrix B
@@ -169,12 +182,8 @@ void h1_ex2()
 
 	printf("\n");
 	printf("matrixA X matrixB =\n");
-	for (i = 0; i < MAT_A_ROW; i++) //print new matrix C wich shows matA*matB
-	{
-		for (j = 0; j < MAT_B_COL; j++)
-			printf("%d\t", *(*(matC + i) + j));
-		printf("\n");
-	}
+	
+	printMat(matC, MAT_A_ROW, MAT_B_COL);
 
 	printf("\n");
 	freeMat(matC, MAT_A_ROW); //free the memorie that was allocated for matrix C
@@ -210,6 +219,17 @@ void freeMat(int **mat, int row) //function to free the memoery allocated for a 
 	free(mat); //free the memory of the array of pointers (rows)
 }
 
+void printMat(int **mat, int row, int col)
+{
+	int i, j;
+	for (i = 0; i < row; i++) //print new matrix C wich shows matA*matB
+	{
+		for (j = 0; j < col; j++)
+			printf("%d\t", *(*(mat + i) + j));
+		printf("\n");
+	}
+}
+
 ///////////////////////////////////////////////////////////////
 
 void h1_ex3()
@@ -229,29 +249,11 @@ void h1_ex3()
 	row = (rand() % 5) + 1;
 	col = (rand() % 5) + 1;
 
-	mat = (int**)malloc(sizeof(int*)*row);  //create dynamic matrix in size rowXcol
-	for (i = 0; i < row; i++)
-		*(mat + i) = (int*)malloc(sizeof(int)*col);
-	//printf("Enter numbers for matrix %dX%d:\n", row, col);
-	for (i = 0; i<row; i++) //get numbers to matrix
-		for (j = 0; j < col; j++)
-		{
-			//printf("row %d col %d: ", i+1, j+1);
-			//scanf("%d", *(mat + i) + j);
-			if (rand() % 2)
-				*(*(mat + i) + j) = rand() % 10;
-			else
-				*(*(mat + i) + j) = (rand() % 10)*(-1);
-		}
+	mat = inputMat(row, col);
 
 	printf("\n\n");
 	printf("matrix %dX%d:\n", row, col);
-	for (i = 0; i < row; i++)
-	{
-		for (j = 0; j < col; j++)
-			printf("%d\t", *(*(mat + i) + j));
-		printf("\n");
-	}
+	printMat(mat, row, col);
 
 	printf("\n");
 
@@ -311,6 +313,28 @@ int coordSum(int **mat, int row, int col, listT *list, trio *arr) //function to 
 
 
 	return size;//return how meny members found
+}
+
+int **inputMat(int row, int col)
+{
+	int **mat;
+	int i, j;
+
+	mat = (int**)malloc(sizeof(int*)*row);  //create dynamic matrix in size rowXcol
+	for (i = 0; i < row; i++)
+		*(mat + i) = (int*)malloc(sizeof(int)*col);
+	//printf("Enter numbers for matrix %dX%d:\n", row, col);
+	for (i = 0; i<row; i++) //get numbers to matrix
+		for (j = 0; j < col; j++)
+		{
+			//printf("row %d col %d: ", i+1, j+1);
+			//scanf("%d", *(mat + i) + j);
+			if (rand() % 2)
+				*(*(mat + i) + j) = rand() % 10;
+			else
+				*(*(mat + i) + j) = (rand() % 10)*(-1);
+		}
+	return mat;
 }
 
 ///////////////////////////////////////////////////////////////
