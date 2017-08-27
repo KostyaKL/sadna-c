@@ -42,9 +42,15 @@
     <ClCompile Include="hagasha 2 mivne.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="stack.c">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
