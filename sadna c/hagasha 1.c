@@ -17,17 +17,17 @@ Student 2: Kostya Lokshin ID:310765821
 //declaration of functions:
 void h1_ex1(); //function for excercise 1
 unsigned int *powerArray(int n); //function to build an array that each element is 2^(i mod 32), i being the index of the array
-void printArry(int *arr, int size);
+void printArry(int *arr, int size); //function to print an array of ints
 
 void h1_ex2(); //function for excercise 2
 int **matMulti(int matA[MAT_A_ROW][MAT_A_COL], int matB[MAT_B_ROW][MAT_B_COL]); //function to calculate the multiplication of two matrixs
 void freeMat(int **mat, int row); //function to free the memoery allocated for a dynamic size matrix
-void printMat(int **mat, int row, int col);
+void printMat(int **mat, int row, int col); //function to print dynamic matrix
 
 void h1_ex3(); //function for excercise 3
 int coordSum(int **mat, int row, int col, listT **list, trio **arr); //function to create a list of matrix members that equal to row + col index
-int **inputMat(int row, int col);
-void printArrTrio(trio *arr, int size);
+int **inputMat(int row, int col); //function to get input from user to a dynamic matrix
+void printArrTrio(trio *arr, int size); //function to print an array of 'trio' type items
 
 void h1_ex4(); //function for excercise 4
 void userList(listT *list); //function to get numbers into list from user
@@ -88,15 +88,15 @@ void h1_ex1()
 {
 	unsigned int *p; //p - pointer to an array the will be created
 	int n; //n - number of elements in the aray
-			  printf("Enter the number of elements in the array: ");
-			  scanf("%d", &n); //get input for the number of elements
+			  //printf("Enter the number of elements in the array: ");
+			  //scanf("%d", &n); //get input for the number of elements
 
-	//n = rand();
+	n = rand();
 	
 
 	p = powerArray(n); //build the array using the function powerArray()
 
-	if (p)
+	if (p) //print the array if the array exist
 	{
 		printf("number of elements in the array: %d\n", n);
 		printArry(p, n);
@@ -117,12 +117,12 @@ unsigned int *powerArray(int n) //function to build an array that each element i
 	int i;//i - index
 	
 	p = (unsigned int *)malloc(sizeof(unsigned int)*n);//create an array in size n and save the addrres at p
-	if (p)
+	if (p) //if malloc was successful
 	{
 		*p = 1;
 		for (i = 1; i < n; i++)
 		{
-			if (*(p + i-1) == 1073741824)
+			if (*(p + i-1) == 1073741824) //higest (2^30) number that can be stored as unsigned int
 				*(p + i) = 1;
 			else
 				*(p + i) = *(p + i - 1) * 2;//insert numbers into the array using the rule 2^(i mod 32)
@@ -134,7 +134,7 @@ unsigned int *powerArray(int n) //function to build an array that each element i
 
 ///////////////////////////////////////////////////////////////
 
-void printArry(int *arr, int size)
+void printArry(int *arr, int size) //funcrion to print an array of ints
 {
 	int i;
 	for (i = 0; i < size; i++) //loop to print the array
@@ -199,7 +199,7 @@ void h1_ex2()
 	printf("\n");
 	printf("matrixA X matrixB =\n");
 
-	printMat(matC, MAT_A_ROW, MAT_B_COL);
+	printMat(matC, MAT_A_ROW, MAT_B_COL);//print the result
 
 	printf("\n");
 	freeMat(matC, MAT_A_ROW); //free the memorie that was allocated for matrix C
@@ -236,7 +236,7 @@ void freeMat(int **mat, int row) //function to free the memoery allocated for a 
 
 ///////////////////////////////////////////////////////////////
 
-void printMat(int **mat, int row, int col)
+void printMat(int **mat, int row, int col) //function to print a dynamic matrix
 {
 	int i, j;
 	for (i = 0; i < row; i++) //print new matrix C wich shows matA*matB
@@ -254,10 +254,10 @@ void h1_ex3()
 	int **mat; //dynamic matrix pointer
 	int row, col, i, j, size = 0; //row,col - number of row and cols in matrix, i,j - index, size - number of mat members that equal to i+j
 	listT *list; //pointer to list of number of mat members that equal to i+j
-	trio *arr;
+	trio *arr; //pointer to array of number of mat members that equal to i+j
 
-	list = NULL;
-	arr = NULL;
+	list = NULL; //initialize the address of list
+	arr = NULL; //initialize the address of arr
 
 	//printf("Enter number of rows: ");
 	//scanf("%d", &row);
@@ -267,11 +267,11 @@ void h1_ex3()
 	row = (rand() % 5) + 1;
 	col = (rand() % 5) + 1;
 
-	mat = inputMat(row, col);
+	mat = inputMat(row, col); //input dynamic matrix by user
 
 	printf("\n\n");
 	printf("matrix %dX%d:\n", row, col);
-	printMat(mat, row, col);
+	printMat(mat, row, col); //print the outcome
 
 	printf("\n");
 
@@ -317,7 +317,7 @@ int coordSum(int **mat, int row, int col, listT **list, trio **arr) //function t
 				size++;
 			}
 
-	*arr = (trio*)malloc(sizeof(trio)*size);
+	*arr = (trio*)malloc(sizeof(trio)*size); //allocate memory for the array in the correct size
 
 	size = 0;//use size as index for the array
 	for (i = 0; i<row; i++) //check if the matrix member equeal to its coordinate i+j
@@ -334,7 +334,7 @@ int coordSum(int **mat, int row, int col, listT **list, trio **arr) //function t
 	return size;//return how meny members found
 }
 
-int **inputMat(int row, int col)
+int **inputMat(int row, int col) //function to input data into dynamic matrix by user
 {
 	int **mat;
 	int i, j;
@@ -358,7 +358,7 @@ int **inputMat(int row, int col)
 
 ///////////////////////////////////////////////////////////////
 
-void printArrTrio(trio *arr, int size)
+void printArrTrio(trio *arr, int size) //print arry of 'trio' type items
 {
 	int i;
 	for (i = size - 1; i >= 0; i--) //print the array
