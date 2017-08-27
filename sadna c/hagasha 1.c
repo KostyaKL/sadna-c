@@ -16,7 +16,7 @@ Student 2: Kostya Lokshin ID:310765821
 
 //declaration of functions:
 void h1_ex1(); //function for excercise 1
-unsigned int *powerArray(int n); //function to build an array that each element is 2^(i mod 32), i being the index of the array
+unsigned int *powerArray(int *n); //function to build an array that each element is 2^(i mod 32), i being the index of the array
 void printArry(int *arr, int size);
 
 void h1_ex2(); //function for excercise 2
@@ -25,8 +25,9 @@ void freeMat(int **mat, int row); //function to free the memoery allocated for a
 void printMat(int **mat, int row, int col);
 
 void h1_ex3(); //function for excercise 3
-int coordSum(int **mat, int row, int col, listT *list, trio *arr); //function to create a list of matrix members that equal to row + col index
+int coordSum(int **mat, int row, int col, listT **list, trio **arr); //function to create a list of matrix members that equal to row + col index
 int **inputMat(int row, int col);
+void printArrTrio(trio *arr, int size);
 
 void h1_ex4(); //function for excercise 4
 void userList(listT *list); //function to get numbers into list from user
@@ -90,12 +91,18 @@ void h1_ex1()
 			  //printf("Enter the number of elements in the array: ");
 			  //scanf("%d", &n); //get input for the number of elements
 
-	n = (rand() % 31) + 1;
-	printf("number of elements in the array: %d\n", n);
+	n = rand();
+	
 
-	p = powerArray(n); //build the array using the function powerArray()
+	p = powerArray(&n); //build the array using the function powerArray()
 
-	printArry(p, n);
+	if (p)
+	{
+		printf("number of elements in the array: %d\n", n);
+		printArry(p, n);
+	}
+	else
+		printf("Not enough memory for the array\n");
 
 	printf("\n\n");
 	free(p);
@@ -104,14 +111,24 @@ void h1_ex1()
 
 ///////////////////////////////////////////////////////////////
 
-unsigned int *powerArray(int n) //function to build an array that each element is 2^(i mod 32), i being the index of the array
+unsigned int *powerArray(int *n) //function to build an array that each element is 2^(i mod 32), i being the index of the array
 {
 	unsigned int *p; //p - pointer to be returend when the array is ready
 	int i;//i - index
-	p = (unsigned int *)malloc(sizeof(unsigned int)*n);//create an array in size n and save the addrres at p
-	*p = 1;
-	for (i = 1; i < n; i++)
-		*(p + i) = *(p + i-1)*2;//insert numbers into the array using the rule 2^(i mod 32)
+	/*i = (*n % 31) + 1;
+	*n = i;*/
+	p = (unsigned int *)malloc(sizeof(unsigned int)**n);//create an array in size n and save the addrres at p
+	if (p)
+	{
+		*p = 1;
+		for (i = 1; i < *n; i++)
+		{
+			if (*(p + i-1) == 1073741824)
+				*(p + i) = 1;
+			else
+				*(p + i) = *(p + i - 1) * 2;//insert numbers into the array using the rule 2^(i mod 32)
+		}
+	}
 
 	return p; //return the address of the array
 }
@@ -182,7 +199,7 @@ void h1_ex2()
 
 	printf("\n");
 	printf("matrixA X matrixB =\n");
-	
+
 	printMat(matC, MAT_A_ROW, MAT_B_COL);
 
 	printf("\n");
@@ -213,11 +230,12 @@ int **matMulti(int matA[MAT_A_ROW][MAT_A_COL], int matB[MAT_B_ROW][MAT_B_COL]) /
 void freeMat(int **mat, int row) //function to free the memoery allocated for a dynamic size matrix
 {
 	int i; //index
-
 	for (i = 0; i < row; i++) //free the memory of each array of numbers (cols)
 		free(*(mat + i));
 	free(mat); //free the memory of the array of pointers (rows)
 }
+
+///////////////////////////////////////////////////////////////
 
 void printMat(int **mat, int row, int col)
 {
@@ -238,13 +256,14 @@ void h1_ex3()
 	int row, col, i, j, size = 0; //row,col - number of row and cols in matrix, i,j - index, size - number of mat members that equal to i+j
 	listT *list; //pointer to list of number of mat members that equal to i+j
 	trio *arr;
-	arr = (trio*)malloc(sizeof(trio));;
-	list = newList(); //create new linked list
 
-					  //printf("Enter number of rows: ");
-					  //scanf("%d", &row);
-					  //printf("Enter number of cols: ");
-					  //scanf("%d", &col);
+	list = NULL;
+	arr = NULL;
+
+	//printf("Enter number of rows: ");
+	//scanf("%d", &row);
+	//printf("Enter number of cols: ");
+	//scanf("%d", &col);
 
 	row = (rand() % 5) + 1;
 	col = (rand() % 5) + 1;
@@ -257,7 +276,7 @@ void h1_ex3()
 
 	printf("\n");
 
-	size = coordSum(mat, row, col, list, arr); //function to create a list of matrix members that equal to row + col index and returns the number of memeber found
+	size = coordSum(mat, row, col, &list, &arr); //function to create a list of matrix members that equal to row + col index and returns the number of memeber found
 
 	if (size) //print the answer if memeber=i+j was found
 	{
@@ -265,9 +284,7 @@ void h1_ex3()
 		printList3(list);//print the list
 		printf("\n");
 		printf("array:\n");
-		for (i = size - 1; i >= 0; i--) //print the array
-			printf("sum: %d\ti: %d\tj: %d\n", (arr + i)->sum, (arr + i)->i, (arr + i)->j);
-		printf("\n");
+		printArrTrio(arr, size);
 		printf("the size of the list/arr is %d\n", size);
 		printf("\n");
 		freeList3(list);//free the memorry was allocated for the list
@@ -283,10 +300,12 @@ void h1_ex3()
 
 ///////////////////////////////////////////////////////////////
 
-int coordSum(int **mat, int row, int col, listT *list, trio *arr) //function to create a list of matrix members that equal to row + col index and returns the number of memeber found
+int coordSum(int **mat, int row, int col, listT **list, trio **arr) //function to create a list of matrix members that equal to row + col index and returns the number of memeber found
 {
 	int i, j, size = 0; //i,j - index, size - number of mat members that equal to i+j
 	trio data; //trio struct that contains the index i and j and its sum i+j
+
+	*list = newList(); //create new linked list
 
 	for (i = 0; i<row; i++) //check if the matrix member equeal to its coordinate i+j
 		for (j = 0; j < col; j++)
@@ -295,22 +314,23 @@ int coordSum(int **mat, int row, int col, listT *list, trio *arr) //function to 
 				data.sum = i + j;
 				data.i = i;
 				data.j = j;
-				addFirst3(list, data);
+				addFirst3(*list, data);
 				size++;
 			}
 
-	arr = (trio*)realloc(arr, sizeof(trio)*size);//realocate the memory of arr to the correct size
+	*arr = (trio*)malloc(sizeof(trio)*size);
+
 	size = 0;//use size as index for the array
 	for (i = 0; i<row; i++) //check if the matrix member equeal to its coordinate i+j
 		for (j = 0; j < col; j++)
 			if (*(*(mat + i) + j) == i + j) //if so save the data of type trio into the array
 			{
-				(arr + size)->sum = i + j;
-				(arr + size)->i = i;
-				(arr + size)->j = j;
+				data.sum = i + j;
+				data.i = i;
+				data.j = j;
+				*((*arr) + size) = data;
 				size++;
 			}
-
 
 	return size;//return how meny members found
 }
@@ -335,6 +355,16 @@ int **inputMat(int row, int col)
 				*(*(mat + i) + j) = (rand() % 10)*(-1);
 		}
 	return mat;
+}
+
+///////////////////////////////////////////////////////////////
+
+void printArrTrio(trio *arr, int size)
+{
+	int i;
+	for (i = size - 1; i >= 0; i--) //print the array
+		printf("sum: %d\ti: %d\tj: %d\n", (arr + i)->sum, (arr + i)->i, (arr + i)->j);
+	printf("\n");
 }
 
 ///////////////////////////////////////////////////////////////
