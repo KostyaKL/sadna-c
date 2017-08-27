@@ -93,6 +93,7 @@ void freeSingle(listT *list, nodeT *node)
 	if (node->next == NULL)
 	{
 		list->head = NULL;
+		free(node);
 		return;
 	}
 	temp.next = node->next;

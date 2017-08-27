@@ -16,7 +16,7 @@ Student 2: Kostya Lokshin ID:310765821
 
 //declaration of functions:
 void h1_ex1(); //function for excercise 1
-unsigned int *powerArray(int *n); //function to build an array that each element is 2^(i mod 32), i being the index of the array
+unsigned int *powerArray(int n); //function to build an array that each element is 2^(i mod 32), i being the index of the array
 void printArry(int *arr, int size);
 
 void h1_ex2(); //function for excercise 2
@@ -87,14 +87,14 @@ void hagahsa_1()
 void h1_ex1()
 {
 	unsigned int *p; //p - pointer to an array the will be created
-	int n, i; //n - number of elements in the aray, i - index
-			  //printf("Enter the number of elements in the array: ");
-			  //scanf("%d", &n); //get input for the number of elements
+	int n; //n - number of elements in the aray
+			  printf("Enter the number of elements in the array: ");
+			  scanf("%d", &n); //get input for the number of elements
 
-	n = rand();
+	//n = rand();
 	
 
-	p = powerArray(&n); //build the array using the function powerArray()
+	p = powerArray(n); //build the array using the function powerArray()
 
 	if (p)
 	{
@@ -111,17 +111,16 @@ void h1_ex1()
 
 ///////////////////////////////////////////////////////////////
 
-unsigned int *powerArray(int *n) //function to build an array that each element is 2^(i mod 32), i being the index of the array
+unsigned int *powerArray(int n) //function to build an array that each element is 2^(i mod 32), i being the index of the array
 {
 	unsigned int *p; //p - pointer to be returend when the array is ready
 	int i;//i - index
-	/*i = (*n % 31) + 1;
-	*n = i;*/
-	p = (unsigned int *)malloc(sizeof(unsigned int)**n);//create an array in size n and save the addrres at p
+	
+	p = (unsigned int *)malloc(sizeof(unsigned int)*n);//create an array in size n and save the addrres at p
 	if (p)
 	{
 		*p = 1;
-		for (i = 1; i < *n; i++)
+		for (i = 1; i < n; i++)
 		{
 			if (*(p + i-1) == 1073741824)
 				*(p + i) = 1;
