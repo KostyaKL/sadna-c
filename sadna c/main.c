@@ -11,7 +11,7 @@ int main()
 	printf("______________________________________\n");
 	printf("Choose which lab you want to display:\n");
 	printf(""
-		"1.1 - Hagasha 1\n"
+		"1.1 - Hagasha 1 Sadna\n"
 		"\n"
 
 		"2.1 - Class Train 1\n"
@@ -21,7 +21,7 @@ int main()
 		"2.5 - Class Train 5\n"
 		"\n"
 
-		"3.1 - NOT YET\n"
+		"3.1 - Hagasha 2 Mivne\n"
 		"\n"
 
 		"4 - Ascii\n"
@@ -40,7 +40,7 @@ int main()
 	if (strcmp(lab_name, "1.1") == 0)
 	{
 		system("cls");
-		hagahsa_1();
+		hagasha_1_sadna();
 	}
 
 	if (strcmp(lab_name, "2.1") == 0)
@@ -71,6 +71,12 @@ int main()
 	{
 		printf("\n");
 		class_train_5();
+	}
+
+	if (strcmp(lab_name, "3.1") == 0)
+	{
+		printf("\n");
+		hagasha_2_mivne();
 	}
 
 	else if (strcmp(lab_name, "quit") == 0 || strcmp(lab_name, "0") == 0)

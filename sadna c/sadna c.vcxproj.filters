@@ -33,11 +33,14 @@
     <ClCompile Include="class train 5.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hagasha 1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="list.c">
       <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hagasha 1 sadna.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hagasha 2 mivne.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

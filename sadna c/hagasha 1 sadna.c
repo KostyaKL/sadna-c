@@ -38,7 +38,7 @@ listT *oddEven_noDelete(listT* even); //function to sort odd/even numbers in the
 
 
 
-void hagahsa_1()
+void hagasha_1_sadna()
 {
 
 	int select = 0, i, all_Ex_in_loop = 0;
