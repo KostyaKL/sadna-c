@@ -12,7 +12,8 @@ Student 2: Kostya Lokshin ID:310765821
 //declaration of functions:
 void h1_ex1_m(); //function for excercise 1
 int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt);
-
+void writeLine(stackCT *opr, stackCT *act, stackRT *rslt, char res);
+void clearStdi();
 
 void h1_ex2_m(); //function for excercise 2
 
@@ -84,11 +85,10 @@ void h1_ex1_m()
 
 int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt)
 {
-	char input=NULL ,temp;
+	char input ,temp;
 	int actFlag = 0;
-	resT line;
 	char res = 90;
-	getchar();
+	clearStdi();
 	while (1)
 	{
 		input = getchar();
@@ -101,7 +101,7 @@ int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt)
 		else if (input == 42 || input == 43 || input == 45 || input == 47 || input == 94)
 			if (actFlag || emptyCStack(opr))
 			{
-				while ((input = getchar()) != '\n' && input != EOF);
+				clearStdi();
 				return 0;
 			}
 			else
@@ -113,12 +113,7 @@ int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt)
 					temp = input;
 					while ((input == 43 || input == 45) || ((input == 42 || input == 47) && (input == 42 || input == 47 || input == 94)))
 					{
-						line.act = popC(act);
-						line.opr1 = popC(opr);
-						line.opr2 = popC(opr);
-						line.rslt = res;
-						pushR(rslt, line);
-						pushC(opr, res);
+						writeLine(opr, act, rslt, res);
 						res--;
 						input = topC(act);
 					}
@@ -132,22 +127,38 @@ int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt)
 				return 0;
 			while (emptyCStack(act) != 1 && emptyCStack(opr) != 1)
 			{
-				line.act = popC(act);
-				line.opr1 = popC(opr);
-				line.opr2 = popC(opr);
-				line.rslt = res;
-				pushR(rslt, line);
-				pushC(opr, res);
+				writeLine(opr, act, rslt, res);
 				res--;
 			}
 			return 1;
 		}
 		else
 		{
-			while ((input = getchar()) != '\n' && input != EOF);
+			clearStdi();
 			return 0;
 		}
 	} 
+}
+
+///////////////////////////////////////////////////////////////
+
+void writeLine(stackCT *opr, stackCT *act, stackRT *rslt, char res)
+{
+	resT line;
+	line.act = popC(act);
+	line.opr1 = popC(opr);
+	line.opr2 = popC(opr);
+	line.rslt = res;
+	pushR(rslt, line);
+	pushC(opr, res);
+}
+
+///////////////////////////////////////////////////////////////
+
+void clearStdi()
+{
+	char input;
+	while ((input = getchar()) != '\n' && input != EOF);
 }
 
 ///////////////////////////////////////////////////////////////

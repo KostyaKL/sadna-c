@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAX 100
+#define MAX 20
 #define MIN_INT 1<<31
 
 typedef struct
