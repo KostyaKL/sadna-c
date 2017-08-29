@@ -12,8 +12,9 @@ Student 2: Kostya Lokshin ID:310765821
 //declaration of functions:
 void h1_ex1_m(); //function for excercise 1
 int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt);
-void writeLine(stackCT *opr, stackCT *act, stackRT *rslt, char *res);
+void writeLine(stackCT *opr, stackCT *act, stackRT *rslt, char *resIndex);
 void clearStdi();
+void inputPush(stackCT *act, char input, int *flagOne, int *flagNull);
 
 void h1_ex2_m(); //function for excercise 2
 
@@ -70,14 +71,11 @@ void h1_ex1_m()
 
 	printf("Enter your expression:\n");
 	if (expressionInterpreter(&opr, &act, &result))
-	{
 		printRStack(&result);
-		printf("\n\n");
-	}
 	else
 		printf("Ilegal char was entered\n");
 
-	printf("\n");
+	printf("\n\n");
 	system("pause");
 }
 
@@ -86,17 +84,23 @@ void h1_ex1_m()
 int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt)
 {
 	char input ,prevIn;
-	int actFlag = 0;
-	char res;
+	int actFlag, oprFlag;
+	char resIndex;
 	clearStdi();
-	res = 90;
+	resIndex = 90;
+	actFlag = 0;
+	oprFlag = 0;
 	while (1)
 	{
 		input = getchar();
 		if ((input >= 48 && input <= 57) || (input >= 65 && input <= 72))
 		{
-			pushC(opr, input);
-			actFlag = 0;
+			if(oprFlag)
+			{
+				clearStdi();
+				return 0;
+			}
+			inputPush(opr, input, &oprFlag, &actFlag);
 		}
 		//42 - *, 43 - +, 45 - -, 47 - /, 94 - ^
 		else if (input == 42 || input == 43 || input == 45 || input == 47 || input == 94)
@@ -108,21 +112,23 @@ int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt)
 			else
 			{
 				if (emptyCStack(act) || input == 94)
-					actFlag = pushC(act, input);
+					inputPush(act, input, &actFlag, &oprFlag);
 				else
 				{
 					prevIn = input;
-					while ((input == 43 || input == 45) || ((input == 42 || input == 47) && (topC(act) == 42 || topC(act) == 47 || topC(act) == 94)) || (input == 94 && topC(act) == 94))
+					while ((input == 43 || input == 45) ||
+						((input == 42 || input == 47) && (topC(act) == 42 || topC(act) == 47 || topC(act) == 94)) ||
+						(input == 94 && topC(act) == 94))
 					{
 						if ((input == 43 || input == 45) && (prevIn == 42 || prevIn == 47 || prevIn == 94))
 							input = -1;
 						else
 						{
-							writeLine(opr, act, rslt, &res);
+							writeLine(opr, act, rslt, &resIndex);
 							input = topC(act);
 						}
 					}
-					actFlag = pushC(act, prevIn);
+					inputPush(act, prevIn, &actFlag, &oprFlag);
 				}
 			}
 		else if (input == 32);
@@ -131,7 +137,7 @@ int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt)
 			if (actFlag)
 				return 0;
 			while (emptyCStack(act) != 1 && emptyCStack(opr) != 1)
-				writeLine(opr, act, rslt, &res);
+				writeLine(opr, act, rslt, &resIndex);
 			return 1;
 		}
 		else
@@ -144,16 +150,16 @@ int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt)
 
 ///////////////////////////////////////////////////////////////
 
-void writeLine(stackCT *opr, stackCT *act, stackRT *rslt, char *res)
+void writeLine(stackCT *opr, stackCT *act, stackRT *rslt, char *resIndex)
 {
 	resT line;
 	line.act = popC(act);
 	line.opr2 = popC(opr);
 	line.opr1 = popC(opr);
-	line.rslt = *res;
+	line.rslt = *resIndex;
 	pushR(rslt, line);
-	pushC(opr, *res);
-	(*res)--;
+	pushC(opr, *resIndex);
+	(*resIndex)--;
 }
 
 ///////////////////////////////////////////////////////////////
@@ -163,6 +169,18 @@ void clearStdi()
 	char input;
 	while ((input = getchar()) != '\n' && input != EOF);
 }
+
+///////////////////////////////////////////////////////////////
+
+void inputPush(stackCT *stack, char input, int *flagOne, int *flagNull)
+{
+	*flagOne = pushC(stack, input);
+	*flagNull = 0;
+}
+
+///////////////////////////////////////////////////////////////
+
+
 
 ///////////////////////////////////////////////////////////////
 

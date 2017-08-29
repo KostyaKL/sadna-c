@@ -122,7 +122,8 @@ void printRStack(stackRT *stack)
 		printf("The stack is empty\n");
 		return;
 	}
-	printf("Operation\tOperand1\tOperand2\tResult\n"
+	printf("\n"
+		   "Operation\tOperand1\tOperand2\tResult\n"
 		   "---------\t--------\t--------\t------\n");
 	for (i = 0;i <= stack->top;i++)
 	{
