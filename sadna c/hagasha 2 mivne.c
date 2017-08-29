@@ -7,9 +7,12 @@ Student 2: Kostya Lokshin ID:310765821
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "stack.h"
 
 //declaration of functions:
 void h1_ex1_m(); //function for excercise 1
+int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt);
+
 
 void h1_ex2_m(); //function for excercise 2
 
@@ -57,9 +60,94 @@ void hagasha_2_mivne()
 
 void h1_ex1_m()
 {
-	
+	char input;
+	stackCT opr, act;
+	stackRT result;
+	newCStack(&opr);
+	newCStack(&act);
+	newRStack(&result);
+
+	printf("Enter your expression:\n");
+	if (expressionInterpreter(&opr, &act, &result))
+	{
+		printRStack(&result);
+		printf("\n\n");
+	}
+	else
+		printf("Ilegal char was entered\n");
+
 	printf("\n");
 	system("pause");
+}
+
+///////////////////////////////////////////////////////////////
+
+int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt)
+{
+	char input=NULL ,temp;
+	int actFlag = 0;
+	resT line;
+	char res = 90;
+	getchar();
+	while (1)
+	{
+		input = getchar();
+		if ((input >= 48 && input <= 57) || (input >= 65 && input <= 72))
+		{
+			pushC(opr, input);
+			actFlag = 0;
+		}
+		//42 - *, 43 - +, 45 - -, 47 - /, 94 - ^
+		else if (input == 42 || input == 43 || input == 45 || input == 47 || input == 94)
+			if (actFlag || emptyCStack(opr))
+			{
+				while ((input = getchar()) != '\n' && input != EOF);
+				return 0;
+			}
+			else
+			{
+				if (emptyCStack(act) || input == 94 || (input == 42 || input == 47) && (topC(act) == 43 || topC(act) == 45))
+				actFlag = pushC(act, input);
+				else
+				{
+					temp = input;
+					while ((input == 43 || input == 45) || ((input == 42 || input == 47) && (input == 42 || input == 47 || input == 94)))
+					{
+						line.act = popC(act);
+						line.opr1 = popC(opr);
+						line.opr2 = popC(opr);
+						line.rslt = res;
+						pushR(rslt, line);
+						pushC(opr, res);
+						res--;
+						input = topC(act);
+					}
+					actFlag = pushC(act, temp);
+				}
+			}
+		else if (input == 32);
+		else if (input == 10)
+		{
+			if (actFlag)
+				return 0;
+			while (emptyCStack(act) != 1 && emptyCStack(opr) != 1)
+			{
+				line.act = popC(act);
+				line.opr1 = popC(opr);
+				line.opr2 = popC(opr);
+				line.rslt = res;
+				pushR(rslt, line);
+				pushC(opr, res);
+				res--;
+			}
+			return 1;
+		}
+		else
+		{
+			while ((input = getchar()) != '\n' && input != EOF);
+			return 0;
+		}
+	} 
 }
 
 ///////////////////////////////////////////////////////////////

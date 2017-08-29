@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 int main()
 {
@@ -156,7 +157,14 @@ int ascii()
 
 int testim()
 {
+	char input = NULL;;
 
+	getchar();
+	while (input != 10)
+	{
+		gets(input);
+		printf("%d\t", input);
+	}
 
 	printf("1\n");
 	system("pause");

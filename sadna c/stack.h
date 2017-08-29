@@ -6,17 +6,48 @@
 typedef struct
 {
 	int top;
-	int items[MAX];
-}stackT;
+	char items[MAX];
+}stackCT;
 
-void newStack(stackT *stack);
+typedef struct
+{
+	char act;
+	char opr1;
+	char opr2;
+	char rslt;
+}resT;
 
-unsigned char push(stackT *stack, int x);
+typedef struct
+{
+	int top;
+	resT items[MAX];
+}stackRT;
 
-int pop(stackT *stack);
+void newCStack(stackCT *stack);
 
-int top(stackT *stack);
+unsigned int pushC(stackCT *stack, char x);
 
-unsigned char emptyStack(stackT *stack);
+char popC(stackCT *stack);
 
-unsigned char fullStack(stackT *stack);
+char topC(stackCT *stack);
+
+int emptyCStack(stackCT *stack);
+
+int fullCStack(stackCT *stack);
+
+void printCStack(stackCT *stack);
+
+
+void newRStack(stackRT *stack);
+
+int pushR(stackRT *stack, resT x);
+
+resT popR(stackRT *stack);
+
+resT topR(stackRT *stack);
+
+int emptyRStack(stackRT *stack);
+
+int fullRStack(stackRT *stack);
+
+void printRStack(stackRT *stack);
