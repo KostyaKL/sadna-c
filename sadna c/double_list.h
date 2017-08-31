@@ -2,7 +2,8 @@
 
 typedef struct nodedl
 {
-	int data;
+	int num;
+	int pow;
 	struct nodedl *next;
 	struct nodedl *prev;
 }nodeDL;
@@ -12,18 +13,18 @@ typedef struct
 	nodeDL *head;
 	nodeDL *tail;
 	int size;
-}doubleList;
+}polynomial;
 
-doubleList *newDoubleList();
+polynomial *newPolynomial();
 
-void dlistInsertFirst(doubleList *list, int x);
+void polyInsertFirst(polynomial *list, int num, int pow);
 
-void dlistInsertLast(doubleList *list, int x);
+void polyInsertLast(polynomial *list, int num, int pow);
 
-void dlistPrintFwd(doubleList *list);
+void polyPrintFwd(polynomial *list);
 
-void dlistPrintBck(doubleList *list);
+void polyPrintBck(polynomial *list);
 
-void dlistDeleteSingle(doubleList *list, nodeDL *node);
+void polyDeleteSingle(polynomial *list, nodeDL *node);
 
-void dlistFree(doubleList *list);
+void freePoly(polynomial *list);

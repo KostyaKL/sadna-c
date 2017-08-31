@@ -2,21 +2,22 @@
 #include <stdlib.h>
 #include "double_list.h"
 
-doubleList *newDoubleList()
+polynomial *newPolynomial()
 {
-	doubleList *list;
-	list = (doubleList*)malloc(sizeof(doubleList));
+	polynomial *list;
+	list = (polynomial*)malloc(sizeof(polynomial));
 	list->head = NULL;
 	list->tail = NULL;
 	list->size = 0;
 	return list;
 }
 
-void dlistInsertFirst(doubleList *list, int x)
+void polyInsertFirst(polynomial *list, int num, int pow)
 {
 	nodeDL *node;
 	node = (nodeDL*)malloc(sizeof(nodeDL));
-	node->data = x;
+	node->num = num;
+	node->pow = pow;
 	if (list->size == 0)
 		list->tail = node;
 	else
@@ -27,11 +28,12 @@ void dlistInsertFirst(doubleList *list, int x)
 	list->size++;
 }
 
-void dlistInsertLast(doubleList *list, int x)
+void polyInsertLast(polynomial *list, int num, int pow)
 {
 	nodeDL *node;
 	node = (nodeDL*)malloc(sizeof(nodeDL));
-	node->data = x;
+	node->num = num;
+	node->pow = pow;
 	if (list->size == 0)
 		list->head = node;
 	else
@@ -42,7 +44,7 @@ void dlistInsertLast(doubleList *list, int x)
 	list->size++;
 }
 
-void dlistPrintFwd(doubleList *list)
+void polyPrintFwd(polynomial *list)
 {
 	int i;
 	nodeDL *node;
@@ -54,29 +56,53 @@ void dlistPrintFwd(doubleList *list)
 	node = list->head;
 	for (i = 1;i <= list->size;i++)
 	{
-		printf("Node %d is %d\n", i, node->data);
+		if (node->pow == 0)
+			printf("%d", node->num);
+		else if (node->pow == 1)
+			if (node->num == 1)
+				printf("X");
+			else
+				printf("%dX", node->num);
+		else
+			printf("%dX^%d", node->num, node->pow);
 		node = node->next;
 	}
 }
 
-void dlistPrintBck(doubleList *list)
+void polyPrintBck(polynomial *list)
 {
 	int i;
 	nodeDL *node;
 	if (list->size == 0)
 	{
-		printf("The list is empty\n");
+		printf("Zero (empty polynomal)\n");
 		return;
 	}
 	node = list->tail;
+
 	for (i = list->size;i > 0;i--)
 	{
-		printf("Node %d is %d\n", i, node->data);
+		if (node->pow == 0)
+			printf("%d ", node->num);
+		else if (node->pow == 1)
+			if (node->num == 1)
+				printf("+X ");
+			else if (node->num == -1)
+				printf("-X ");
+			else if (node->num >0)
+				printf("+%dX ", node->num);
+			else
+				printf("%dX ", node->num);
+		else
+			if(i<list->size && node->num >0)
+				printf("+%dX^%d ", node->num, node->pow);
+			else
+				printf("%dX^%d ", node->num, node->pow);
 		node = node->prev;
 	}
 }
 
-void dlistDeleteSingle(doubleList *list, nodeDL *node)
+void polyDeleteSingle(polynomial *list, nodeDL *node)
 {
 	if (list->size == 1)
 	{
@@ -102,7 +128,7 @@ void dlistDeleteSingle(doubleList *list, nodeDL *node)
 	free(node);
 }
 
-void dlistFree(doubleList *list)
+void freePoly(polynomial *list)
 {
 	nodeDL *node;
 	node = list->head;
