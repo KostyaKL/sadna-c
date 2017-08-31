@@ -8,6 +8,7 @@ Student 2: Kostya Lokshin ID:310765821
 #include <stdlib.h>
 #include <time.h>
 #include "stack.h"
+#include "double_list.h"
 
 //declaration of functions:
 void h1_ex1_m(); //function for excercise 1
@@ -186,7 +187,25 @@ void inputPush(stackCT *stack, char input, int *flagOne, int *flagNull)
 
 void h1_ex2_m()
 {
-	
+	doubleList *list;
+	list = newDoubleList();
+	dlistInsertFirst(list, 1);
+	dlistInsertFirst(list, 2);
+	dlistInsertFirst(list, 3);
+
+	dlistInsertLast(list, 7);
+	dlistInsertLast(list, 8);
+	dlistInsertLast(list, 9);
+
+	printf("\n");
+	printf("\n");
+	dlistPrintFwd(list);
+	printf("\n");
+	printf("\n");
+	dlistPrintBck(list);
+	printf("\n");
+	dlistFree(list);
+
 	printf("\n");
 	system("pause");
 }

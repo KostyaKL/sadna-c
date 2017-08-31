@@ -147,6 +147,7 @@
     <ClCompile Include="class train 3.c" />
     <ClCompile Include="class train 4.c" />
     <ClCompile Include="class train 5.c" />
+    <ClCompile Include="double_list.c" />
     <ClCompile Include="hagasha 1 sadna.c" />
     <ClCompile Include="hagasha 2 mivne.c" />
     <ClCompile Include="list.c" />
@@ -154,6 +155,7 @@
     <ClCompile Include="stack.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="double_list.h" />
     <ClInclude Include="list.h" />
     <ClInclude Include="stack.h" />
   </ItemGroup>

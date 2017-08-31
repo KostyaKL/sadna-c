@@ -45,12 +45,18 @@
     <ClCompile Include="stack.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="double_list.c">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="double_list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
