@@ -24,6 +24,8 @@ nodeDL *findPow(polynomial *p1, int pow);
 nodeDL *findNextPow(polynomial *p1, int pow);
 void userNumPow(int *num, int *pow);
 void printMenu();
+polynomial *polySend(polynomial *p1, polynomial *p2);
+void zeroPoly(polynomial *p1);
 
 
 void hagasha_2_mivne()
@@ -89,7 +91,7 @@ void h1_ex1_m()
 
 int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt)
 {
-	char input ,prevIn;
+	char input, prevIn;
 	int actFlag, oprFlag;
 	char resIndex;
 	clearStdi();
@@ -101,7 +103,7 @@ int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt)
 		input = getchar();
 		if ((input >= 48 && input <= 57) || (input >= 65 && input <= 72))
 		{
-			if(oprFlag)
+			if (oprFlag)
 			{
 				clearStdi();
 				return 0;
@@ -151,7 +153,7 @@ int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt)
 			clearStdi();
 			return 0;
 		}
-	} 
+	}
 }
 
 ///////////////////////////////////////////////////////////////
@@ -194,59 +196,78 @@ void h1_ex2_m()
 {
 	int select = 0;
 	int num, pow;
-	polynomial *p1, *p2;
-	p1 = newPolynomial();
-	p2 = newPolynomial();
+	polynomial *p1, *p2, *send;
+	p1 = NULL;
+	p2 = NULL;
 
 	printMenu();
-	
+
+	do
+	{
 		do
 		{
-			do {
-				select = 0;
-				printf("please select 0-9 : ");
-				scanf("%d", &select);
-			} while ((select < 0) || (select > 9));//loop to get a correct input from the user to choose the exercise to show
-			printf("\n");
-			switch (select) {
-			case 1:
-				emptyPoly(&p1);
-				break;
-			case 2:
+			select = 0;
+			printf("please select 0-9 : ");
+			scanf("%d", &select);
+		} while ((select < 0) || (select > 9));//loop to get a correct input from the user to choose the exercise to show
+		printf("\n");
+
+		if (select == 1)
+		{
+			if (send = polySend(&p1, &p2))
+				emptyPoly(send);
+		}
+		else if (select == 2)
+		{
+			if (send = polySend(p1, p2))
+			{
 				userNumPow(&num, &pow);
-				polyAddNum(p1, num, pow);
-				break;
-			case 3:
-				
-				break;
-			case 4:
-				
-				break;
-			case 5:
-				
-				break;
-			case 6:
-				
-				break;
-			case 7:
-				
-				break;
-			case 8:
-				printf("\n\nPolinomal:\n");
-				polyPrintBck(p1);
-				printf("\n\n");
-				break;
-			case 9:
-				printMenu();
-				break;
+				polyAddNum(send, num, pow);
 			}
-		} while (select); //determin if the program will return to main menu at the end of an exersice or it will exit
-		return hagasha_2_mivne();
+		}
+		else if (select == 3)
+		{
 
+		}
+		else if (select == 4)
+		{
 
-	freePoly(p1);
-	freePoly(p2);
+		}
+		else if (select == 5)
+		{
+
+		}
+		else if (select == 6)
+		{
+			if (send = polySend(p1, p2))
+				printf("The size of the polynome is: %d\n", polySize(send));
+		}
+		else if (select == 7)
+		{
+			if (send = polySend(p1, p2))
+				zeroPoly(send);
+		}
+		else if (select == 8)
+		{
+			if (send = polySend(p1, p2))
+			{
+				printf("\n\nPolinomal:\n");
+				polyPrintBck(send);
+				printf("\n\n");
+			}
+		}
+		else if (select == 9)
+			printMenu();
+
+	} while (select); //determin if the program will return to main menu at the end of an exersice or it will exit
+					  //return main();
+
+	if (p1)
+		freePoly(p1);
+	if (p2)
+		freePoly(p2);
 	printf("\n");
+	printf("You have exited ex 2\n");
 	system("pause");
 }
 
@@ -255,9 +276,9 @@ void h1_ex2_m()
 
 void emptyPoly(polynomial **p1)
 {
-	freePoly(*p1);
 	*p1 = newPolynomial();
 	polyInsertFirst(*p1, 0, 0);
+	printf("you have created a new polynimial\n");
 }
 
 void polyAddNum(polynomial *p1, int num, int pow)
@@ -268,9 +289,17 @@ void polyAddNum(polynomial *p1, int num, int pow)
 		polyInsertFirst(p1, num, pow);
 		return;
 	}
+
+	if(p1->size == 1 && p1->head->num == 0)
+		polyDeleteSingle(p1, p1->head);
+
 	node = findPow(p1, pow);
 	if (node)
+	{
 		node->num += num;
+		if (node->num == 0)
+			polyDeleteSingle(p1, node);
+	}
 	else
 	{
 		node = findNextPow(p1, pow);
@@ -301,7 +330,7 @@ nodeDL *findPow(polynomial *p1, int pow)
 	if (p1->size == 0)
 		return NULL;
 	else
-		for (i = 0;i < p1->size;i++)
+		for (i = 0; i < p1->size; i++)
 			if (node->pow == pow)
 				return node;
 			else
@@ -317,7 +346,7 @@ nodeDL *findNextPow(polynomial *p1, int pow)
 	if (p1->size == 0)
 		return NULL;
 	else
-		for (i = 0;i < p1->size;i++)
+		for (i = 0; i < p1->size; i++)
 			if (node->pow > pow)
 				return node;
 			else
@@ -328,7 +357,7 @@ nodeDL *findNextPow(polynomial *p1, int pow)
 void userNumPow(int *num, int *pow)
 {
 	printf("Enter X multiplier and X power:\n");
-	
+
 	printf("mult: ");
 	do
 	{
@@ -355,9 +384,60 @@ void printMenu()
 		"3 - XXX\n"
 		"4 - XXX\n"
 		"5 - XXX\n"
-		"6 - XXX\n"
-		"7 - XXX\n"
+		"6 - Size of polynomal\n"
+		"7 - Zeroise polynomal\n"
 		"8 - Print polynomal\n\n"
 		"9 - Print Menu\n");
 	printf("\n0 - EXIT\n\n");
+}
+
+polynomial *polySend(polynomial *p1, polynomial *p2)
+{
+	int choise;
+	polynomial *send;
+	
+	printf("choose to which polynomial apply the func?\n"
+		"p1 - choose 1\n"
+		"p2 - choose 2\n"
+		"cancel - choose 0\n"
+		"choise: ");
+	do
+	{
+		scanf("%d", &choise);
+		if (choise < 0 || choise > 2)
+			printf("your choise must be 0/1/2, try again: ");
+	} while (choise < 0 || choise > 2);
+	if (choise == 1)
+	{
+		send = p1;
+		if (send == NULL)
+			printf("you must create a polynomial, choose function 1 in main menu\n");
+	}
+	else if (choise == 2)
+	{
+		send = p2;
+		if (send == NULL)
+			printf("you must create a polynomial, choose function 1 in main menu\n");
+	}
+	else
+		send = NULL;
+
+	return send;
+}
+
+int polySize(polynomial *p1)
+{
+	if (p1->size)
+		return p1->size;
+	return -1;
+}
+
+void zeroPoly(polynomial *p1)
+{
+	nodeDL *node;
+	if (p1->size == 0)
+		return;
+	for (node = p1->head; p1->size > 0; node = p1->head)
+		polyDeleteSingle(p1, node);
+
 }

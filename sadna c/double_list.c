@@ -80,24 +80,27 @@ void polyPrintBck(polynomial *list)
 	}
 	node = list->tail;
 
-	for (i = list->size;i > 0;i--)
+	for (i = list->size; i > 0; i--)
 	{
 		if (node->pow == 0)
-			printf("%d ", node->num);
+			if (i < list->size  && node->num > 0)
+				printf("+%d", node->num);
+			else
+				printf("%d", node->num);
 		else if (node->pow == 1)
-			if (node->num == 1)
-				printf("+X ");
+			if (i<list->size && node->num == 1)
+				printf("+X");
 			else if (node->num == -1)
-				printf("-X ");
-			else if (node->num >0)
-				printf("+%dX ", node->num);
+				printf("-X");
+			else if (i<list->size)
+				printf("+%dX", node->num);
 			else
-				printf("%dX ", node->num);
+				printf("%dX", node->num);
 		else
-			if(i<list->size && node->num >0)
-				printf("+%dX^%d ", node->num, node->pow);
+			if (i<list->size && node->num >0)
+				printf("+%dX^%d", node->num, node->pow);
 			else
-				printf("%dX^%d ", node->num, node->pow);
+				printf("%dX^%d", node->num, node->pow);
 		node = node->prev;
 	}
 }
@@ -114,7 +117,7 @@ void polyDeleteSingle(polynomial *list, nodeDL *node)
 		list->head = node->next;
 		node->next->prev = node->prev;
 	}
-	else if (node->next = NULL)
+	else if (node->next == NULL)
 	{
 		list->tail = node->prev;
 		node->prev->next = node->next;
