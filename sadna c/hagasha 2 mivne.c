@@ -217,7 +217,7 @@ void h1_ex2_m()
 			scanf("%d", &select);
 		} while ((select < 0) || (select > 10));//loop to get a correct input from the user to choose the exercise to show
 		printf("\n");
-
+		send = NULL;
 		if (select == 1)
 		{
 			printf("Create empty polynomial\n"
@@ -241,6 +241,15 @@ void h1_ex2_m()
 			if (result)
 				freePoly(result);
 			result = polySum(p1, p2);
+			if (p1 && p2 && result)
+			{
+				polyPrintBck(p1);
+				printf(" + ");
+				polyPrintBck(p2);
+				printf(" = ");
+				polyPrintBck(result);
+				printf("\n\n");
+			}
 		}
 		else if (select == 4)
 		{
@@ -248,6 +257,15 @@ void h1_ex2_m()
 			if (result)
 				freePoly(result);
 			result = polySub(p1, p2);
+			if (p1 && p2 && result)
+			{
+				polyPrintBck(p1);
+				printf(" - ");
+				polyPrintBck(p2);
+				printf(" = ");
+				polyPrintBck(result);
+				printf("\n\n");
+			}
 		}
 		else if (select == 5)
 		{
@@ -259,6 +277,15 @@ void h1_ex2_m()
 			{
 				printf("result = p * %d\n\n", constant);
 				result = polyMultiConst(send, constant);
+			}
+			if (send && result)
+			{
+				printf("(");
+				polyPrintBck(p1);
+				printf(") * %d", constant);
+				printf(" = ");
+				polyPrintBck(result);
+				printf("\n\n");
 			}
 		}
 		else if (select == 6)
@@ -292,6 +319,15 @@ void h1_ex2_m()
 			if (result)
 				freePoly(result);
 			result = polyMulti(p1, p2);
+			if (p1 && p2 && result)
+			{
+				polyPrintBck(p1);
+				printf(" * ");
+				polyPrintBck(p2);
+				printf(" = ");
+				polyPrintBck(result);
+				printf("\n\n");
+			}
 		}
 		else if (select == 10)
 			printMenu();
@@ -662,7 +698,7 @@ polynomial *polySub(polynomial *p1, polynomial *p2)
 		}
 		else if (highP1 > highP2)
 		{
-			polyAddNum(result, -node1->num, highP1);
+			polyAddNum(result, node1->num, highP1);
 			if (i == 1)
 			{
 				highP1 = -1;
