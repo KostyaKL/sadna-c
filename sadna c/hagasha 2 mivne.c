@@ -27,6 +27,9 @@ void printMenu();
 polynomial *polySend(polynomial *p1, polynomial *p2, polynomial *result);
 void zeroPoly(polynomial *p1);
 polynomial *polySum(polynomial *p1, polynomial *p2);
+polynomial *polySub(polynomial *p1, polynomial *p2);
+polynomial *polyMultiConst(polynomial *p1, int constant);
+polynomial *polyMulti(polynomial *p1, polynomial *p2);
 
 
 void hagasha_2_mivne()
@@ -197,6 +200,7 @@ void h1_ex2_m()
 {
 	int select = 0;
 	int num, pow;
+	int constant;
 	polynomial *p1, *p2, *send, *result;
 	p1 = NULL;
 	p2 = NULL;
@@ -241,11 +245,21 @@ void h1_ex2_m()
 		else if (select == 4)
 		{
 			printf("Substract polynomial applied: result = p1 - p2\n\n");
+			if (result)
+				freePoly(result);
+			result = polySub(p1, p2);
 		}
 		else if (select == 5)
 		{
 			printf("Multiply polynomial by constant\n"
 				   "-------------------------------\n");
+			printf("Enter a constant you want to multiply by: ");
+			scanf("%d", &constant);
+			if (send = polySend(p1, p2, result))
+			{
+				printf("result = p * %d\n\n", constant);
+				result = polyMultiConst(send, constant);
+			}
 		}
 		else if (select == 6)
 		{
@@ -267,7 +281,7 @@ void h1_ex2_m()
 				   "----------------\n");
 			if (send = polySend(p1, p2, result))
 			{
-				printf("\n\nPolinomal:\n");
+				printf("Polinomal:\n");
 				polyPrintBck(send);
 				printf("\n\n");
 			}
@@ -275,6 +289,9 @@ void h1_ex2_m()
 		else if (select == 9)
 		{
 			printf("Multiply polynomial applied: result = p1 * p2\n\n");
+			if (result)
+				freePoly(result);
+			result = polyMulti(p1, p2);
 		}
 		else if (select == 10)
 			printMenu();
@@ -568,6 +585,171 @@ polynomial *polySum(polynomial *p1, polynomial *p2)
 			}
 			j--;
 		}
+	}
+	return result;
+}
+
+polynomial *polySub(polynomial *p1, polynomial *p2)
+{
+	int i, j, highP1, highP2;
+	polynomial *result;
+	nodeDL *node1, *node2;
+
+	result = newPolynomial();
+
+	if (p1 == NULL || p2 == NULL)
+	{
+		printf("you must initialize polinomial 1 and 2, use function 1\n");
+		return NULL;
+	}
+	else if (p1->size == 0 && p2->size == 0)
+	{
+		return result;
+	}
+
+	node1 = p1->tail;
+	node2 = p2->tail;
+
+	i = p1->size;
+	j = p2->size;
+
+	if (node1 == NULL)
+	{
+		highP1 = -1;
+		highP2 = node2->pow;
+	}
+	else if (node2 == NULL)
+	{
+		highP1 = node1->pow;
+		highP2 = -1;
+	}
+	else
+	{
+		highP1 = node1->pow;
+		highP2 = node2->pow;
+	}
+
+	while (i > 0 || j > 0)
+	{
+		if (highP1 == highP2)
+		{
+			if (node1->num - node2->num)
+			{
+				polyAddNum(result, node1->num - node2->num, highP1);
+			}
+			if (i == 1 && j == 1)
+			{
+				highP1 = -1;
+				highP2 = -1;
+			}
+			else if (i == 1)
+			{
+				highP1 = -1;
+			}
+			else if (j == 1)
+			{
+				highP2 = -1;
+			}
+			else
+			{
+				node1 = node1->prev;
+				node2 = node2->prev;
+				highP1 = node1->pow;
+				highP2 = node2->pow;
+			}
+			i--;
+			j--;
+		}
+		else if (highP1 > highP2)
+		{
+			polyAddNum(result, -node1->num, highP1);
+			if (i == 1)
+			{
+				highP1 = -1;
+			}
+			else
+			{
+				node1 = node1->prev;
+				highP1 = node1->pow;
+			}
+			i--;
+		}
+		else if (highP2 > highP1)
+		{
+			polyAddNum(result, -node2->num, highP2);
+			if (j == 1)
+			{
+				highP2 = -1;
+			}
+			else
+			{
+				node2 = node2->prev;
+				highP2 = node2->pow;
+			}
+			j--;
+		}
+	}
+	return result;
+}
+
+polynomial *polyMultiConst(polynomial *p1, int constant)
+{
+	int i;
+	polynomial * result;
+	nodeDL *node;
+	result = newPolynomial();
+
+	if (p1 == NULL)
+	{
+		printf("you must initialize polinomial, use function 1\n");
+		return NULL;
+	}
+
+	if (p1->size == 0)
+		return result;
+
+	{
+		node = p1->head;
+		for (i = p1->size;i > 0;i--)
+		{
+			polyAddNum(result, node->num*constant, node->pow);
+			node = node->next;
+		}
+	}
+	return result;
+}
+
+polynomial *polyMulti(polynomial *p1, polynomial *p2)
+{
+	polynomial *result;
+	nodeDL *node1, *node2;
+	int i, j;
+	result = newPolynomial();
+	if (p1 == NULL || p2 == NULL)
+	{
+		printf("you must initialize polinomial 1 and 2, use function 1\n");
+		return NULL;
+	}
+	else if (p1->size == 0 && p2->size == 0)
+	{
+		return result;
+	}
+
+	node1 = p1->head;
+	node2 = p2->head;
+
+	for (i = p1->size;i > 0;i--)
+	{
+		for (j = p2->size; j > 0;j--)
+		{
+			if (node1->num*node2->num)
+			{
+				polyAddNum(result, node1->num*node2->num, node1->pow + node2->pow);
+			}
+			node2 = node2->next;
+		}
+		node1 = node1->next;
+		node2 = p2->head;
 	}
 	return result;
 }

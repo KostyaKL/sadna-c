@@ -83,24 +83,34 @@ void polyPrintBck(polynomial *list)
 	for (i = list->size; i > 0; i--)
 	{
 		if (node->pow == 0)
+		{
 			if (i < list->size  && node->num > 0)
 				printf("+%d", node->num);
 			else
 				printf("%d", node->num);
+		}
 		else if (node->pow == 1)
-			if (i<list->size && node->num == 1)
+		{
+			if (i < list->size && node->num == 1)
 				printf("+X");
 			else if (node->num == -1)
 				printf("-X");
-			else if (i<list->size)
+			else if (i < list->size && node->num > 1)
 				printf("+%dX", node->num);
 			else
 				printf("%dX", node->num);
+		}
 		else
-			if (i<list->size && node->num >0)
+		{
+			if (i < list->size && node->num == 1)
+				printf("+X^%d", node->pow);
+			else if (node->num == -1)
+				printf("-X^%d", node->pow);
+			else if (i < list->size && node->num > 1)
 				printf("+%dX^%d", node->num, node->pow);
 			else
 				printf("%dX^%d", node->num, node->pow);
+		}
 		node = node->prev;
 	}
 }
