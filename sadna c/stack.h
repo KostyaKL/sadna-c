@@ -51,3 +51,11 @@ int emptyRStack(stackRT *stack);
 int fullRStack(stackRT *stack);
 
 void printRStack(stackRT *stack);
+
+int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt);
+
+void writeLine(stackCT *opr, stackCT *act, stackRT *rslt, char *resIndex);
+
+void inputPush(stackCT *act, char input, int *flagOne, int *flagNull);
+
+void clearStdi(); //function to clear stdin buffer

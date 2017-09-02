@@ -28,3 +28,29 @@ void polyPrintBck(polynomial *list);
 void polyDeleteSingle(polynomial *list, nodeDL *node);
 
 void freePoly(polynomial *list);
+
+
+polynomial *polySend(polynomial *p1, polynomial *p2, polynomial *result);
+
+void emptyPoly(polynomial **p1);
+
+void polyAddNum(polynomial *p1, int num, int pow);
+
+polynomial *polySum(polynomial *p1, polynomial *p2);
+
+polynomial *polySub(polynomial *p1, polynomial *p2);
+
+polynomial *polyMultiConst(polynomial *p1, int constant);
+
+int polySize(polynomial *p1);
+
+void zeroPoly(polynomial *p1);
+
+void polyPrintBck(polynomial *list);
+
+polynomial *polyMulti(polynomial *p1, polynomial *p2);
+
+
+nodeDL *findPow(polynomial *p1, int pow);
+
+nodeDL *findNextPow(polynomial *p1, int pow);

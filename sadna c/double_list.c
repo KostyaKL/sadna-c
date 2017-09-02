@@ -12,6 +12,8 @@ polynomial *newPolynomial()
 	return list;
 }
 
+///////////////////////////////////////////////////////////////
+
 void polyInsertFirst(polynomial *list, int num, int pow)
 {
 	nodeDL *node;
@@ -28,6 +30,8 @@ void polyInsertFirst(polynomial *list, int num, int pow)
 	list->size++;
 }
 
+///////////////////////////////////////////////////////////////
+
 void polyInsertLast(polynomial *list, int num, int pow)
 {
 	nodeDL *node;
@@ -43,6 +47,8 @@ void polyInsertLast(polynomial *list, int num, int pow)
 	list->tail = node;
 	list->size++;
 }
+
+///////////////////////////////////////////////////////////////
 
 void polyPrintFwd(polynomial *list)
 {
@@ -68,6 +74,402 @@ void polyPrintFwd(polynomial *list)
 		node = node->next;
 	}
 }
+
+///////////////////////////////////////////////////////////////
+
+void polyDeleteSingle(polynomial *list, nodeDL *node)
+{
+	if (list->size == 1)
+	{
+		list->head = NULL;
+		list->tail = NULL;
+	}
+	else if (node->prev == NULL)
+	{
+		list->head = node->next;
+		node->next->prev = node->prev;
+	}
+	else if (node->next == NULL)
+	{
+		list->tail = node->prev;
+		node->prev->next = node->next;
+	}
+	else
+	{
+		node->next->prev = node->prev;
+		node->prev->next = node->next;
+	}
+	list->size--;
+	free(node);
+}
+
+///////////////////////////////////////////////////////////////
+
+void freePoly(polynomial *list)
+{
+	nodeDL *node;
+	node = list->head;
+	while (list->size) //free every single node
+	{
+		list->head = node->next;
+		free(node);
+		node = list->head;
+		list->size--;
+	}
+	free(list); //free the list header
+}
+
+///////////////////////////////////////////////////////////////
+
+polynomial *polySend(polynomial *p1, polynomial *p2, polynomial *result)
+{
+	int choise;
+	polynomial *send;
+
+	printf("choose to which polynomial apply the func?\n"
+		"p1\t- choose 1\n"
+		"p2\t- choose 2\n"
+		"result\t- choose 3\n"
+		"cancel\t- choose 0\n\n"
+		"choise: ");
+	do
+	{
+		scanf("%d", &choise);
+		if (choise < 0 || choise > 3)
+			printf("your choise must be 0/1/2/3, try again: ");
+	} while (choise < 0 || choise > 3);
+	if (choise == 1)
+	{
+		send = p1;
+		if (send == NULL)
+			printf("you must create a polynomial, choose function 1 in main menu\n");
+	}
+	else if (choise == 2)
+	{
+		send = p2;
+		if (send == NULL)
+			printf("you must create a polynomial, choose function 1 in main menu\n");
+	}
+	else if (choise == 3)
+	{
+		send = result;
+		if (send == NULL)
+			printf("result polynomial does not exist, choose function 3/4/5 in main menu to create it\n");
+	}
+	else
+		send = NULL;
+	printf("\n");
+	return send;
+}
+
+///////////////////////////////////////////////////////////////
+
+void emptyPoly(polynomial **p1)
+{
+	*p1 = newPolynomial();
+	printf("you have created a new polynimial\n\n");
+}
+
+///////////////////////////////////////////////////////////////
+
+void polyAddNum(polynomial *p1, int num, int pow)
+{
+	nodeDL *node, *insert;
+	if (p1->size == 0)
+	{
+		polyInsertFirst(p1, num, pow);
+		return;
+	}
+
+	node = findPow(p1, pow);
+	if (node)
+	{
+		node->num += num;
+		if (node->num == 0)
+			polyDeleteSingle(p1, node);
+	}
+	else
+	{
+		node = findNextPow(p1, pow);
+		if (node)
+			if (node->prev == NULL)
+				polyInsertFirst(p1, num, pow);
+			else
+			{
+				insert = (nodeDL*)malloc(sizeof(nodeDL));
+				insert->num = num;
+				insert->pow = pow;
+				insert->prev = node->prev;
+				insert->next = node;
+				node->prev->next = insert;
+				node->prev = insert;
+				p1->size++;
+			}
+		else
+			polyInsertLast(p1, num, pow);
+	}
+}
+
+///////////////////////////////////////////////////////////////
+
+polynomial *polySum(polynomial *p1, polynomial *p2)
+{
+	int i, j, highP1, highP2;
+	polynomial *result;
+	nodeDL *node1, *node2;
+
+	result = newPolynomial();
+
+	if (p1 == NULL || p2 == NULL)
+	{
+		printf("you must initialize polinomial 1 and 2, use function 1\n");
+		return NULL;
+	}
+	else if (p1->size == 0 && p2->size == 0)
+	{
+		return result;
+	}
+
+	node1 = p1->tail;
+	node2 = p2->tail;
+
+	i = p1->size;
+	j = p2->size;
+
+	if (node1 == NULL)
+	{
+		highP1 = -1;
+		highP2 = node2->pow;
+	}
+	else if (node2 == NULL)
+	{
+		highP1 = node1->pow;
+		highP2 = -1;
+	}
+	else
+	{
+		highP1 = node1->pow;
+		highP2 = node2->pow;
+	}
+
+	while (i > 0 || j > 0)
+	{
+		if (highP1 == highP2)
+		{
+			if (node1->num + node2->num)
+			{
+				polyAddNum(result, node1->num + node2->num, highP1);
+			}
+			if (i == 1 && j == 1)
+			{
+				highP1 = -1;
+				highP2 = -1;
+			}
+			else if (i == 1)
+			{
+				highP1 = -1;
+			}
+			else if (j == 1)
+			{
+				highP2 = -1;
+			}
+			else
+			{
+				node1 = node1->prev;
+				node2 = node2->prev;
+				highP1 = node1->pow;
+				highP2 = node2->pow;
+			}
+			i--;
+			j--;
+		}
+		else if (highP1 > highP2)
+		{
+			polyAddNum(result, node1->num, highP1);
+			if (i == 1)
+			{
+				highP1 = -1;
+			}
+			else
+			{
+				node1 = node1->prev;
+				highP1 = node1->pow;
+			}
+			i--;
+		}
+		else if (highP2 > highP1)
+		{
+			polyAddNum(result, node2->num, highP2);
+			if (j == 1)
+			{
+				highP2 = -1;
+			}
+			else
+			{
+				node2 = node2->prev;
+				highP2 = node2->pow;
+			}
+			j--;
+		}
+	}
+	return result;
+}
+
+///////////////////////////////////////////////////////////////
+
+polynomial *polySub(polynomial *p1, polynomial *p2)
+{
+	int i, j, highP1, highP2;
+	polynomial *result;
+	nodeDL *node1, *node2;
+
+	result = newPolynomial();
+
+	if (p1 == NULL || p2 == NULL)
+	{
+		printf("you must initialize polinomial 1 and 2, use function 1\n");
+		return NULL;
+	}
+	else if (p1->size == 0 && p2->size == 0)
+	{
+		return result;
+	}
+
+	node1 = p1->tail;
+	node2 = p2->tail;
+
+	i = p1->size;
+	j = p2->size;
+
+	if (node1 == NULL)
+	{
+		highP1 = -1;
+		highP2 = node2->pow;
+	}
+	else if (node2 == NULL)
+	{
+		highP1 = node1->pow;
+		highP2 = -1;
+	}
+	else
+	{
+		highP1 = node1->pow;
+		highP2 = node2->pow;
+	}
+
+	while (i > 0 || j > 0)
+	{
+		if (highP1 == highP2)
+		{
+			if (node1->num - node2->num)
+			{
+				polyAddNum(result, node1->num - node2->num, highP1);
+			}
+			if (i == 1 && j == 1)
+			{
+				highP1 = -1;
+				highP2 = -1;
+			}
+			else if (i == 1)
+			{
+				highP1 = -1;
+			}
+			else if (j == 1)
+			{
+				highP2 = -1;
+			}
+			else
+			{
+				node1 = node1->prev;
+				node2 = node2->prev;
+				highP1 = node1->pow;
+				highP2 = node2->pow;
+			}
+			i--;
+			j--;
+		}
+		else if (highP1 > highP2)
+		{
+			polyAddNum(result, node1->num, highP1);
+			if (i == 1)
+			{
+				highP1 = -1;
+			}
+			else
+			{
+				node1 = node1->prev;
+				highP1 = node1->pow;
+			}
+			i--;
+		}
+		else if (highP2 > highP1)
+		{
+			polyAddNum(result, -node2->num, highP2);
+			if (j == 1)
+			{
+				highP2 = -1;
+			}
+			else
+			{
+				node2 = node2->prev;
+				highP2 = node2->pow;
+			}
+			j--;
+		}
+	}
+	return result;
+}
+
+///////////////////////////////////////////////////////////////
+
+polynomial *polyMultiConst(polynomial *p1, int constant)
+{
+	int i;
+	polynomial * result;
+	nodeDL *node;
+	result = newPolynomial();
+
+	if (p1 == NULL)
+	{
+		printf("you must initialize polinomial, use function 1\n");
+		return NULL;
+	}
+
+	if (p1->size == 0)
+		return result;
+
+	{
+		node = p1->head;
+		for (i = p1->size;i > 0;i--)
+		{
+			polyAddNum(result, node->num*constant, node->pow);
+			node = node->next;
+		}
+	}
+	return result;
+}
+
+///////////////////////////////////////////////////////////////
+
+int polySize(polynomial *p1)
+{
+	if (p1->size)
+		return p1->size;
+	return -1;
+}
+
+///////////////////////////////////////////////////////////////
+
+void zeroPoly(polynomial *p1)
+{
+	nodeDL *node;
+	if (p1->size == 0)
+		return;
+	for (node = p1->head; p1->size > 0; node = p1->head)
+		polyDeleteSingle(p1, node);
+}
+
+///////////////////////////////////////////////////////////////
 
 void polyPrintBck(polynomial *list)
 {
@@ -115,42 +517,75 @@ void polyPrintBck(polynomial *list)
 	}
 }
 
-void polyDeleteSingle(polynomial *list, nodeDL *node)
+///////////////////////////////////////////////////////////////
+
+polynomial *polyMulti(polynomial *p1, polynomial *p2)
 {
-	if (list->size == 1)
+	polynomial *result;
+	nodeDL *node1, *node2;
+	int i, j;
+	result = newPolynomial();
+	if (p1 == NULL || p2 == NULL)
 	{
-		list->head = NULL;
-		list->tail = NULL;
+		printf("you must initialize polinomial 1 and 2, use function 1\n");
+		return NULL;
 	}
-	else if (node->prev == NULL)
+	else if (p1->size == 0 && p2->size == 0)
 	{
-		list->head = node->next;
-		node->next->prev = node->prev;
+		return result;
 	}
-	else if (node->next == NULL)
+
+	node1 = p1->head;
+	node2 = p2->head;
+
+	for (i = p1->size;i > 0;i--)
 	{
-		list->tail = node->prev;
-		node->prev->next = node->next;
+		for (j = p2->size; j > 0;j--)
+		{
+			if (node1->num*node2->num)
+			{
+				polyAddNum(result, node1->num*node2->num, node1->pow + node2->pow);
+			}
+			node2 = node2->next;
+		}
+		node1 = node1->next;
+		node2 = p2->head;
 	}
-	else
-	{
-		node->next->prev = node->prev;
-		node->prev->next = node->next;
-	}
-	list->size--;
-	free(node);
+	return result;
 }
 
-void freePoly(polynomial *list)
+///////////////////////////////////////////////////////////////
+
+nodeDL *findPow(polynomial *p1, int pow)
 {
+	int i;
 	nodeDL *node;
-	node = list->head;
-	while (list->size) //free every single node
-	{
-		list->head = node->next;
-		free(node);
-		node = list->head;
-		list->size--;
-	}
-	free(list); //free the list header
+	node = p1->head;
+	if (p1->size == 0)
+		return NULL;
+	else
+		for (i = 0; i < p1->size; i++)
+			if (node->pow == pow)
+				return node;
+			else
+				node = node->next;
+	return NULL;
+}
+
+///////////////////////////////////////////////////////////////
+
+nodeDL *findNextPow(polynomial *p1, int pow)
+{
+	int i;
+	nodeDL *node;
+	node = p1->head;
+	if (p1->size == 0)
+		return NULL;
+	else
+		for (i = 0; i < p1->size; i++)
+			if (node->pow > pow)
+				return node;
+			else
+				node = node->next;
+	return NULL;
 }
