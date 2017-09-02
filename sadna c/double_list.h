@@ -6,51 +6,48 @@ typedef struct nodedl
 	int pow;
 	struct nodedl *next;
 	struct nodedl *prev;
-}nodeDL;
+}nodeDL; //define node for double list containing two integers
 
 typedef struct
 {
 	nodeDL *head;
 	nodeDL *tail;
 	int size;
-}polynomial;
+}polynomial; //define double list of nodeDL type
 
-polynomial *newPolynomial();
+polynomial *newPolynomial(); //create new double list
 
-void polyInsertFirst(polynomial *list, int num, int pow);
+void polyInsertFirst(polynomial *list, int num, int pow); //insert node at the begining of the list
 
-void polyInsertLast(polynomial *list, int num, int pow);
+void polyInsertLast(polynomial *list, int num, int pow); //insert noed at the end of the list
 
-void polyPrintFwd(polynomial *list);
+void polyDeleteSingle(polynomial *list, nodeDL *node); //delete single node from list
 
-void polyPrintBck(polynomial *list);
-
-void polyDeleteSingle(polynomial *list, nodeDL *node);
-
-void freePoly(polynomial *list);
+void freePoly(polynomial *list); //free the memory was alocated for thr list and its nodes
 
 
-polynomial *polySend(polynomial *p1, polynomial *p2, polynomial *result);
-
-void emptyPoly(polynomial **p1);
-
-void polyAddNum(polynomial *p1, int num, int pow);
-
-polynomial *polySum(polynomial *p1, polynomial *p2);
-
-polynomial *polySub(polynomial *p1, polynomial *p2);
-
-polynomial *polyMultiConst(polynomial *p1, int constant);
-
-int polySize(polynomial *p1);
-
-void zeroPoly(polynomial *p1);
-
-void polyPrintBck(polynomial *list);
-
-polynomial *polyMulti(polynomial *p1, polynomial *p2);
+polynomial *polySend(polynomial *p1, polynomial *p2, polynomial *result); //user choise of p1,p2,result lists
 
 
-nodeDL *findPow(polynomial *p1, int pow);
+void emptyPoly(polynomial **p1); //create empty polynomal list
 
-nodeDL *findNextPow(polynomial *p1, int pow);
+void polyAddNum(polynomial *p1, int num, int pow); //add a*X^b item to the polynome
+
+polynomial *polySum(polynomial *p1, polynomial *p2); //return the sum of p1+p2
+
+polynomial *polySub(polynomial *p1, polynomial *p2); //return the substruction of p1-p2
+
+polynomial *polyMultiConst(polynomial *p1, int constant); //return the result for polynome * constant
+
+int polySize(polynomial *p1); //return the size of the polynome
+
+void zeroPoly(polynomial *p1); //zeroise the polynome
+
+void polyPrintBck(polynomial *list); //print the polynome (print backwards function as the largest power item will be in the end of the list
+
+polynomial *polyMulti(polynomial *p1, polynomial *p2); //return the multiplication of p1*p2
+
+
+nodeDL *findPow(polynomial *p1, int pow); //find a node with a specific power
+
+nodeDL *findNextPow(polynomial *p1, int pow); //find a node with the next power

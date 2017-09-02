@@ -5,7 +5,7 @@
 polynomial *newPolynomial()
 {
 	polynomial *list;
-	list = (polynomial*)malloc(sizeof(polynomial));
+	list = (polynomial*)malloc(sizeof(polynomial)); //allocate memory for list and initialize its items
 	list->head = NULL;
 	list->tail = NULL;
 	list->size = 0;
@@ -17,7 +17,7 @@ polynomial *newPolynomial()
 void polyInsertFirst(polynomial *list, int num, int pow)
 {
 	nodeDL *node;
-	node = (nodeDL*)malloc(sizeof(nodeDL));
+	node = (nodeDL*)malloc(sizeof(nodeDL)); //allocate memory for a new node and initialize its items
 	node->num = num;
 	node->pow = pow;
 	if (list->size == 0)
@@ -26,7 +26,7 @@ void polyInsertFirst(polynomial *list, int num, int pow)
 		list->head->prev = node;
 	node->next = list->head;
 	node->prev = NULL;
-	list->head = node;
+	list->head = node; //update the list items
 	list->size++;
 }
 
@@ -35,7 +35,7 @@ void polyInsertFirst(polynomial *list, int num, int pow)
 void polyInsertLast(polynomial *list, int num, int pow)
 {
 	nodeDL *node;
-	node = (nodeDL*)malloc(sizeof(nodeDL));
+	node = (nodeDL*)malloc(sizeof(nodeDL)); //allocate memory for a new node and initialize its items
 	node->num = num;
 	node->pow = pow;
 	if (list->size == 0)
@@ -44,41 +44,15 @@ void polyInsertLast(polynomial *list, int num, int pow)
 		list->tail->next = node;
 	node->next = NULL;
 	node->prev = list->tail;
-	list->tail = node;
+	list->tail = node; //update the list items
 	list->size++;
-}
-
-///////////////////////////////////////////////////////////////
-
-void polyPrintFwd(polynomial *list)
-{
-	int i;
-	nodeDL *node;
-	if (list->size == 0)
-	{
-		printf("The list is empty\n");
-		return;
-	}
-	node = list->head;
-	for (i = 1;i <= list->size;i++)
-	{
-		if (node->pow == 0)
-			printf("%d", node->num);
-		else if (node->pow == 1)
-			if (node->num == 1)
-				printf("X");
-			else
-				printf("%dX", node->num);
-		else
-			printf("%dX^%d", node->num, node->pow);
-		node = node->next;
-	}
 }
 
 ///////////////////////////////////////////////////////////////
 
 void polyDeleteSingle(polynomial *list, nodeDL *node)
 {
+	//update list items
 	if (list->size == 1)
 	{
 		list->head = NULL;
@@ -100,7 +74,7 @@ void polyDeleteSingle(polynomial *list, nodeDL *node)
 		node->prev->next = node->next;
 	}
 	list->size--;
-	free(node);
+	free(node); //free the memory was allocated for the node
 }
 
 ///////////////////////////////////////////////////////////////
@@ -137,7 +111,7 @@ polynomial *polySend(polynomial *p1, polynomial *p2, polynomial *result)
 		scanf("%d", &choise);
 		if (choise < 0 || choise > 3)
 			printf("your choise must be 0/1/2/3, try again: ");
-	} while (choise < 0 || choise > 3);
+	} while (choise < 0 || choise > 3); //restrict user choise
 	if (choise == 1)
 	{
 		send = p1;
@@ -159,14 +133,14 @@ polynomial *polySend(polynomial *p1, polynomial *p2, polynomial *result)
 	else
 		send = NULL;
 	printf("\n");
-	return send;
+	return send; //return user choise
 }
 
 ///////////////////////////////////////////////////////////////
 
 void emptyPoly(polynomial **p1)
 {
-	*p1 = newPolynomial();
+	*p1 = newPolynomial(); //create new list for polynomial
 	printf("you have created a new polynimial\n\n");
 }
 
@@ -175,26 +149,26 @@ void emptyPoly(polynomial **p1)
 void polyAddNum(polynomial *p1, int num, int pow)
 {
 	nodeDL *node, *insert;
-	if (p1->size == 0)
+	if (p1->size == 0) //if p1 is empty list
 	{
 		polyInsertFirst(p1, num, pow);
 		return;
 	}
 
-	node = findPow(p1, pow);
-	if (node)
+	node = findPow(p1, pow); //search if there is already a node with the same power
+	if (node) //if so
 	{
-		node->num += num;
-		if (node->num == 0)
+		node->num += num; //add the multipliers
+		if (node->num == 0) //if the outcome is 0 then remove the node from the list
 			polyDeleteSingle(p1, node);
 	}
-	else
+	else //if the power was not found
 	{
-		node = findNextPow(p1, pow);
-		if (node)
-			if (node->prev == NULL)
-				polyInsertFirst(p1, num, pow);
-			else
+		node = findNextPow(p1, pow); //search for the next power
+		if (node) //if found
+			if (node->prev == NULL) //if the next power found in the first node
+				polyInsertFirst(p1, num, pow); //enter currnt item at the begining
+			else //insert the current item before the node that wsa found
 			{
 				insert = (nodeDL*)malloc(sizeof(nodeDL));
 				insert->num = num;
@@ -205,8 +179,8 @@ void polyAddNum(polynomial *p1, int num, int pow)
 				node->prev = insert;
 				p1->size++;
 			}
-		else
-			polyInsertLast(p1, num, pow);
+		else //if next power was not found
+			polyInsertLast(p1, num, pow); //enter the current item at the end
 	}
 }
 
@@ -427,7 +401,7 @@ polynomial *polyMultiConst(polynomial *p1, int constant)
 	int i;
 	polynomial * result;
 	nodeDL *node;
-	result = newPolynomial();
+	result = newPolynomial(); //create empty list for result
 
 	if (p1 == NULL)
 	{
@@ -435,17 +409,16 @@ polynomial *polyMultiConst(polynomial *p1, int constant)
 		return NULL;
 	}
 
-	if (p1->size == 0)
+	if (p1->size == 0) //if p1 is 0 the return empty list
 		return result;
-
+	
+	node = p1->head;
+	for (i = p1->size;i > 0;i--)
 	{
-		node = p1->head;
-		for (i = p1->size;i > 0;i--)
-		{
-			polyAddNum(result, node->num*constant, node->pow);
-			node = node->next;
-		}
+		polyAddNum(result, node->num*constant, node->pow); //add to result each item*constant using pollyAddNum() function
+		node = node->next;
 	}
+	
 	return result;
 }
 
@@ -453,7 +426,7 @@ polynomial *polyMultiConst(polynomial *p1, int constant)
 
 int polySize(polynomial *p1)
 {
-	if (p1->size)
+	if (p1->size) //return the size of the list
 		return p1->size;
 	return -1;
 }
@@ -465,7 +438,7 @@ void zeroPoly(polynomial *p1)
 	nodeDL *node;
 	if (p1->size == 0)
 		return;
-	for (node = p1->head; p1->size > 0; node = p1->head)
+	for (node = p1->head; p1->size > 0; node = p1->head) //delete all nodes from list (only nodes)
 		polyDeleteSingle(p1, node);
 }
 
@@ -524,13 +497,13 @@ polynomial *polyMulti(polynomial *p1, polynomial *p2)
 	polynomial *result;
 	nodeDL *node1, *node2;
 	int i, j;
-	result = newPolynomial();
+	result = newPolynomial(); //create empty list for result
 	if (p1 == NULL || p2 == NULL)
 	{
 		printf("you must initialize polinomial 1 and 2, use function 1\n");
 		return NULL;
 	}
-	else if (p1->size == 0 && p2->size == 0)
+	else if (p1->size == 0 && p2->size == 0) //if both polynomes are 0 retrun empty list
 	{
 		return result;
 	}
@@ -540,11 +513,11 @@ polynomial *polyMulti(polynomial *p1, polynomial *p2)
 
 	for (i = p1->size;i > 0;i--)
 	{
-		for (j = p2->size; j > 0;j--)
+		for (j = p2->size; j > 0;j--) //multiply each item from p1 by each item from p2
 		{
-			if (node1->num*node2->num)
+			if (node1->num*node2->num) //if the result not 0
 			{
-				polyAddNum(result, node1->num*node2->num, node1->pow + node2->pow);
+				polyAddNum(result, node1->num*node2->num, node1->pow + node2->pow); //add to result each using pollyAddNum() function
 			}
 			node2 = node2->next;
 		}
@@ -564,12 +537,12 @@ nodeDL *findPow(polynomial *p1, int pow)
 	if (p1->size == 0)
 		return NULL;
 	else
-		for (i = 0; i < p1->size; i++)
+		for (i = 0; i < p1->size; i++) //search a node with a specific power
 			if (node->pow == pow)
 				return node;
 			else
 				node = node->next;
-	return NULL;
+	return NULL; //if not found return NULL
 }
 
 ///////////////////////////////////////////////////////////////
@@ -582,10 +555,10 @@ nodeDL *findNextPow(polynomial *p1, int pow)
 	if (p1->size == 0)
 		return NULL;
 	else
-		for (i = 0; i < p1->size; i++)
+		for (i = 0; i < p1->size; i++) //search a node with the next power after pow
 			if (node->pow > pow)
 				return node;
 			else
 				node = node->next;
-	return NULL;
+	return NULL; //if not found return NULL
 }

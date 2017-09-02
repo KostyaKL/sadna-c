@@ -60,15 +60,15 @@ void hagasha_2_mivne()
 
 void h1_ex1_m()
 {
-	stackCT opr, act;
-	stackRT result;
-	newCStack(&opr);
-	newCStack(&act);
-	newRStack(&result);
+	stackCT opr, act; //opr - stack for operators, act - stack for actions
+	stackRT result; //result - stack for result line for each action
+	newCStack(&opr); //initialize new stack
+	newCStack(&act); //initialize new stack
+	newRStack(&result); //initialize new stack
 
 	printf("Enter your expression:\n");
-	if (expressionInterpreter(&opr, &act, &result))
-		printRStack(&result);
+	if (expressionInterpreter(&opr, &act, &result)) //if the function expressionInterpreter() returns 1 then print the result, expressionInterpreter() explained in stack.c file
+		printRStack(&result); //function to print the result
 	else
 		printf("Ilegal char was entered\n");
 
@@ -80,50 +80,54 @@ void h1_ex1_m()
 
 void h1_ex2_m()
 {
-	int select = 0;
-	int num, pow;
-	int constant;
-	polynomial *p1, *p2, *send, *result;
-	p1 = NULL;
+	int select = 0; //value to choose a function to run
+	int num, pow; //values for X multiplier and power
+	int constant; //value to moltiply a polynomial by
+	polynomial *p1, *p2, *send, *result; //p1, p2 - polynomial linked lists, send - a list to be used after user choise, result - result of arithmatic action on p1 and p2
+	//initial values for p1,p2,result
+	p1 = NULL; 
 	p2 = NULL;
 	result = NULL;
 
-	printMenu();
+	printMenu(); //print the menu of functions
 
-	do
+	do 
 	{
-		do
+		do 
 		{
 			select = 0;
 			printf("please select 0-10 : ");
 			scanf("%d", &select);
-		} while ((select < 0) || (select > 10));//loop to get a correct input from the user to choose the exercise to show
+		} while ((select < 0) || (select > 10)); //loop to get a correct input from the user to choose the function to run
 		printf("\n");
-		send = NULL;
+		send = NULL; //zeroise send list
+		//function menu 'if' function
 		if (select == 1)
 		{
 			printf("Create empty polynomial\n"
 				   "-----------------------\n");
-			if (send = polySend(&p1, &p2, result))
-				emptyPoly(send);
+			if (send = polySend(&p1, &p2, result)) //if user selected p1 or p2
+			{
+				emptyPoly(send);//update the list items
+			} 
 		}
 		else if (select == 2)
 		{
 			printf("Add item to polynomial\n"
 				   "----------------------\n");
-			if (send = polySend(p1, p2, result))
+			if (send = polySend(p1, p2, result)) //if user selected p1 or p2
 			{
-				userNumPow(&num, &pow);
-				polyAddNum(send, num, pow);
+				userNumPow(&num, &pow); //get multiplier and power from user
+				polyAddNum(send, num, pow); //add a*X^b number to the polynomial
 			}
 		}
 		else if (select == 3)
 		{
 			printf("Sum of polynomial applied: result = p1 + p2\n\n");
-			if (result)
+			if (result) //zeroise result list
 				freePoly(result);
-			result = polySum(p1, p2);
-			if (p1 && p2 && result)
+			result = polySum(p1, p2); //add p1+p2
+			if (p1 && p2 && result) //print the result
 			{
 				polyPrintBck(p1);
 				printf(" + ");
@@ -136,10 +140,10 @@ void h1_ex2_m()
 		else if (select == 4)
 		{
 			printf("Substract polynomial applied: result = p1 - p2\n\n");
-			if (result)
+			if (result) //zeroise result list
 				freePoly(result);
-			result = polySub(p1, p2);
-			if (p1 && p2 && result)
+			result = polySub(p1, p2); //substract p1-p2
+			if (p1 && p2 && result) //print the result
 			{
 				polyPrintBck(p1);
 				printf(" - ");
@@ -155,12 +159,12 @@ void h1_ex2_m()
 				   "-------------------------------\n");
 			printf("Enter a constant you want to multiply by: ");
 			scanf("%d", &constant);
-			if (send = polySend(p1, p2, result))
+			if (send = polySend(p1, p2, result)) //if user selected p1 or p2
 			{
 				printf("result = p * %d\n\n", constant);
-				result = polyMultiConst(send, constant);
+				result = polyMultiConst(send, constant); //multiply chooesn polynomial by constant
 			}
-			if (send && result)
+			if (send && result) //print the result
 			{
 				printf("(");
 				polyPrintBck(p1);
@@ -174,34 +178,34 @@ void h1_ex2_m()
 		{
 			printf("Size of polynomial\n"
 				   "------------------\n");
-			if (send = polySend(p1, p2, result))
-				printf("The size of the polynome is: %d\n", polySize(send));
+			if (send = polySend(p1, p2, result)) //if user selected p1 or p2
+				printf("The size of the polynome is: %d\n", polySize(send)); //print the size of chosen polynomial
 		}
 		else if (select == 7)
 		{
 			printf("Zeroise polynomial\n"
-				   "------------------\n");
-			if (send = polySend(p1, p2, result))
-				zeroPoly(send);
+				   "------------------\n"); 
+			if (send = polySend(p1, p2, result)) //if user selected p1 or p2
+				zeroPoly(send); //zeroise the choosen polynomial
 		}
 		else if (select == 8)
 		{
 			printf("Print polynomial\n"
 				   "----------------\n");
-			if (send = polySend(p1, p2, result))
+			if (send = polySend(p1, p2, result)) //if user selected p1 or p2
 			{
 				printf("Polinomal:\n");
-				polyPrintBck(send);
+				polyPrintBck(send); //print the chosen polynomial
 				printf("\n\n");
 			}
 		}
 		else if (select == 9)
 		{
 			printf("Multiply polynomial applied: result = p1 * p2\n\n");
-			if (result)
+			if (result) //zeroise result list
 				freePoly(result);
-			result = polyMulti(p1, p2);
-			if (p1 && p2 && result)
+			result = polyMulti(p1, p2); //multiply p1*p2
+			if (p1 && p2 && result) //print the result
 			{
 				polyPrintBck(p1);
 				printf(" * ");
@@ -212,16 +216,16 @@ void h1_ex2_m()
 			}
 		}
 		else if (select == 10)
-			printMenu();
+			printMenu(); 
 
 	} while (select); //determin if the program will return to main menu at the end of an exersice or it will exit
 					  //return main();
 
-	if (p1)
+	if (p1) //if p1 was used the release the memory was allocated to it
 		freePoly(p1);
-	if (p2)
+	if (p2) //if p2 was used the release the memory was allocated to it
 		freePoly(p2);
-	if (result)
+	if (result) //if result was used the release the memory was allocated to it
 		freePoly(result);
 	printf("\n");
 	system("pause");
@@ -229,12 +233,11 @@ void h1_ex2_m()
 
 ///////////////////////////////////////////////////////////////
 
-void userNumPow(int *num, int *pow)
+void userNumPow(int *num, int *pow) //function to get a number and power from the user
 {
 	printf("Enter X multiplier and X power:\n");
-
 	printf("mult: ");
-	do
+	do //the multiplier cannot be equal to zero
 	{
 		scanf("%d", num);
 		if (*num == 0)
@@ -242,7 +245,7 @@ void userNumPow(int *num, int *pow)
 	} while (*num == 0);
 
 	printf("power: ");
-	do
+	do //the power must be a non negative integer
 	{
 		scanf("%d", pow);
 		if (*pow < 0)
@@ -253,7 +256,7 @@ void userNumPow(int *num, int *pow)
 
 ///////////////////////////////////////////////////////////////
 
-void printMenu()
+void printMenu() //function to print the menu of ex 2
 {
 	printf("Polynomal\n");
 	printf("Choose polynomal function: \n");
