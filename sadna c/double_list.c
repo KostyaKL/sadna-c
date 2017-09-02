@@ -192,14 +192,14 @@ polynomial *polySum(polynomial *p1, polynomial *p2)
 	polynomial *result;
 	nodeDL *node1, *node2;
 
-	result = newPolynomial();
+	result = newPolynomial(); //create empty list for result
 
 	if (p1 == NULL || p2 == NULL)
 	{
 		printf("you must initialize polinomial 1 and 2, use function 1\n");
 		return NULL;
 	}
-	else if (p1->size == 0 && p2->size == 0)
+	else if (p1->size == 0 && p2->size == 0) //if p1 and p2 are empty return empty list
 	{
 		return result;
 	}
@@ -226,13 +226,13 @@ polynomial *polySum(polynomial *p1, polynomial *p2)
 		highP2 = node2->pow;
 	}
 
-	while (i > 0 || j > 0)
+	while (i > 0 || j > 0) //go through every item in both polynomials
 	{
-		if (highP1 == highP2)
+		if (highP1 == highP2) //if there is two items in each polynomial with the same power
 		{
-			if (node1->num + node2->num)
+			if (node1->num + node2->num) 
 			{
-				polyAddNum(result, node1->num + node2->num, highP1);
+				polyAddNum(result, node1->num + node2->num, highP1); //add the sum of the multipliers and add it to result list as long as its not 0
 			}
 			if (i == 1 && j == 1)
 			{
@@ -257,7 +257,7 @@ polynomial *polySum(polynomial *p1, polynomial *p2)
 			i--;
 			j--;
 		}
-		else if (highP1 > highP2)
+		else if (highP1 > highP2) //add the highest power item to the result list
 		{
 			polyAddNum(result, node1->num, highP1);
 			if (i == 1)
@@ -271,7 +271,7 @@ polynomial *polySum(polynomial *p1, polynomial *p2)
 			}
 			i--;
 		}
-		else if (highP2 > highP1)
+		else if (highP2 > highP1) //add the highest power item to the result list
 		{
 			polyAddNum(result, node2->num, highP2);
 			if (j == 1)
@@ -297,14 +297,14 @@ polynomial *polySub(polynomial *p1, polynomial *p2)
 	polynomial *result;
 	nodeDL *node1, *node2;
 
-	result = newPolynomial();
+	result = newPolynomial(); //create empty list for result
 
 	if (p1 == NULL || p2 == NULL)
 	{
 		printf("you must initialize polinomial 1 and 2, use function 1\n");
 		return NULL;
 	}
-	else if (p1->size == 0 && p2->size == 0)
+	else if (p1->size == 0 && p2->size == 0) //if p1 and p2 are empty return empty list
 	{
 		return result;
 	}
@@ -331,13 +331,13 @@ polynomial *polySub(polynomial *p1, polynomial *p2)
 		highP2 = node2->pow;
 	}
 
-	while (i > 0 || j > 0)
+	while (i > 0 || j > 0) //go through every item in both polynomials
 	{
 		if (highP1 == highP2)
 		{
-			if (node1->num - node2->num)
+			if (node1->num - node2->num) //if there is two items in each polynomial with the same power
 			{
-				polyAddNum(result, node1->num - node2->num, highP1);
+				polyAddNum(result, node1->num - node2->num, highP1); //add the substraction of the multipliers and add it to result list as long as its not 0
 			}
 			if (i == 1 && j == 1)
 			{
@@ -362,7 +362,7 @@ polynomial *polySub(polynomial *p1, polynomial *p2)
 			i--;
 			j--;
 		}
-		else if (highP1 > highP2)
+		else if (highP1 > highP2) //add the highest power item to the result list
 		{
 			polyAddNum(result, node1->num, highP1);
 			if (i == 1)
@@ -376,7 +376,7 @@ polynomial *polySub(polynomial *p1, polynomial *p2)
 			}
 			i--;
 		}
-		else if (highP2 > highP1)
+		else if (highP2 > highP1) //add the highest power item to the result list
 		{
 			polyAddNum(result, -node2->num, highP2);
 			if (j == 1)
@@ -455,7 +455,7 @@ void polyPrintBck(polynomial *list)
 	}
 	node = list->tail;
 
-	for (i = list->size; i > 0; i--)
+	for (i = list->size; i > 0; i--) //print each item in correct format
 	{
 		if (node->pow == 0)
 		{
