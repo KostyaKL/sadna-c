@@ -48,6 +48,9 @@
     <ClCompile Include="double_list.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="hagasha 2 sadna.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="list.h">
