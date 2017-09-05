@@ -22,6 +22,7 @@ void freeCharArray(char **arry, int size);
 //void clearStdi();
 
 void h2_ex2_s(); //function for excercise 2
+char *noNumS(char *str);
 
 void h2_ex3_s(); //function for excercise 3
 
@@ -209,9 +210,45 @@ void freeCharArray(char **arry, int size)
 
 void h2_ex2_s()
 {
+	char str[MAX], *result;
 
+	printf("enter a sentance: ");
+	clearStdi();
+	gets(str);
+
+	result = noNumS(str);
 	printf("\n");
+	printf("Search result:\n");
+	printf("%s\n", result);
+
+	printf("\n\n");
+	free(result);
 	system("pause");
+	
+}
+
+///////////////////////////////////////////////////////////////
+
+char *noNumS(char *str)
+{
+	int i, count, size;
+	char *ret, temp[MAX] = { 0 };
+	size = strlen(str);
+	count = 0;
+	for (i = 0;i < size;i++)
+	{
+		if (*(str + i) != ' ' && (*(str + i) < 48 || *(str + i) > 57))
+		{
+			temp[count] = *(str + i);
+			count++;
+		}
+	}
+	ret = (char*)malloc(sizeof(char)*(count + 1));
+	for (i = 0;i < count + 1;i++)
+	{
+		*(ret + i) = temp[i];
+	}
+	return ret;
 }
 
 ///////////////////////////////////////////////////////////////
