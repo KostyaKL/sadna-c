@@ -166,9 +166,16 @@ void h1_ex2_m()
 			}
 			if (send && result) //print the result
 			{
-				printf("(");
-				polyPrintBck(p1);
-				printf(") * %d", constant);
+				if (send->size)
+				{
+					printf("(");
+					polyPrintBck(send);
+					printf(") * %d", constant);
+				}
+				else
+				{
+					printf("Zero (empty polynomal) * %d", constant);
+				}
 				printf(" = ");
 				polyPrintBck(result);
 				printf("\n\n");

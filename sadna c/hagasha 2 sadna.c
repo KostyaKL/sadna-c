@@ -18,6 +18,7 @@ Targil: Ester Amiti 661108-65/69
 void h2_ex1_s(); //function for excercise 1
 char **wordByLetter(char *str, char letter, int *size);
 void printCharArray(char **arry, int size);
+void freeCharArray(char **arry, int size);
 //void clearStdi();
 
 void h2_ex2_s(); //function for excercise 2
@@ -84,8 +85,6 @@ void h2_ex1_s()
 	clearStdi();
 	gets(str);
 
-	//printf("%s\n", str);
-
 	printf("Enter a letter to search: ");
 	scanf("%c", &letter);
 
@@ -95,6 +94,7 @@ void h2_ex1_s()
 	printCharArray(result, size);
 
 	printf("\n\n");
+	freeCharArray(result, size);
 	system("pause");
 }
 
@@ -108,20 +108,33 @@ char **wordByLetter(char const *str, char letter, int *size)
 
 	strSize = strlen(str);
 	*size = 0;
-	i = 0;
-	while (i < strSize)
+	i = 1;
+	if (letter > 96)
+		letter -= 32;
+
+	while (i <= strSize)
 	{
-		if (*(str + i + 1) == '\0');
-		else if (*(str + i-1) == ' ' && *(str + i) == letter)
+		if ((*(str + i - 1) == letter || *(str + i - 1) == letter + 32) && i == 1)
 		{
 			j = 0;
-			while (*(str + i) != '\0' || *(str + i) != ' ')
+			while (*(str + i - 1) != '\0' && *(str + i - 1) != ' ')
+			{
+				temp[*size][j] = *(str + i - 1);
+				i++;
+				j++;
+			}
+			(*size)++;
+			i--;
+		}
+		else if (*(str + i-1) == ' ' && (*(str + i) == letter || *(str + i) == letter + 32))
+		{
+			j = 0;
+			while (*(str + i) != '\0' && *(str + i) != ' ')
 			{
 				temp[*size][j] = *(str + i);
 				i++;
 				j++;
 			}
-			temp[*size][j] = '\0';
 			(*size)++;
 		}
 		i++;
@@ -132,7 +145,7 @@ char **wordByLetter(char const *str, char letter, int *size)
 		ret = (char**)malloc(sizeof(char*)*(*size));
 		for (i = 0; i < *size; i++)
 		{
-			*(ret + i) = (char*)malloc(sizeof(char)*(strlen(temp[i])));
+			*(ret + i) = (char*)malloc(sizeof(char)*(strlen(temp[i]) + 1));
 			for (j = 0; j <= strlen(temp[i]); j++)
 			{
 				*(*(ret + i) + j) = temp[i][j];
@@ -142,8 +155,11 @@ char **wordByLetter(char const *str, char letter, int *size)
 	else
 	{
 		ret = (char**)malloc(sizeof(char*));
-		*ret = (char*)malloc(sizeof(char)*strlen(fail));
-		**ret = fail;
+		*ret = (char*)malloc(sizeof(char)*(strlen(fail) + 1));
+		for (j = 0; j <= strlen(fail); j++)
+		{
+			*(*(ret) + j) = fail[j];
+		}
 	}
 	return ret;
 }
@@ -152,10 +168,33 @@ char **wordByLetter(char const *str, char letter, int *size)
 
 void printCharArray(char **arry, int size)
 {
-	int i, j;
+	int i;
+	if (size)
+	{
+		for (i = 0; i < size; i++)
+			printf("%s\n", *(arry + i));
+	}
+	else
+	{
+		printf("%s\n", *arry);
+	}
+}
 
-	for (i = 0; i < size; i++)
-		printf("%s\n", *(arry + i));
+///////////////////////////////////////////////////////////////
+
+void freeCharArray(char **arry, int size)
+{
+	int i;
+	if (size)
+	{
+		for (i = 0; i < size; i++)
+			free(*(arry + i));
+	}
+	else
+	{
+		free(*arry);
+	}
+	free(arry);
 }
 
 ///////////////////////////////////////////////////////////////
