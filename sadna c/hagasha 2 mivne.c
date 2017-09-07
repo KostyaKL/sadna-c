@@ -82,8 +82,7 @@ void h1_ex2_m()
 {
 	int select = 0; //value to choose a function to run
 	int pow; //values for X multiplier and power
-	double num;
-	int constant; //value to moltiply a polynomial by
+	double num, constant; //value to moltiply a polynomial by
 	polynomial *p1, *p2, *send, *result; //p1, p2 - polynomial linked lists, send - a list to be used after user choise, result - result of arithmatic action on p1 and p2
 	//initial values for p1,p2,result
 	p1 = NULL; 
@@ -159,11 +158,11 @@ void h1_ex2_m()
 			printf("Multiply polynomial by constant\n"
 				   "-------------------------------\n");
 			printf("Enter a constant you want to multiply by: ");
-			scanf("%d", &constant);
+			scanf("%lf", &constant);
 			if (send = polySend(p1, p2, result)) //if user selected p1 or p2
 			{
 				if (floorf(constant) == constant)
-					printf("result = p * %d\n\n", constant);
+					printf("result = p * %.0lf\n\n", constant);
 				else
 					printf("result = p * %.2lf\n\n", constant);
 				result = polyMultiConst(send, constant); //multiply chooesn polynomial by constant
@@ -175,14 +174,14 @@ void h1_ex2_m()
 					printf("(");
 					polyPrintBck(send);
 					if (floorf(constant) == constant)
-						printf(") * %d", constant);
+						printf(") * %.0lf", constant);
 					else
 						printf(") * %.2lf", constant);
 				}
 				else
 				{
 					if (floorf(constant) == constant)
-						printf("Zero (empty polynomal) * %d", constant);
+						printf("Zero (empty polynomal) * %.0lf", constant);
 					else
 						printf("Zero (empty polynomal) * %.2lf", constant);
 				}

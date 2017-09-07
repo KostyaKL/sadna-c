@@ -13,6 +13,7 @@ Targil: Ester Amiti 661108-65/69
 #include <stdlib.h>
 #include <string.h>
 
+
 #define MAX 50
 
 void h2_ex1_s(); //function for excercise 1
@@ -26,6 +27,8 @@ char *noNumS(char *str);
 int countRemove(char *str);
 
 void h2_ex3_s(); //function for excercise 3
+char commonestLetter(char *fileName);
+int createFile(char *fileName);
 
 void h2_ex4_s(); //function for excercise 4
 
@@ -269,9 +272,74 @@ int countRemove(char *str)
 
 void h2_ex3_s()
 {
+	char ch = 0;
+	if (createFile("input.txt"))
+	{
+		ch = commonestLetter("input.txt");
+		if (ch)
+			printf("the commonest letter is %c\n", ch);
+		else
+			printf("no letters in the file\n");
+	}
+	else
+		printf("Error creating file\n");
 
 	printf("\n");
 	system("pause");
+}
+
+///////////////////////////////////////////////////////////////
+
+char commonestLetter(char *fileName)
+{
+	FILE *input;
+	char ret, count[26] = { 0 };
+	int i;
+	ret = -1;
+	input = NULL;
+	input = fopen(fileName, "r");
+	if (input)
+	{
+		for (;ret;ret = fgetc(input))
+		{
+			if (ret < 91)
+				ret -= 32;
+			if (ret > 64 && ret < 91)
+				count[ret - 65]++;
+		}
+		fclose(input);
+		ret = 0;
+		for (i = 0;i < 26;i++)
+		{
+			if (ret <= count[i])
+				ret = i;
+		}
+		ret += 65;
+	}
+	else
+		ret = 0;
+	return ret;
+}
+
+///////////////////////////////////////////////////////////////
+
+int createFile(char *fileName)
+{
+	FILE *input;
+	int flag;
+	char str[MAX];
+	flag = 0;
+	input = NULL;
+	input = fopen(fileName, "w");
+	if (input)
+	{
+		printf("Enter data into text file:\n");
+		clearStdi();
+		gets(str);
+		flag = fputs(str, input);
+		fclose(input);
+	}
+	return 1;
 }
 
 ///////////////////////////////////////////////////////////////

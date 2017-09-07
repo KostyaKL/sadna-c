@@ -22,9 +22,13 @@ void polyInsertFirst(polynomial *list, double num, int pow)
 	node->num = num;
 	node->pow = pow;
 	if (list->size == 0)
+	{
 		list->tail = node;
+	}
 	else
+	{
 		list->head->prev = node;
+	}
 	node->next = list->head;
 	node->prev = NULL;
 	list->head = node; //update the list items
@@ -40,9 +44,13 @@ void polyInsertLast(polynomial *list, double num, int pow)
 	node->num = num;
 	node->pow = pow;
 	if (list->size == 0)
+	{
 		list->head = node;
+	}
 	else
+	{
 		list->tail->next = node;
+	}
 	node->next = NULL;
 	node->prev = list->tail;
 	list->tail = node; //update the list items

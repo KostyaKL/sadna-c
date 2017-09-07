@@ -205,7 +205,7 @@ int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt)
 						((input == 42 || input == 47) && (topC(act) == 42 || topC(act) == 47 || topC(act) == 94)) ||
 						(input == 94 && topC(act) == 94)) //as long as the input is +/- or *// and previous input was *///^ or ^ and previous input was ^
 					{
-						if ((input == 43 || input == 45) && (prevIn == 42 || prevIn == 47 || prevIn == 94)) //if input is *// and prevIn is *///^ then do nothing
+						if ((input == 43 || input == 45) && (prevIn == 42 || prevIn == 47 || prevIn == 94)) //if input is +/- and prevIn is *///^ then do nothing
 							input = -1;
 						else 
 						{
@@ -221,7 +221,10 @@ int expressionInterpreter(stackCT *opr, stackCT *act, stackRT *rslt)
 		else if (input == 10) //if input is enter
 		{
 			if (actFlag) //if the last input was action then return 
+			{
+				clearStdi();
 				return 0;
+			}
 			while (emptyCStack(act) != 1 && emptyCStack(opr) != 1) //as long as act or opr stacks are not empty
 				writeLine(opr, act, rslt, &resIndex); //push the remaning actions and results to result stack and return 1
 			return 1;
