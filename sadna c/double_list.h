@@ -2,7 +2,7 @@
 
 typedef struct nodedl
 {
-	int num;
+	double num;
 	int pow;
 	struct nodedl *next;
 	struct nodedl *prev;
@@ -17,9 +17,9 @@ typedef struct
 
 polynomial *newPolynomial(); //create new double list
 
-void polyInsertFirst(polynomial *list, int num, int pow); //insert node at the begining of the list
+void polyInsertFirst(polynomial *list, double num, int pow); //insert node at the begining of the list
 
-void polyInsertLast(polynomial *list, int num, int pow); //insert noed at the end of the list
+void polyInsertLast(polynomial *list, double num, int pow); //insert noed at the end of the list
 
 void polyDeleteSingle(polynomial *list, nodeDL *node); //delete single node from list
 
@@ -31,13 +31,13 @@ polynomial *polySend(polynomial *p1, polynomial *p2, polynomial *result); //user
 
 void emptyPoly(polynomial **p1); //create empty polynomal list
 
-void polyAddNum(polynomial *p1, int num, int pow); //add a*X^b item to the polynome
+void polyAddNum(polynomial *p1, double num, int pow); //add a*X^b item to the polynome
 
 polynomial *polySum(polynomial *p1, polynomial *p2); //return the sum of p1+p2
 
 polynomial *polySub(polynomial *p1, polynomial *p2); //return the substruction of p1-p2
 
-polynomial *polyMultiConst(polynomial *p1, int constant); //return the result for polynome * constant
+polynomial *polyMultiConst(polynomial *p1, double constant); //return the result for polynome * constant
 
 int polySize(polynomial *p1); //return the size of the polynome
 

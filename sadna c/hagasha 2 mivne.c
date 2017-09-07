@@ -6,7 +6,7 @@ Student 2: Kostya Lokshin ID:310765821
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include <math.h>
 #include "stack.h"
 #include "double_list.h"
 
@@ -14,7 +14,7 @@ Student 2: Kostya Lokshin ID:310765821
 void h1_ex1_m(); //function for excercise 1
 
 void h1_ex2_m(); //function for excercise 2
-void userNumPow(int *num, int *pow); //function to get a number and power from the user
+void userNumPow(double *num, int *pow); //function to get a number and power from the user
 void printMenu(); //function to print the menu of ex 2
 
 
@@ -81,7 +81,8 @@ void h1_ex1_m()
 void h1_ex2_m()
 {
 	int select = 0; //value to choose a function to run
-	int num, pow; //values for X multiplier and power
+	int pow; //values for X multiplier and power
+	double num;
 	int constant; //value to moltiply a polynomial by
 	polynomial *p1, *p2, *send, *result; //p1, p2 - polynomial linked lists, send - a list to be used after user choise, result - result of arithmatic action on p1 and p2
 	//initial values for p1,p2,result
@@ -161,7 +162,10 @@ void h1_ex2_m()
 			scanf("%d", &constant);
 			if (send = polySend(p1, p2, result)) //if user selected p1 or p2
 			{
-				printf("result = p * %d\n\n", constant);
+				if (floorf(constant) == constant)
+					printf("result = p * %d\n\n", constant);
+				else
+					printf("result = p * %.2lf\n\n", constant);
 				result = polyMultiConst(send, constant); //multiply chooesn polynomial by constant
 			}
 			if (send && result) //print the result
@@ -170,11 +174,17 @@ void h1_ex2_m()
 				{
 					printf("(");
 					polyPrintBck(send);
-					printf(") * %d", constant);
+					if (floorf(constant) == constant)
+						printf(") * %d", constant);
+					else
+						printf(") * %.2lf", constant);
 				}
 				else
 				{
-					printf("Zero (empty polynomal) * %d", constant);
+					if (floorf(constant) == constant)
+						printf("Zero (empty polynomal) * %d", constant);
+					else
+						printf("Zero (empty polynomal) * %.2lf", constant);
 				}
 				printf(" = ");
 				polyPrintBck(result);
@@ -240,13 +250,13 @@ void h1_ex2_m()
 
 ///////////////////////////////////////////////////////////////
 
-void userNumPow(int *num, int *pow) //function to get a number and power from the user
+void userNumPow(double *num, int *pow) //function to get a number and power from the user
 {
 	printf("Enter X multiplier and X power:\n");
 	printf("mult: ");
 	do //the multiplier cannot be equal to zero
 	{
-		scanf("%d", num);
+		scanf("%lf", num);
 		if (*num == 0)
 			printf("The multiplier cannot be ZERO, try again: ");
 	} while (*num == 0);

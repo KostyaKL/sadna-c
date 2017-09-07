@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "double_list.h"
 
 polynomial *newPolynomial()
@@ -14,7 +15,7 @@ polynomial *newPolynomial()
 
 ///////////////////////////////////////////////////////////////
 
-void polyInsertFirst(polynomial *list, int num, int pow)
+void polyInsertFirst(polynomial *list, double num, int pow)
 {
 	nodeDL *node;
 	node = (nodeDL*)malloc(sizeof(nodeDL)); //allocate memory for a new node and initialize its items
@@ -32,7 +33,7 @@ void polyInsertFirst(polynomial *list, int num, int pow)
 
 ///////////////////////////////////////////////////////////////
 
-void polyInsertLast(polynomial *list, int num, int pow)
+void polyInsertLast(polynomial *list, double num, int pow)
 {
 	nodeDL *node;
 	node = (nodeDL*)malloc(sizeof(nodeDL)); //allocate memory for a new node and initialize its items
@@ -146,7 +147,7 @@ void emptyPoly(polynomial **p1)
 
 ///////////////////////////////////////////////////////////////
 
-void polyAddNum(polynomial *p1, int num, int pow)
+void polyAddNum(polynomial *p1, double num, int pow)
 {
 	nodeDL *node, *insert;
 	if (p1->size == 0) //if p1 is empty list
@@ -396,7 +397,7 @@ polynomial *polySub(polynomial *p1, polynomial *p2)
 
 ///////////////////////////////////////////////////////////////
 
-polynomial *polyMultiConst(polynomial *p1, int constant)
+polynomial *polyMultiConst(polynomial *p1, double constant)
 {
 	int i;
 	polynomial * result;
@@ -459,32 +460,70 @@ void polyPrintBck(polynomial *list)
 	{
 		if (node->pow == 0)
 		{
-			if (i < list->size  && node->num > 0)
-				printf("+%d", node->num);
+			if (floorf(node->num) == node->num)
+			{
+				if (i < list->size  && node->num > 0)
+					printf("+%.0lf", node->num);
+				else
+					printf("%.0lf", node->num);
+			}
 			else
-				printf("%d", node->num);
+			{
+				if (i < list->size  && node->num > 0)
+					printf("+%.2lf", node->num);
+				else
+					printf("%.2lf", node->num);
+			}
 		}
 		else if (node->pow == 1)
 		{
-			if (i < list->size && node->num == 1)
-				printf("+X");
-			else if (node->num == -1)
-				printf("-X");
-			else if (i < list->size && node->num > 1)
-				printf("+%dX", node->num);
+			if (floorf(node->num) == node->num)
+			{
+				if (i < list->size && node->num == 1)
+					printf("+X");
+				else if (node->num == -1)
+					printf("-X");
+				else if (i < list->size && node->num > 1)
+					printf("+%.0lfX", node->num);
+				else
+					printf("%.0lfX", node->num);
+			}
 			else
-				printf("%dX", node->num);
+			{
+				if (i < list->size && node->num == 1)
+					printf("+X");
+				else if (node->num == -1)
+					printf("-X");
+				else if (i < list->size && node->num > 1)
+					printf("+%.2lfX", node->num);
+				else
+					printf("%.2lfX", node->num);
+			}
 		}
 		else
 		{
-			if (i < list->size && node->num == 1)
-				printf("+X^%d", node->pow);
-			else if (node->num == -1)
-				printf("-X^%d", node->pow);
-			else if (i < list->size && node->num > 1)
-				printf("+%dX^%d", node->num, node->pow);
+			if (floorf(node->num) == node->num)
+			{
+				if (i < list->size && node->num == 1)
+					printf("+X^%d", node->pow);
+				else if (node->num == -1)
+					printf("-X^%d", node->pow);
+				else if (i < list->size && node->num > 1)
+					printf("+%.0lfX^%d", node->num, node->pow);
+				else
+					printf("%.0lfX^%d", node->num, node->pow);
+			}
 			else
-				printf("%dX^%d", node->num, node->pow);
+			{
+				if (i < list->size && node->num == 1)
+					printf("+X^%d", node->pow);
+				else if (node->num == -1)
+					printf("-X^%d", node->pow);
+				else if (i < list->size && node->num > 1)
+					printf("+%.2lfX^%d", node->num, node->pow);
+				else
+					printf("%.2lfX^%d", node->num, node->pow);
+			}
 		}
 		node = node->prev;
 	}
