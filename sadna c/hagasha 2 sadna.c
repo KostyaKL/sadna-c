@@ -23,6 +23,7 @@ void freeCharArray(char **arry, int size);
 
 void h2_ex2_s(); //function for excercise 2
 char *noNumS(char *str);
+int countRemove(char *str);
 
 void h2_ex3_s(); //function for excercise 3
 
@@ -113,55 +114,55 @@ char **wordByLetter(char const *str, char letter, int *size)
 	if (letter > 96)
 		letter -= 32;
 
+	ret = (char**)malloc(sizeof(char*));
+
 	while (i <= strSize)
 	{
 		if ((*(str + i - 1) == letter || *(str + i - 1) == letter + 32) && i == 1)
 		{
+			ret = (char**)realloc(ret, sizeof(char*)*(*size + 1));
+			*(ret + *size) = (char*)malloc(sizeof(char));
 			j = 0;
 			while (*(str + i - 1) != '\0' && *(str + i - 1) != ' ')
 			{
-				temp[*size][j] = *(str + i - 1);
+				*(ret + *size) = (char*)realloc(*(ret + *size), sizeof(char)*j + 1);
+				*(*(ret + *size) + j) = *(str + i - 1);
 				i++;
 				j++;
 			}
+			*(ret + *size) = (char*)realloc(*(ret + *size), sizeof(char)*j + 1);
+			*(*(ret + *size) + j) = '\0';
 			(*size)++;
 			i--;
 		}
 		else if (*(str + i-1) == ' ' && (*(str + i) == letter || *(str + i) == letter + 32))
 		{
+			ret = (char**)realloc(ret, sizeof(char*)*(*size + 1));
+			*(ret + *size) = (char*)malloc(sizeof(char)*i);
 			j = 0;
 			while (*(str + i) != '\0' && *(str + i) != ' ')
 			{
-				temp[*size][j] = *(str + i);
+				*(ret + *size) = (char*)realloc(*(ret + *size), sizeof(char)*j + 1);
+				*(*(ret + *size) + j) = *(str + i);
 				i++;
 				j++;
 			}
+			*(ret + *size) = (char*)realloc(*(ret + *size), sizeof(char)*j + 1);
+			*(*(ret + *size) + j) = '\0';
 			(*size)++;
 		}
 		i++;
 	}
 
-	if (*size)
+	if (*size == 0)
 	{
-		ret = (char**)malloc(sizeof(char*)*(*size));
-		for (i = 0; i < *size; i++)
-		{
-			*(ret + i) = (char*)malloc(sizeof(char)*(strlen(temp[i]) + 1));
-			for (j = 0; j <= strlen(temp[i]); j++)
-			{
-				*(*(ret + i) + j) = temp[i][j];
-			}
-		}
-	}
-	else
-	{
-		ret = (char**)malloc(sizeof(char*));
 		*ret = (char*)malloc(sizeof(char)*(strlen(fail) + 1));
 		for (j = 0; j <= strlen(fail); j++)
 		{
-			*(*(ret) + j) = fail[j];
+			*(*(ret)+j) = fail[j];
 		}
 	}
+	
 	return ret;
 }
 
@@ -231,22 +232,35 @@ void h2_ex2_s()
 
 char *noNumS(char *str)
 {
-	int i, count, size;
-	char *ret, temp[MAX] = { 0 };
+	int i, j, newSize, size;
+	char *ret;
 	size = strlen(str);
-	count = 0;
-	for (i = 0;i < size;i++)
+	newSize = countRemove(str);
+	ret = (char*)malloc(sizeof(char)*(newSize + 1));
+	j = 0;
+	for (i = 0;i < size&&j<newSize;i++)
 	{
 		if (*(str + i) != ' ' && (*(str + i) < 48 || *(str + i) > 57))
 		{
-			temp[count] = *(str + i);
-			count++;
+			*(ret+j) = *(str + i);
+			j++;
 		}
 	}
-	ret = (char*)malloc(sizeof(char)*(count + 1));
-	for (i = 0;i < count + 1;i++)
+	*(ret + j) = '\0';
+	return ret;
+}
+
+///////////////////////////////////////////////////////////////
+
+int countRemove(char *str)
+{
+	int i, ret, size;
+	ret = 0;
+	size = strlen(str);
+	for (i = 0;i < size;i++)
 	{
-		*(ret + i) = temp[i];
+		if (*(str + i) != ' ' && (*(str + i) < 48 || *(str + i) > 57))
+			ret++;
 	}
 	return ret;
 }
