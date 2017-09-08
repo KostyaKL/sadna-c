@@ -31,6 +31,7 @@ char commonestLetter(char *fileName);
 int createFile(char *fileName);
 
 void h2_ex4_s(); //function for excercise 4
+void strDecrypter(char *str);
 
 void h2_ex5_s(); //function for excercise 5
 
@@ -354,9 +355,49 @@ int createFile(char *fileName)
 
 void h2_ex4_s()
 {
+	char str[MAX];
+	printf("Enter encrypted string:\n");
+	clearStdi();
+	gets(str);
+	strDecrypter(str);
+	printf("Decrypted string:\n%s\n", str);
 
 	printf("\n");
 	system("pause");
+}
+
+///////////////////////////////////////////////////////////////
+
+void strDecrypter(char *str)
+{
+	int i, j, size;
+	size = strlen(str);
+	i = 1;
+		while (i <= size)
+		{
+			if (*(str + i - 1) != ' ')
+			{
+				j = 1;
+				while (*(str + i - 1) != '\0' && *(str + i - 1) != ' ')
+				{
+					*(str + i - 1) -= j;
+					i++;
+					j++;
+				}
+				i--;
+			}
+			else if (*(str + i - 1) == ' ')
+			{
+				j = 1;
+				while (*(str + i) != '\0' && *(str + i) != ' ')
+				{
+					*(str + i) -= j;
+					i++;
+					j++;
+				}
+			}
+			i++;
+	}
 }
 
 ///////////////////////////////////////////////////////////////
