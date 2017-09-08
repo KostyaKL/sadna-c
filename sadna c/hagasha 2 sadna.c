@@ -14,7 +14,7 @@ Targil: Ester Amiti 661108-65/69
 #include <string.h>
 
 
-#define MAX 50
+#define MAX 100
 
 void h2_ex1_s(); //function for excercise 1
 char **wordByLetter(char *str, char letter, int *size);
@@ -294,15 +294,19 @@ char commonestLetter(char *fileName)
 {
 	FILE *input;
 	char ret, count[26] = { 0 };
-	int i;
+	int i,size;
 	ret = -1;
 	input = NULL;
 	input = fopen(fileName, "r");
+	fseek(input, 0, SEEK_END);
+	size = ftell(input);
 	if (input)
 	{
-		for (;ret;ret = fgetc(input))
+		fseek(input, 0, SEEK_SET);
+		for (i=0;i<size;i++)
 		{
-			if (ret < 91)
+			ret = fgetc(input);
+			if (ret > 91)
 				ret -= 32;
 			if (ret > 64 && ret < 91)
 				count[ret - 65]++;
@@ -311,7 +315,7 @@ char commonestLetter(char *fileName)
 		ret = 0;
 		for (i = 0;i < 26;i++)
 		{
-			if (ret <= count[i])
+			if (count[ret] <= count[i])
 				ret = i;
 		}
 		ret += 65;
@@ -328,7 +332,7 @@ int createFile(char *fileName)
 	FILE *input;
 	int flag;
 	char str[MAX];
-	flag = 0;
+	flag;
 	input = NULL;
 	input = fopen(fileName, "w");
 	if (input)
@@ -339,7 +343,11 @@ int createFile(char *fileName)
 		flag = fputs(str, input);
 		fclose(input);
 	}
-	return 1;
+	if (flag == EOF)
+		flag = 0;
+	else
+		flag = 1;
+	return flag;
 }
 
 ///////////////////////////////////////////////////////////////

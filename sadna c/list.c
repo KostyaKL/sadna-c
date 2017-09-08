@@ -1,3 +1,12 @@
+/*
+Assigned by:
+Student 1: Melinda Levi ID:201310356
+Student 2: Kostya Lokshin ID:310765821
+
+Lecturer: Roi Zimon 61108-61
+Targil: Ester Amiti 661108-65/69
+*/
+
 #include "list.h"
 #include <stdlib.h>
 
