@@ -1,0 +1,3 @@
+Declaration file of char type: 
+x requires 1 bytes
+y requires 1 bytes

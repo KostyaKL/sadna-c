@@ -16,6 +16,15 @@ Targil: Ester Amiti 661108-65/69
 
 #define MAX 100
 
+typedef struct
+{
+	char type[10];
+	char name[50];
+	int size;
+	int pointer;
+	int arry;
+} lineT;
+
 void h2_ex1_s(); //function for excercise 1
 char **wordByLetter(char *str, char letter, int *size);
 void printCharArray(char **arry, int size);
@@ -34,7 +43,10 @@ void h2_ex4_s(); //function for excercise 4
 void strDecrypter(char *str);
 
 void h2_ex5_s(); //function for excercise 5
-
+int sizeofFile(char *filename, char *declaration);
+void printFile(char *fileName);
+void memoForVar(char declaration[], char filename[]);
+void printMemoFile(char* filename, char* tempVar);
 
 void hagasha_2_sadna()
 {
@@ -404,9 +416,249 @@ void strDecrypter(char *str)
 
 void h2_ex5_s()
 {
+	char filename[] = "sizeof.txt", declaration[MAX];
+	printf("Enter your declarations:\n");
+	clearStdi();
+	gets(declaration);
+	/*if (sizeofFile(filename, declaration))
+		printFile(filename);
+	else
+		printf("Error creating file\n");*/
+
+	memoForVar(declaration, filename);
+
 
 	printf("\n");
 	system("pause");
 }
 
 ///////////////////////////////////////////////////////////////
+
+int sizeofFile(char *filename, char *declaration)
+{
+	int decSize, i, j;
+	char buffer[MAX];
+	FILE *file;
+	lineT line;
+	file = NULL;
+	file = fopen(filename, "w");
+	if (file)
+	{
+		i = 0;
+		while (*(declaration + i) != '\0')
+		{
+			j = 0;
+			while (*(declaration + i) != ' ' && *(declaration + i) != '\0')
+			{
+				buffer[j] = *(declaration + i);
+				i++;
+				j++;
+			}
+			buffer[j] = '\0';
+			if (buffer[j - 1] > 96 && buffer[j - 1] < 123)
+			{
+				strcpy(line.type, buffer);
+				if (strcmp(line.type, "int"))
+					line.size = sizeof(int);
+				else if (strcmp(line.type, "char"))
+					line.size = sizeof(char);
+				else if (strcmp(line.type, "short"))
+					line.size = sizeof(short);
+				else if (strcmp(line.type, "long"))
+					line.size = sizeof(long);
+				else if (strcmp(line.type, "float"))
+					line.size = sizeof(float);
+				else if (strcmp(line.type, "double"))
+					line.size = sizeof(double);
+				else if (strcmp(line.type, "long long"))
+					line.size = sizeof(long long);
+			}
+			else if (buffer[j - 1] == ',' || buffer[j - 1] == ';')
+			{
+				buffer[j - 1] = '\0';
+				if (buffer[j - 2] == ']')
+				{
+
+				}
+			}
+
+		}
+		return 1;
+	}
+	else
+		return 0;
+}
+
+void printFile(char *fileName)
+{
+	char buffer[MAX];
+	int size, i;
+	FILE *file;
+	file = NULL;
+	file = fopen(fileName, "r");
+	if (file)
+	{
+		fseek(file, 0, SEEK_END);
+		size = ftell(file);
+		fseek(file, 0, SEEK_SET);
+		while (ftell(file)<size)
+		{
+			fgets(buffer, MAX, file);
+			printf("%s\n", buffer);
+		}
+	}
+	else
+	{
+		printf("Error reading file\n");
+	}
+}
+
+
+void memoForVar(char declaration[], char filename[])
+{
+	char tempVar[MAX] = " ", tempArr[MAX] = " ";
+	int size = -1, i = 0, j = 0, check, arr_size = 0;
+	FILE *fin;
+
+	fin = fopen(strcat(filename, ".txt"), "w");
+
+	while (declaration[i] == ' ')
+		i++;
+
+	while (declaration[i] != ' ')                                           // declaration of type
+	{
+		tempVar[i] = declaration[i];
+		i++;
+	}
+
+	if (!strcmp(tempVar, "int"))
+		size = sizeof(int);
+
+	else if (!strcmp(tempVar, "char"))
+		size = sizeof(char);
+
+	else if (!strcmp(tempVar, "short"))
+		size = sizeof(short);
+
+	else if (!strcmp(tempVar, "long"))
+	{
+		size = sizeof(long);
+
+		tempVar[i] = declaration[i];                                            // checking for long long
+		i++;
+		while (declaration[i] != ' ')
+		{
+			tempVar[i] = declaration[i];
+			i++;
+		}
+		if (!strcmp(tempVar, "long long"))
+			size = sizeof(long long);
+		else
+		{
+			strcpy(tempVar, "long");
+			i = 4;
+		}
+	}
+
+	else if (!strcmp(tempVar, "float"))
+		size = sizeof(float);
+
+	else if (!strcmp(tempVar, "double"))
+		size = sizeof(double);
+
+	printf("\n");
+	fprintf(fin, "Declaration file of %s type: \n", tempVar);
+
+
+	do                                                                          // declaration of var - check while not ';'
+	{
+		i++;
+
+		while ((declaration[i] != ',') && (declaration[i] != ';'))
+		{
+			while (declaration[i] == ' ')
+				i++;
+
+
+			if (declaration[i] == '*')                                          // if it's a pointer
+			{
+				while ((declaration[i] != ',') && (declaration[i] != ';'))
+				{
+					fprintf(fin, "%c", declaration[i]);
+					i++;
+				}
+				fprintf(fin, " requires 4 bytes\n");
+				i += 2;
+			}
+
+			while (declaration[i] == ' ')
+				i++;
+
+
+			if (declaration[i] == '[')                                          // if it's an array
+			{
+				fprintf(fin, "%c", declaration[i]);
+				i++;
+
+				tempArr[0] = '\0';
+				while (declaration[i] != ']')
+				{
+					tempArr[j] = declaration[i];
+					fprintf(fin, "%c", declaration[i]);
+					i++;
+					j++;
+				}
+
+				arr_size = atoi(tempArr);
+
+				while (j>0)
+				{
+					tempArr[j] = '\0';
+					j--;
+				}
+			}
+
+			fprintf(fin, "%c", declaration[i]);
+			i++;
+		}
+
+		if (arr_size)
+			fprintf(fin, " requires %d bytes\n", size*arr_size);
+		else                                                                    // if it's a regular var
+			fprintf(fin, " requires %d bytes\n", size);
+
+		arr_size = 0;
+
+		while (declaration[i] == ' ')
+			i++;
+
+	} while (declaration[i] != ';');
+
+
+	fclose(fin);
+
+	//printf ("\n");
+	printMemoFile(filename, tempVar);
+}
+
+
+void printMemoFile(char* filename, char *tempVar)
+{
+	FILE *fin;
+	char str[MAX];
+	int i = 0, size = 0;
+
+	fin = fopen(filename, "r");
+
+	fseek(fin, 0, SEEK_END);
+	size = ftell(fin);
+	fseek(fin, 0, SEEK_SET);
+
+	while (ftell(fin) != size)
+	{
+		fgets(str, MAX, fin);
+		printf("%s", str);
+	}
+
+	fclose(fin);
+}
