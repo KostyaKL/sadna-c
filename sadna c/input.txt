@@ -1,1 +1,7 @@
-kghjfhs
+
+sizeof (int): 
+-------------
+	a requires 4 bytes
+	*b requires 4 bytes
+	c[4] requires 16 bytes
+	
