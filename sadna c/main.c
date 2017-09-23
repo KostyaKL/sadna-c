@@ -23,7 +23,8 @@ int main()
 		"2.5 - Class Train 5\n"
 		"\n"
 
-		"3.1 - Hagasha 2 Mivne\n"
+		"3.2 - Hagasha 2 Mivne\n"
+		"3.3 - Hagasha 3 Mivne\n"
 		"\n"
 
 		"4 - Ascii\n"
@@ -81,10 +82,16 @@ int main()
 		class_train_5();
 	}
 
-	if (strcmp(lab_name, "3.1") == 0)
+	if (strcmp(lab_name, "3.2") == 0)
 	{
 		printf("\n");
 		hagasha_2_mivne();
+	}
+
+	if (strcmp(lab_name, "3.3") == 0)
+	{
+		printf("\n");
+		hagasha_3_mivne();
 	}
 
 	else if (strcmp(lab_name, "quit") == 0 || strcmp(lab_name, "0") == 0)
