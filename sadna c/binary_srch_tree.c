@@ -64,14 +64,14 @@ void printInArray(bsTree *tree) {
 		printf("the tree is empty\n");
 		return;
 	}
-	insertBSTlistLast(list, *tree->root);
+	insertBSTlistLast(list, tree->root);
 	while (list->size) {
-		printf("%d,", list->head->item.data);
-		if (list->head->item.left) {
-			insertBSTlistLast(list, *list->head->item.left);
+		printf("%d,", list->head->item->data);
+		if (list->head->item->left) {
+			insertBSTlistLast(list, list->head->item->left);
 		}
-		if (list->head->item.right) {
-			insertBSTlistLast(list, *list->head->item.right);
+		if (list->head->item->right) {
+			insertBSTlistLast(list, list->head->item->right);
 		}
 		deleteFirstBSTlist(list);
 	}
@@ -80,7 +80,54 @@ void printInArray(bsTree *tree) {
 }
 
 void freeTree(bsTree *tree) {
+	bstList *list;
+	list = newBSTlist();
+	if (!tree->root) {
+		free(tree);
+		return;
+	}
+	insertBSTlistLast(list, tree->root);
+	while (list->size) {
+		if (list->head->item->left) {
+			insertBSTlistLast(list, list->head->item->left);
+		}
+		if (list->head->item->right) {
+			insertBSTlistLast(list, list->head->item->right);
+		}
+		free(list->head->item);
+		deleteFirstBSTlist(list);
+	}
+	printf("\n");
+	free(list);
+	free(tree);
+}
 
+int getInput() {
+	int strSize, i, x, flag, exp;
+	char str[MAX_C];
+	clearStdi();
+	scanf("%s", str);
+	strSize = strlen(str);
+	flag = 0;
+	exp = 1;
+	x = 0;
+	i = 0;
+	if (str[i] == '-') {
+		flag = 1;
+		i = 1;
+	}
+	for (i = strSize - 1;i >= flag;i--) {
+		str[i] -= 48;
+		if (str[i] < 0 || str[i] >9) {
+			return MIN_INT;
+		}
+		x += str[i] * exp;
+		exp *= 10;
+	}
+	if (flag) {
+		x *= -1;
+	}
+	return x;
 }
 
 void clearStdi()

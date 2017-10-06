@@ -13,7 +13,6 @@ Targil: Shimon Aviram 661104-61 / Lior Levi 661104-63
 #include "binary_srch_tree.h"
 #include "dlist_b.h"
 
-#define MAX_C 100
 
 //declaration of functions:
 void h3_ex1_m(bsTree **tree); //function for excercise 1
@@ -22,7 +21,7 @@ void h3_ex2_m(); //function for excercise 2
 
 void h3_ex3_m(bsTree *tree); //function for excercise 3
 
-void h3_ex4_m(); //function for excercise 4
+void h3_ex4_m(bsTree **tree); //function for excercise 4
 
 void printMenu3();
 
@@ -32,10 +31,9 @@ void hagasha_3_mivne() {
 	bsTree *tree;
 	tree = NULL;
 	srand(time(NULL));//initialize random number generator (to be used later in the program)
-
+	printMenu3();
 	system("cls");
 	do {
-		printMenu3();
 		do {
 			select = 0;
 			printf("please select 0-5 : ");
@@ -49,7 +47,7 @@ void hagasha_3_mivne() {
 			break;
 		case 3: h3_ex3_m(tree);//calling the function for ex 4
 			break;
-		case 4: h3_ex4_m();//calling the function for ex 5
+		case 4: h3_ex4_m(&tree);//calling the function for ex 5
 			break;
 		case 5: system("cls");//clear screen
 			break;
@@ -75,40 +73,21 @@ void printMenu3() {
 ///////////////////////////////////////////////////////////////
 
 void h3_ex1_m(bsTree **tree) {
-	int strSize, i, x, flag, exp;
-	char str[MAX_C];
+	int x;
 	if (!*tree) {
 		*tree = newTree();
-		printf("Enter number into binary search tree\n"
-			"Enter non number to terminate input\n");
-		while (1) {
-			clearStdi();
-			gets(str);
-			clearStdi();
-			strSize = strlen(str);
-			flag = 0;
-			exp = 1;
-			x = 0;
-			i = 0;
-			if (str[i] == '-') {
-				flag = 1;
-				i = 1;
+		printf("Enter numbers into binary search tree\n"
+			"(enter non number to finnish input)\n");
+		x = 0;
+		while (x != MIN_INT) {
+			x = getInput();
+			if (x == MIN_INT) {
+				printf("Input is finnished\n\n");
 			}
-			for (i=strSize-1;i > flag;i--) {
-				str[i] -= 48;
-				if (str[i] < 0 || str[i] >9) {
-					printf("you have entere illegal char there for the input was terminated\n");
-					return;
-				}
-				x += str[i] * exp;
-				exp *= 10;
+			else {
+				insertBSTNode(*tree, x);
 			}
-			if (flag) {
-				x *= -1;
-			}
-			insertBSTNode(*tree, x);
 		}
-
 		/*for (i = 0;i < 15;i++) {
 			x = rand() % 100;
 			insertBSTNode(*tree, x);
@@ -121,7 +100,6 @@ void h3_ex1_m(bsTree **tree) {
 	printf("\n");
 	system("pause");
 	printf("\n\n");
-
 }
 
 ///////////////////////////////////////////////////////////////
@@ -146,7 +124,12 @@ void h3_ex3_m(bsTree *tree) {
 
 ///////////////////////////////////////////////////////////////
 
-void h3_ex4_m() {
+void h3_ex4_m(bsTree **tree) {
+
+	freeTree(*tree);
+	*tree = NULL;
+
+	printf("you have released the tree\n");
 
 	printf("\n");
 	system("pause");

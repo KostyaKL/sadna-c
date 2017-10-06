@@ -18,7 +18,7 @@ bstList *newBSTlist() {
 	return list;
 }
 
-void insertBSTlistLast(bstList *list, bstNodeT item) {
+void insertBSTlistLast(bstList *list, bstNodeT *item) {
 	nodeBSTlist *last;
 	last = (nodeBSTlist*)malloc(sizeof(nodeBSTlist));
 	last->item = item;

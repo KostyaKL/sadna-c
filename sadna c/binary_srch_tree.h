@@ -11,6 +11,9 @@ Targil: Shimon Aviram 661104-61 / Lior Levi 661104-63
 
 #include <stdlib.h>
 
+#define MAX_C 100
+#define MIN_INT 1<<31
+
 typedef struct bst_node {
 	int data;
 	struct bst_node *left;
@@ -33,5 +36,7 @@ void printInorder(bsTree *tree);
 void printInArray(bsTree *tree);
 
 void freeTree(bsTree *tree);
+
+int getInput();
 
 void clearStdi();
