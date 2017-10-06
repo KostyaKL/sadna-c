@@ -142,7 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="binary_tree.c" />
+    <ClCompile Include="binary_srch_tree.c" />
     <ClCompile Include="class train 1.c" />
     <ClCompile Include="class train 2.c" />
     <ClCompile Include="class train 3.c" />
@@ -156,12 +156,14 @@
     <ClCompile Include="list.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="stack.c" />
+    <ClCompile Include="stack_b.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="binary_tree.h" />
+    <ClInclude Include="binary_srch_tree.h" />
     <ClInclude Include="double_list.h" />
     <ClInclude Include="list.h" />
     <ClInclude Include="stack.h" />
+    <ClInclude Include="stack_b.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

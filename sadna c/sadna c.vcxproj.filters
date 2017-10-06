@@ -54,7 +54,10 @@
     <ClCompile Include="hagasha 3 mivne.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="binary_tree.c">
+    <ClCompile Include="binary_srch_tree.c">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stack_b.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,7 +71,10 @@
     <ClInclude Include="double_list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="binary_tree.h">
+    <ClInclude Include="binary_srch_tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stack_b.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

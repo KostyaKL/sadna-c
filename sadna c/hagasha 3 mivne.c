@@ -9,7 +9,7 @@ Targil: Shimon Aviram 661104-61 / Lior Levi 661104-63
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "binary_tree.h"
+#include "binary_srch_tree.h"
 
 
 //declaration of functions:
