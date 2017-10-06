@@ -270,8 +270,8 @@ void inputPush(stackCT *stack, char input, int *flagOne, int *flagNull)
 
 ///////////////////////////////////////////////////////////////
 
-void clearStdi()
-{
-	char input;
-	while ((input = getchar()) != '\n' && input != EOF); //clear stdin buffer as long there is items there and entered is pressed
-}
+//void clearStdi()
+//{
+//	char input;
+//	while ((input = getchar()) != '\n' && input != EOF); //clear stdin buffer as long there is items there and entered is pressed
+//}

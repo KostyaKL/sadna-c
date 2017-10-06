@@ -26,8 +26,12 @@ bsTree *newTree();
 
 void insertBSTNode(bsTree *tree, int data);
 
+void insertToNode(bstNodeT *theNode, bstNodeT *tmp);
+
 void printInorder(bsTree *tree);
 
 void printInArray(bsTree *tree);
 
 void freeTree(bsTree *tree);
+
+void clearStdi();

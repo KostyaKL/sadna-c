@@ -57,7 +57,7 @@
     <ClCompile Include="binary_srch_tree.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="stack_b.c">
+    <ClCompile Include="dlist_b.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,7 +74,7 @@
     <ClInclude Include="binary_srch_tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stack_b.h">
+    <ClInclude Include="dlist_b.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
