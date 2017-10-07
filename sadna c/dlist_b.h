@@ -22,10 +22,10 @@ typedef struct {
 	int size;
 }bstList;
 
-bstList *newBSTlist();
+bstList *newBSTlist(); //function to create a new list
 
-void insertBSTlistLast(bstList *list, bstNodeT *item);
+void insertBSTlistLast(bstList *list, bstNodeT *item); //function to insert item in the end of the list
 
-void insertBSTlistFirst(bstList *list, bstNodeT *item);
+void insertBSTlistFirst(bstList *list, bstNodeT *item); //function to insert item in the beginning of the list
 
-void deleteFirstBSTlist(bstList *list);
+void deleteFirstBSTlist(bstList *list); //function to delete the first item in the list
