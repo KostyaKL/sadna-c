@@ -17,6 +17,9 @@ bsTree *newTree() {
 	tree->root = NULL;
 	return tree;
 }
+
+///////////////////////////////////////////////////////////////
+
 void insertBSTNode(bsTree *tree, int data) {
 	bstNodeT *tmp;
 	tmp = (bstNodeT*)malloc(sizeof(bstNodeT));
@@ -32,6 +35,8 @@ void insertBSTNode(bsTree *tree, int data) {
 	}
 }
 
+///////////////////////////////////////////////////////////////
+
 void insertToNode(bstNodeT *theNode, bstNodeT *tmp) {
 	if (tmp->data < theNode->data) {
 		if (!theNode->left) {
@@ -42,7 +47,7 @@ void insertToNode(bstNodeT *theNode, bstNodeT *tmp) {
 			insertToNode(theNode->left, tmp);
 		}
 	}
-	else {
+	else if (tmp->data > theNode->data){
 		if (!theNode->right) {
 			theNode->right = tmp;
 			tmp->father = theNode;
@@ -53,9 +58,42 @@ void insertToNode(bstNodeT *theNode, bstNodeT *tmp) {
 	}
 }
 
-void printInorder(bsTree *tree) {
+///////////////////////////////////////////////////////////////
 
+void printInorder(bsTree *tree) {
+	bstList *list;
+	bstNodeT tmpNode;
+	int flag;
+	list = newBSTlist();
+	if (!tree->root) {
+		printf("the tree is empty\n");
+		return;
+	}
+	
+	insertBSTlistFirst(list, tree->root);
+	flag = 1;
+	while (list->size) {
+		if (list->head->item->left && flag) {
+			insertBSTlistFirst(list, list->head->item->left);
+		}
+		else {
+			printf("%d, ", list->head->item->data);
+			flag = 0;
+			if (list->head->item->right) {
+				tmpNode = *list->head->item;
+				deleteFirstBSTlist(list);
+				insertBSTlistFirst(list, tmpNode.right);
+				flag = 1;
+			}
+			else {
+				deleteFirstBSTlist(list);
+			}
+		}
+	}
+	free(list);
 }
+
+///////////////////////////////////////////////////////////////
 
 void printInArray(bsTree *tree) {
 	bstList *list;
@@ -79,6 +117,8 @@ void printInArray(bsTree *tree) {
 	free(list);
 }
 
+///////////////////////////////////////////////////////////////
+
 void freeTree(bsTree *tree) {
 	bstList *list;
 	list = newBSTlist();
@@ -97,10 +137,11 @@ void freeTree(bsTree *tree) {
 		free(list->head->item);
 		deleteFirstBSTlist(list);
 	}
-	printf("\n");
 	free(list);
 	free(tree);
 }
+
+///////////////////////////////////////////////////////////////
 
 int getInput() {
 	int strSize, i, x, flag, exp;
@@ -129,6 +170,8 @@ int getInput() {
 	}
 	return x;
 }
+
+///////////////////////////////////////////////////////////////
 
 void clearStdi()
 {

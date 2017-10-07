@@ -18,6 +18,8 @@ bstList *newBSTlist() {
 	return list;
 }
 
+///////////////////////////////////////////////////////////////
+
 void insertBSTlistLast(bstList *list, bstNodeT *item) {
 	nodeBSTlist *last;
 	last = (nodeBSTlist*)malloc(sizeof(nodeBSTlist));
@@ -33,6 +35,26 @@ void insertBSTlistLast(bstList *list, bstNodeT *item) {
 	list->tail = last;
 	list->size++;
 }
+
+///////////////////////////////////////////////////////////////
+
+void insertBSTlistFirst(bstList *list, bstNodeT *item) {
+	nodeBSTlist *first;
+	first = (nodeBSTlist*)malloc(sizeof(nodeBSTlist));
+	first->item = item;
+	if (!list->size) {
+		list->tail = first;
+	}
+	else {
+		list->head->prev = first;
+	}
+	first->prev = NULL;
+	first->next = list->head;
+	list->head = first;
+	list->size++;
+}
+
+///////////////////////////////////////////////////////////////
 
 void deleteFirstBSTlist(bstList *list) {
 	nodeBSTlist *temp;

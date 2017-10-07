@@ -8,8 +8,6 @@ Targil: Shimon Aviram 661104-61 / Lior Levi 661104-63
 */
 
 #pragma once
-#define MAX_B 100
-#define FAIL 1<<31
 #include "binary_srch_tree.h"
 
 typedef struct node_bst_list {
@@ -27,5 +25,7 @@ typedef struct {
 bstList *newBSTlist();
 
 void insertBSTlistLast(bstList *list, bstNodeT *item);
+
+void insertBSTlistFirst(bstList *list, bstNodeT *item);
 
 void deleteFirstBSTlist(bstList *list);

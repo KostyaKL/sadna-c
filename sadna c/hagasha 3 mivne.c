@@ -17,7 +17,7 @@ Targil: Shimon Aviram 661104-61 / Lior Levi 661104-63
 //declaration of functions:
 void h3_ex1_m(bsTree **tree); //function for excercise 1
 
-void h3_ex2_m(); //function for excercise 2
+void h3_ex2_m(bsTree *tree); //function for excercise 2
 
 void h3_ex3_m(bsTree *tree); //function for excercise 3
 
@@ -31,8 +31,8 @@ void hagasha_3_mivne() {
 	bsTree *tree;
 	tree = NULL;
 	srand(time(NULL));//initialize random number generator (to be used later in the program)
-	printMenu3();
 	system("cls");
+	printMenu3();
 	do {
 		do {
 			select = 0;
@@ -43,7 +43,7 @@ void hagasha_3_mivne() {
 		switch (select) {//main menu switch case
 		case 1: h3_ex1_m(&tree);//calling the function for ex 1
 			break;
-		case 2: h3_ex2_m();//calling the function for ex 2
+		case 2: h3_ex2_m(tree);//calling the function for ex 2
 			break;
 		case 3: h3_ex3_m(tree);//calling the function for ex 4
 			break;
@@ -73,7 +73,7 @@ void printMenu3() {
 ///////////////////////////////////////////////////////////////
 
 void h3_ex1_m(bsTree **tree) {
-	int x;
+	int x,i;
 	if (!*tree) {
 		*tree = newTree();
 		printf("Enter numbers into binary search tree\n"
@@ -88,6 +88,7 @@ void h3_ex1_m(bsTree **tree) {
 				insertBSTNode(*tree, x);
 			}
 		}
+
 		/*for (i = 0;i < 15;i++) {
 			x = rand() % 100;
 			insertBSTNode(*tree, x);
@@ -104,7 +105,9 @@ void h3_ex1_m(bsTree **tree) {
 
 ///////////////////////////////////////////////////////////////
 
-void h3_ex2_m() {
+void h3_ex2_m(bsTree *tree) {
+	printf("the tree printed inorder:\n");
+	printInorder(tree);
 
 	printf("\n");
 	system("pause");
@@ -114,7 +117,7 @@ void h3_ex2_m() {
 ///////////////////////////////////////////////////////////////
 
 void h3_ex3_m(bsTree *tree) {
-
+	printf("the tree as an array:\n");
 	printInArray(tree);
 
 	printf("\n");
