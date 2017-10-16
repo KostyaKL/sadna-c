@@ -14,6 +14,7 @@ int main()
 	printf(""
 		"1.1 - Hagasha 1 Sadna\n"
 		"1.2 - Hagasha 2 Sadna\n"
+		"1.3 - Hagasha 3 Sadna\n"
 		"\n"
 
 		"2.1 - Class Train 1\n"
@@ -50,6 +51,12 @@ int main()
 	{
 		system("cls");
 		hagasha_2_sadna();
+	}
+
+	if (strcmp(lab_name, "1.3") == 0)
+	{
+		system("cls");
+		hagasha_3_sadna();
 	}
 	
 	if (strcmp(lab_name, "2.1") == 0)

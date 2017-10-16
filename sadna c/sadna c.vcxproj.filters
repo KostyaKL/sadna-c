@@ -60,6 +60,12 @@
     <ClCompile Include="dlist_b.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="hagasha 3 sadna.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="exercise_3.c">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="list.h">
@@ -75,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dlist_b.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exercise_3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

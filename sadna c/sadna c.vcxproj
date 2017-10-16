@@ -149,10 +149,12 @@
     <ClCompile Include="class train 4.c" />
     <ClCompile Include="class train 5.c" />
     <ClCompile Include="double_list.c" />
+    <ClCompile Include="exercise_3.c" />
     <ClCompile Include="hagasha 1 sadna.c" />
     <ClCompile Include="hagasha 2 mivne.c" />
     <ClCompile Include="hagasha 2 sadna.c" />
     <ClCompile Include="hagasha 3 mivne.c" />
+    <ClCompile Include="hagasha 3 sadna.c" />
     <ClCompile Include="list.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="stack.c" />
@@ -161,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="binary_srch_tree.h" />
     <ClInclude Include="double_list.h" />
+    <ClInclude Include="exercise_3.h" />
     <ClInclude Include="list.h" />
     <ClInclude Include="stack.h" />
     <ClInclude Include="dlist_b.h" />

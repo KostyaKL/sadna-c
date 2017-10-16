@@ -180,9 +180,9 @@ int getInput() { //function to get input values from user
 
 ///////////////////////////////////////////////////////////////
 
-void clearStdi() { //function to clear the system input buffer
-	char input;
-	while ((input = getchar()) != '\n' && input != EOF); //clear stdin buffer as long there is items there and entered is pressed
-}
+//void clearStdi() { //function to clear the system input buffer
+//	char input;
+//	while ((input = getchar()) != '\n' && input != EOF); //clear stdin buffer as long there is items there and entered is pressed
+//}
 
 ///////////////////////////////////////////////////////////////
